@@ -121,7 +121,7 @@ const i18nDictionary = {
     "adv.btn_txt": "იურიდიული მრჩეველი",
     "adv.btn_sub": "ონლაინ ასისტენტი",
     "adv.modal_title": "ინტეგრირებული იურიდიული მრჩეველი",
-    "adv.welcome_msg": "მოგესალმებით. მე ვარ ქეთევან უტიაშვილის საადვოკატო ბიუროს ვირტუალური იურიდიული მრჩეველი. ცენტრალური ოფისი მდებარეობს თბილისში, ილია ჭავჭავაძის გამზ. #26-ში. რით შემიძლია დაგეხმაროთ დღეს?"
+    "adv.welcome_msg": "მოგესალმებით. მე ვარ ქეთევან უტიაშვილის საადვოკატო ბიუროს ვირტუალური ასისტენტი. ცენტრალური ოფისი მდებარეობს თბილისში, ილია ჭავჭავაძის გამზ. #26-ში. რით შემიძლია დაგეხმაროთ დღეს?"
   },
   en: {
     "topbar.location": "26 Ilia Chavchavadze Ave., Tbilisi",
@@ -737,17 +737,7 @@ function initLegalAdvisor() {
   let isDismissed = sessionStorage.getItem('ku_advisor_dismissed') === 'true';
   let autoOpenTimer = null;
 
-  // Auto popup in 7 seconds on first visit (unless already dismissed)
-  if (!isDismissed) {
-    autoOpenTimer = setTimeout(() => {
-      if (sessionStorage.getItem('ku_advisor_dismissed') !== 'true' && modal.classList.contains('hidden')) {
-        modal.classList.remove('hidden');
-        if (inputField) {
-          inputField.focus();
-        }
-      }
-    }, 7000);
-  }
+  // Auto-popup გამორთულია — ჩატი იხსნება მხოლოდ ღილაკზე დაჭერით.
 
   toggleBtn.addEventListener('click', () => {
     const isNowOpening = modal.classList.contains('hidden');
@@ -814,7 +804,7 @@ function initLegalAdvisor() {
 
     const typingDiv = document.createElement('div');
     typingDiv.className = 'chat-row system';
-    typingDiv.innerHTML = `<div class="chat-bubble" style="color:#721927; font-style:italic;">იურიდიული მრჩეველი ამუშავებს მონაცემებს...</div>`;
+    typingDiv.innerHTML = `<div class="chat-bubble" style="color:#721927; font-style:italic;">ვირტუალური ასისტენტი ამუშავებს მონაცემებს...</div>`;
     chatBody.appendChild(typingDiv);
     chatBody.scrollTop = chatBody.scrollHeight;
 
