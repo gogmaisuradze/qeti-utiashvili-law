@@ -93,10 +93,10 @@ const i18nDictionary = {
     "cal.select_time": "ხელმისაწვდომი საათები:",
     "cal.sum_lawyer": "ადვოკატი:",
     "cal.sum_slot": "არჩეული დრო:",
-    "cal.format_office": "ვიზიტი ოფისში (ჭავჭავაძის 26)",
-    "cal.format_office_sub": "პირისპირ შეხვედრა ქეთევან უტიაშვილთან",
+    "cal.format_office": "ვიზიტი ოფისში",
+    "cal.format_office_sub": "",
     "cal.format_online": "ონლაინ კონსულტაცია",
-    "cal.format_online_sub": "Google Meet ან Zoom ვიდეოზარი",
+    "cal.format_online_sub": "",
     "cal.field_name": "სახელი და გვარი *",
     "cal.field_phone": "ტელეფონის ნომერი *",
     "cal.field_email": "ელექტრონული ფოსტა",
@@ -198,10 +198,10 @@ const i18nDictionary = {
     "cal.select_time": "Available Time Slots:",
     "cal.sum_lawyer": "Attorney:",
     "cal.sum_slot": "Selected Slot:",
-    "cal.format_office": "Office Visit (26 Chavchavadze)",
-    "cal.format_office_sub": "In-person consultation with Ketevan Utiashvili",
-    "cal.format_online": "Online Video Consultation",
-    "cal.format_online_sub": "Google Meet or Zoom video session",
+    "cal.format_office": "Office Visit",
+    "cal.format_office_sub": "",
+    "cal.format_online": "Online Consultation",
+    "cal.format_online_sub": "",
     "cal.field_name": "Full Name *",
     "cal.field_phone": "Phone Number *",
     "cal.field_email": "Email Address",
@@ -303,10 +303,10 @@ const i18nDictionary = {
     "cal.select_time": "Доступные часы:",
     "cal.sum_lawyer": "Адвокат:",
     "cal.sum_slot": "Выбранное время:",
-    "cal.format_office": "Визит в офис (просп. Чавчавадзе 26)",
-    "cal.format_office_sub": "Личная встреча с Кетеван Утиашвили",
+    "cal.format_office": "Визит в офис",
+    "cal.format_office_sub": "",
     "cal.format_online": "Онлайн-консультация",
-    "cal.format_online_sub": "Google Meet или Zoom видеозвонок",
+    "cal.format_online_sub": "",
     "cal.field_name": "Имя и фамилия *",
     "cal.field_phone": "Телефон *",
     "cal.field_email": "Эл. почта",
@@ -460,6 +460,16 @@ function initCalendar() {
       btn.classList.add('active');
       selTime = btn.getAttribute('data-time') || btn.textContent.trim();
       updateBookingSlotDisplay();
+    });
+  }
+
+  const officeChoiceCard = document.getElementById('formatChoiceOffice');
+  if (officeChoiceCard) {
+    officeChoiceCard.addEventListener('click', () => {
+      const mapSection = document.getElementById('full-width-map');
+      if (mapSection) {
+        mapSection.scrollIntoView({ behavior: 'smooth' });
+      }
     });
   }
 

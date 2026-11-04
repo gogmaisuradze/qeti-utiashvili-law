@@ -874,24 +874,22 @@
 
           <form id="appointmentForm" class="appointment-form-inner">
             <div class="format-toggle-grid">
-              <label class="format-choice-card">
+              <label class="format-choice-card" id="formatChoiceOffice">
                 <input type="radio" name="meetingFormat" value="office" checked>
                 <div class="format-card-box">
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
                   <div>
-                    <strong data-i18n="cal.format_office">ვიზიტი ოფისში (ჭავჭავაძის 26)</strong>
-                    <small data-i18n="cal.format_office_sub">პირისპირ შეხვედრა ქეთევან უტიაშვილთან</small>
+                    <strong data-i18n="cal.format_office">ვიზიტი ოფისში</strong>
                   </div>
                 </div>
               </label>
 
-              <label class="format-choice-card">
+              <label class="format-choice-card" id="formatChoiceOnline">
                 <input type="radio" name="meetingFormat" value="online">
                 <div class="format-card-box">
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
                   <div>
                     <strong data-i18n="cal.format_online">ონლაინ კონსულტაცია</strong>
-                    <small data-i18n="cal.format_online_sub">Google Meet ან Zoom ვიდეოზარი</small>
                   </div>
                 </div>
               </label>
@@ -960,9 +958,14 @@
         <strong>თბილისის ცენტრალური ოფისის ლოკაცია</strong>
         <span class="map-pill-addr">ილია ჭავჭავაძის გამზ. #26, თბილისი</span>
       </div>
-      <a href="https://maps.google.com/?q=26+Ilia+Chavchavadze+Ave,+Tbilisi" target="_blank" rel="noopener noreferrer" class="btn-map-out">
-        Google Maps-ში გახსნა ↗
-      </a>
+      <div style="display:flex; gap:0.6rem; align-items:center; flex-wrap:wrap;">
+        <a href="#calendar" class="btn-map-out" style="background:#721927; color:#fff; border-color:#721927;">
+          ↑ კალენდარში დაბრუნება
+        </a>
+        <a href="https://maps.google.com/?q=26+Ilia+Chavchavadze+Ave,+Tbilisi" target="_blank" rel="noopener noreferrer" class="btn-map-out">
+          Google Maps-ში გახსნა ↗
+        </a>
+      </div>
     </div>
 
     <div class="map-frame-100">
