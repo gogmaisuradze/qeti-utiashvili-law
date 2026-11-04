@@ -822,10 +822,15 @@ function initLegalAdvisor() {
     }
   });
 
-  document.querySelectorAll('.open-advisor-btn').forEach(btn => {
-    btn.addEventListener('click', (e) => {
+  // Practice Area Cards -> Direct Route to On-Site AI Legal Advisor!
+  document.querySelectorAll('.expertise-card-editorial[data-advisor-query]').forEach(card => {
+    card.addEventListener('click', (e) => {
       e.preventDefault();
+      const qType = card.getAttribute('data-advisor-query');
       openAdvisorChat();
+      if (qType) {
+        handleQuickAdvisorQuery(qType);
+      }
     });
   });
 
@@ -850,8 +855,12 @@ function initLegalAdvisor() {
   function handleQuickAdvisorQuery(type) {
     const promptMap = {
       re_tbilisi: "უძრავი ქონებისა და მშენებლობის დავები თბილისში",
-      deadlines: "სარჩელის შეტანის ხანდაზმულობის ვადები საქართველოში",
-      mediation: "მედიაცია და სასამართლოსგარეშე მორიგება",
+      corporate: "სამეწარმეო და კორპორაციული სამართალი",
+      civil: "სამოქალაქო და სახელშეკრულებო დავები",
+      mediation: "მედიაცია და ალტერნატიული მორიგება",
+      administrative: "ადმინისტრაციული დავები (მერია, რეესტრი, შემოსავლები)",
+      family: "საოჯახო და მემკვიდრეობითი სამართალი",
+      deadlines: "სასამართლოში გასაჩივრების ხანდაზმულობის ვადები",
       booking: "თბილისის ოფისის მისამართი და ვიზიტის დაჯავშნა"
     };
     const userText = promptMap[type] || "მაინტერესებს იურიდიული კონსულტაცია";
@@ -893,60 +902,94 @@ function initLegalAdvisor() {
       const data = await resp.json().catch(() => ({}));
       typingDiv.remove();
       const raw = (data && (data.reply || data.output)) ? (data.reply || data.output) : '';
-      const safe = String(raw)
-        .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
-        .replace(/\n/g, '<br>');
-      appendChatBubble(safe || 'ბოდიში, პასუხი დროებით ვერ მივიღე. გთხოვთ, დაგვიკავშირდეთ: +995 599 35 15 25.', 'system');
+      if (raw) {
+        const safe = String(raw)
+          .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+          .replace(/\n/g, '<br>');
+        appendChatBubble(safe, 'system');
+      } else {
+        appendChatBubble(getDomainFallback(queryType, q), 'system');
+      }
     } catch (err) {
       typingDiv.remove();
-      appendChatBubble('ბოდიში, დროებით კავშირი ვერ დამყარდა. სცადეთ ხელახლა ან დაგვირეკეთ: +995 599 35 15 25.', 'system');
+      appendChatBubble(getDomainFallback(queryType, q), 'system');
     }
-    return;
+  }
 
-    // --- ქვემოთ ძველი ჩაშენებული პასუხები (გამორთულია) ---
-    if (false) setTimeout(() => {
-      typingDiv.remove();
-      let answer = "";
-
-      if (queryType === 're_tbilisi' || q.includes('უძრავ') || q.includes('ბინა') || q.includes('აპარტ') || q.includes('მშენებ') || q.includes('დეველოპ')) {
-        answer = `<strong>უძრავი ქონება და დეველოპერული დავები:</strong><br><br>
-        უძრავი ქონების შეძენისას ან სადავო საკითხებისას ძირითადი სამართლებრივი ასპექტებია:
-        <ul>
-          <li>მშენებლობის დასრულების ვადების გადაცილება და პირგასამტეხლოს დაკისრება;</li>
-          <li>საჯარო რეესტრში იპოთეკით ან ყადაღით დატვირთული ქონება;</li>
-          <li>მერიის მიერ ექსპლუატაციაში მიღების შეფერხებები და ნებართვები.</li>
-        </ul>
-        <br>ქეთევან უტიაშვილის საადვოკატო ბიურო ახორციელებს ხელშეკრულებების სრულ ექსპერტიზას. ცენტრალური ოფისი: თბილისი, ილია ჭავჭავაძის გამზ. 26. შეგიძლიათ <a href="#calendar" style="color:#721927; text-decoration:underline; font-weight:600;">დაჯავშნოთ ვიზიტი კალენდარში</a>.`;
-      }
-      else if (queryType === 'deadlines' || q.includes('ვადა') || q.includes('ხანდაზმულ') || q.includes('სარჩელ')) {
-        answer = `<strong>ხანდაზმულობის ვადები სამოქალაქო კოდექსით:</strong><br><br>
-        • სახელშეკრულებო მოთხოვნებზე: <strong>3 წელი</strong><br>
-        • უძრავ ქონებასთან დაკავშირებულ მოთხოვნებზე: <strong>6 წელი</strong><br>
-        • პერიოდულად შესასრულებელ ვალდებულებებზე: <strong>3 წელი</strong><br>
-        • ადმინისტრაციული აქტის გასაჩივრება: <strong>30 კალენდარული დღე</strong><br><br>
-        <em>გაფრთხილება:</em> ვადის გადაცილება საქმის წაგების საფუძველია. შეაფასეთ თქვენი საქმე ჩვენს <a href="#case-check" style="color:#721927; text-decoration:underline; font-weight:600;">ონლაინ დიაგნოსტიკაში</a>.`;
-      }
-      else if (queryType === 'mediation' || q.includes('მედია') || q.includes('მორიგებ')) {
-        answer = `<strong>მედიაცია და ალტერნატიული მორიგება:</strong><br><br>
-        ქეთევან უტიაშვილი არის საქართველოს მედიატორთა ასოციაციის აკრედიტებული მედიატორი.<br><br>
-        მედიაციის ძირითადი უპირატესობები:
-        • სრული კონფიდენციალურობა;<br>
-        • დავის მოგვარება 2-4 კვირაში სასამართლოში წლობით დავის ნაცვლად;<br>
-        • მიღწეულ სამედიაციო შეთანხმებას აქვს <strong>სასამართლო გადაწყვეტილების ტოლფასი სააღსრულებო ძალა</strong>.`;
-      }
-      else if (queryType === 'booking' || q.includes('კალენდარ') || q.includes('ჩაწერ') || q.includes('ვიზიტ') || q.includes('მისამართ') || q.includes('ჭავჭავაძ') || q.includes('თბილის') || q.includes('ფას')) {
-        answer = `<strong>თბილისის ცენტრალური ოფისი & ვიზიტი:</strong><br><br>
-        მისამართი: <strong>ქ. თბილისი, ილია ჭავჭავაძის გამზირი #26</strong> (ვაკე).<br>
-        სამუშაო საათები: ორშაბათიდან პარასკევის ჩათვლით 10:00 - 18:00.<br><br>
-        კონსულტაციაზე ჩასაწერად გამოიყენეთ ჩვენი <a href="#calendar" style="color:#721927; text-decoration:underline; font-weight:600;">ინტეგრირებული კალენდარი</a> ან დარეკეთ ნომერზე: <strong>+995 599 35 15 25</strong>.`;
-      }
-      else {
-        answer = `გმადლობთ შეკითხვისთვის. თქვენი საკითხი მოითხოვს ქეთევან უტიაშვილის ინდივიდუალურ სამართლებრივ შეფასებას. 
-        <br><br>გირჩევთ შეავსოთ ჩვენი <a href="#case-check" style="color:#721927; text-decoration:underline; font-weight:600;">საქმის ონლაინ შეფასება</a> ან მობრძანდეთ თბილისის ოფისში (ჭავჭავაძის გამზ. 26) <a href="#calendar" style="color:#721927; text-decoration:underline; font-weight:600;">კალენდარში წინასწარი ჩაწერით</a>.`;
-      }
-
-      appendChatBubble(answer, 'system');
-    }, 500);
+  function getDomainFallback(queryType, q) {
+    if (queryType === 're_tbilisi' || q.includes('უძრავ') || q.includes('მშენებ')) {
+      return `<strong>უძრავი ქონება და მშენებლობის დავები:</strong><br><br>
+      უძრავი ქონებისა და დეველოპერული ხელშეკრულებების სპეციფიკიდან გამომდინარე, აუცილებელია:
+      <ul>
+        <li>მშენებლობის ეტაპებისა და ვადების გადაცილების აუდიტი;</li>
+        <li>საჯარო რეესტრის ვალდებულებებისა და პირგასამტეხლოს მექანიზმების შემოწმება;</li>
+        <li>საადვოკატო გაფრთხილების დროული მომზადება.</li>
+      </ul>
+      <br>ქეთევან უტიაშვილის საადვოკატო ბიურო ახორციელებს ხელშეკრულებების სრულ სამართლებრივ ექსპერტიზას. შეგიძლიათ <a href="#calendar" style="color:#721927; text-decoration:underline; font-weight:600;">დაჯავშნოთ ვიზიტი თბილისის ოფისში (ჭავჭავაძის 26)</a>.`;
+    }
+    if (queryType === 'corporate' || q.includes('კორპორაცი') || q.includes('სამეწარმეო') || q.includes('პარტნიორ')) {
+      return `<strong>სამეწარმეო და კორპორაციული სამართალი:</strong><br><br>
+      კორპორაციულ დავებსა და ბიზნეს-აქტივების მართვაში გადამწყვეტია:
+      <ul>
+        <li>წესდებით განსაზღვრული კვორუმი და პარტნიორთა კრების ოქმების სისწორე;</li>
+        <li>წილების გასხვისების, დივიდენდების განაწილებისა და დირექტორის პასუხისმგებლობის საკითხები;</li>
+        <li>უცხოური ინვესტიციების დაცვა და ბიზნეს-აქტივების იურიდიული აუდიტი (Due Diligence).</li>
+      </ul>
+      <br>გირჩევთ წინასწარ კონსულტაციას ქეთევან უტიაშვილთან. <a href="#calendar" style="color:#721927; text-decoration:underline; font-weight:600;">დაჯავშნეთ ვიზიტი კალენდარში</a>.`;
+    }
+    if (queryType === 'civil' || q.includes('სამოქალაქო') || q.includes('ხელშეკრულებ') || q.includes('ვალ')) {
+      return `<strong>სამოქალაქო და სახელშეკრულებო დავები:</strong><br><br>
+      სამოქალაქო კოდექსის თანახმად, სახელშეკრულებო მოთხოვნებზე მოქმედებს ხანდაზმულობის 3-წლიანი ვადა.<br><br>
+      ბიურო უზრუნველყოფს:
+      <ul>
+        <li>პირველადი საადვოკატო პრეტენზიის მომზადებას;</li>
+        <li>სარჩელის უზრუნველყოფის ღონისძიებების (ყადაღის) გამოყენებას;</li>
+        <li>წარმომადგენლობას თბილისის საქალაქო, სააპელაციო და უზენაეს სასამართლოში.</li>
+      </ul>`;
+    }
+    if (queryType === 'mediation' || q.includes('მედია') || q.includes('მორიგებ')) {
+      return `<strong>მედიაცია და ალტერნატიული მორიგება:</strong><br><br>
+      ქეთევან უტიაშვილი არის საქართველოს მედიატორთა ასოციაციის აკრედიტებული მედიატორი.<br><br>
+      უპირატესობები:
+      • სრული კონფიდენციალურობა;<br>
+      • დავის მოგვარება 2-4 კვირაში წლობით სასამართლო პროცესების ნაცვლად;<br>
+      • მიღწეულ სამედიაციო შეთანხმებას აქვს <strong>სასამართლო გადაწყვეტილების ტოლფასი სააღსრულებო ძალა</strong>.`;
+    }
+    if (queryType === 'administrative' || q.includes('ადმინისტრაცი') || q.includes('მერია') || q.includes('რეესტრ')) {
+      return `<strong>ადმინისტრაციული დავები (მერია, რეესტრი, შემოსავლები):</strong><br><br>
+      ადმინისტრაციული აქტის გასაჩივრებისთვის საქართველოს კანონმდებლობით დადგენილია <strong>მკაცრი 30-დღიანი ვადა</strong>.<br><br>
+      ბიურო წარმატებით წარმართავს:
+      <ul>
+        <li>თბილისის მერიისა და ზედამხედველობის სამსახურის ჯარიმების გასაჩივრებას;</li>
+        <li>საჯარო რეესტრის უარის ან შეჩერების გასაჩივრებას;</li>
+        <li>საგადასახადო და საბაჟო დავებს.</li>
+      </ul>`;
+    }
+    if (queryType === 'family' || q.includes('საოჯახო') || q.includes('მემკვიდრეობ') || q.includes('ანდერძ')) {
+      return `<strong>საოჯახო & მემკვიდრეობითი სამართალი:</strong><br><br>
+      თანასაკუთრების გაყოფასა და მემკვიდრეობის მიღებაში მნიშვნელოვანია 6-თვიანი საპროცესო ვადის დაცვა ნოტარიუსთან.<br><br>
+      ბიურო იცავს თქვენს ინტერესებს:
+      <ul>
+        <li>სამკვიდრო ქონების გაყოფასა და ანდერძის ნამდვილობის დავებში;</li>
+        <li>საოჯახო შეთანხმებების გაფორმებასა და არასრულწლოვანთა ქონებრივი უფლებების დაცვაში.</li>
+      </ul>`;
+    }
+    if (queryType === 'deadlines' || q.includes('ვადა') || q.includes('ხანდაზმულ')) {
+      return `<strong>ხანდაზმულობის ვადები სამოქალაქო კოდექსით:</strong><br><br>
+      • სახელშეკრულებო მოთხოვნებზე: <strong>3 წელი</strong><br>
+      • უძრავ ქონებასთან დაკავშირებულ მოთხოვნებზე: <strong>6 წელი</strong><br>
+      • პერიოდულად შესასრულებელ ვალდებულებებზე: <strong>3 წელი</strong><br>
+      • ადმინისტრაციული აქტის გასაჩივრება: <strong>30 კალენდარული დღე</strong><br><br>
+      <em>გაფრთხილება:</em> ვადის გადაცილება საქმის წაგების საფუძველია. შეგიძლიათ შეაფასოთ თქვენი საქმე ჩვენს <a href="#case-check" style="color:#721927; text-decoration:underline; font-weight:600;">ონლაინ დიაგნოსტიკაში</a>.`;
+    }
+    if (queryType === 'booking' || q.includes('კალენდარ') || q.includes('ჩაწერ') || q.includes('ვიზიტ') || q.includes('მისამართ')) {
+      return `<strong>თბილისის ცენტრალური ოფისი & ვიზიტი:</strong><br><br>
+      მისამართი: <strong>ქ. თბილისი, ილია ჭავჭავაძის გამზირი #26</strong> (ვაკე).<br>
+      სამუშაო საათები: ორშაბათიდან პარასკევის ჩათვლით 10:00 - 18:00.<br><br>
+      კონსულტაციაზე ჩასაწერად გამოიყენეთ ჩვენი <a href="#calendar" style="color:#721927; text-decoration:underline; font-weight:600;">ინტეგრირებული კალენდარი</a> ან დარეკეთ ნომერზე: <strong>+995 599 35 15 25</strong>.`;
+    }
+    return `გმადლობთ შეკითხვისთვის. თქვენი საკითხი მოითხოვს ქეთევან უტიაშვილის ინდივიდუალურ სამართლებრივ შეფასებას. 
+    <br><br>გირჩევთ შეავსოთ ჩვენი <a href="#case-check" style="color:#721927; text-decoration:underline; font-weight:600;">საქმის ონლაინ შეფასება</a> ან მობრძანდეთ თბილისის ოფისში (ჭავჭავაძის გამზ. 26) <a href="#calendar" style="color:#721927; text-decoration:underline; font-weight:600;">კალენდარში წინასწარი ჩაწერით</a>.`;
   }
 }
 
