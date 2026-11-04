@@ -1057,28 +1057,36 @@ button, input, select, textarea {
 }
 
 .card-contour-icon {
-  width: 48px;
-  height: 48px;
-  border-radius: var(--radius-md);
-  background-color: var(--bg-page);
-  border: 1px solid var(--border-light);
+  width: 52px;
+  height: 52px;
+  border-radius: 14px;
+  background: var(--bg-white);
+  border: 1px solid rgba(114, 25, 39, 0.2);
   color: var(--color-brass-primary);
   display: flex;
   align-items: center;
   justify-content: center;
   margin-bottom: 1.4rem;
-  transition: var(--transition);
+  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.04);
+  transition: all 0.28s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .card-contour-icon svg {
-  width: 24px;
-  height: 24px;
+  width: 26px;
+  height: 26px;
+  transition: transform 0.28s ease;
 }
 
 .expertise-card-editorial:hover .card-contour-icon {
-  background-color: var(--color-slate-black);
-  border-color: var(--color-slate-black);
-  color: var(--color-brass-soft);
+  background: linear-gradient(135deg, rgba(114, 25, 39, 0.09) 0%, rgba(114, 25, 39, 0.03) 100%);
+  border-color: var(--color-brass-primary);
+  color: var(--color-brass-primary);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(114, 25, 39, 0.16);
+}
+
+.expertise-card-editorial:hover .card-contour-icon svg {
+  transform: scale(1.08);
 }
 
 .domain-title {
