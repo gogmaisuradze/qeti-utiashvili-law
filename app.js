@@ -465,11 +465,23 @@ function initCalendar() {
   }
 
   const officeChoiceCard = document.getElementById('formatChoiceOffice');
+  const officeRadioInput = document.querySelector('input[name="meetingFormat"][value="office"]');
+  const scrollToMap = () => {
+    const mapSection = document.getElementById('full-width-map');
+    if (mapSection) {
+      mapSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  };
   if (officeChoiceCard) {
-    officeChoiceCard.addEventListener('click', () => {
-      const mapSection = document.getElementById('full-width-map');
-      if (mapSection) {
-        mapSection.scrollIntoView({ behavior: 'smooth' });
+    officeChoiceCard.addEventListener('click', (e) => {
+      // Small timeout allows radio selection state to visually settle before smooth scroll
+      setTimeout(scrollToMap, 150);
+    });
+  }
+  if (officeRadioInput) {
+    officeRadioInput.addEventListener('change', () => {
+      if (officeRadioInput.checked) {
+        setTimeout(scrollToMap, 150);
       }
     });
   }
@@ -895,9 +907,9 @@ function initSmoothScrollSpy() {
 }
 
 /**
- * 3D Themis Statue Sculpture Controller
- * Scroll-reactive parallax & 3D perspective orientation (top to bottom)
- * Strictly constrained within container bounds
+ * Google Photos Cinematic 3D Sculpture Controller
+ * Pure scroll-driven parallax dolly depth with silky inertia (LERP)
+ * Zero mouse-over reactions; sits directly on the page background
  */
 function initThemis3dScroll() {
   const stage = document.getElementById('themisStage');
@@ -905,71 +917,76 @@ function initThemis3dScroll() {
   const shadow = document.getElementById('themisPlinthShadow');
   if (!stage || !figureWrap) return;
 
-  let ticking = false;
-  let mouseX = 0;
-  let mouseY = 0;
-  let isHovered = false;
+  // LERP current vs target values for smooth camera inertia
+  let curRotX = 0;
+  let curRotY = 0;
+  let curTransY = 0;
+  let curScale = 1.0;
+  let curShadowScale = 1.0;
+  let curShadowOpacity = 0.42;
 
-  function update3D() {
+  let tgtRotX = 0;
+  let tgtRotY = 0;
+  let tgtTransY = 0;
+  let tgtScale = 1.0;
+  let tgtShadowScale = 1.0;
+  let tgtShadowOpacity = 0.42;
+
+  let isNearView = false;
+
+  function calculateTargets() {
     const rect = stage.getBoundingClientRect();
     const windowHeight = window.innerHeight || document.documentElement.clientHeight;
 
-    if (rect.bottom > 0 && rect.top < windowHeight) {
+    // Check if within active scroll perception zone
+    if (rect.bottom > -80 && rect.top < windowHeight + 80) {
+      isNearView = true;
       const totalDist = windowHeight + rect.height;
       const progress = Math.max(0, Math.min(1, (windowHeight - rect.top) / totalDist));
-      const norm = (progress - 0.5) * 2; // -1 to +1
+      // norm: -1 (entering from bottom) -> 0 (dead center of screen) -> +1 (leaving top)
+      const norm = (progress - 0.5) * 2;
 
-      // 3D Tilt angles driven by scroll:
-      const scrollRotX = norm * 8.5;  // tilts forward/backward
-      const scrollRotY = norm * -6.5; // subtle axial rotation
-      const scrollTransY = norm * -16; // smooth parallax bounded strictly to 16px
-      const scrollScale = 1.0 + (1 - Math.abs(norm)) * 0.04;
+      // Google Photos Cinematic 3D motion:
+      // Smooth 3D tilt + slow parallax dolly push
+      tgtRotX = norm * 7.0;       // perspective angle tilts from -7deg to +7deg
+      tgtRotY = norm * -4.5;      // subtle 3D volumetric yaw
+      tgtTransY = norm * -14;     // gentle vertical parallax within bounds (max 14px)
+      // Dolly zoom: smoothly expands outward as it reaches the screen center
+      tgtScale = 1.0 + Math.cos(norm * Math.PI * 0.5) * 0.05;
 
-      const finalRotX = scrollRotX + (isHovered ? mouseY * 6 : 0);
-      const finalRotY = scrollRotY + (isHovered ? mouseX * 8 : 0);
-      const finalTransY = scrollTransY + (isHovered ? mouseY * -4 : 0);
+      tgtShadowScale = 1.0 - (norm * 0.08);
+      tgtShadowOpacity = 0.42 - Math.abs(norm) * 0.08;
+    } else {
+      isNearView = false;
+    }
+  }
 
-      figureWrap.style.transform = `perspective(1000px) translateY(${finalTransY.toFixed(1)}px) rotateX(${finalRotX.toFixed(2)}deg) rotateY(${finalRotY.toFixed(2)}deg) scale(${scrollScale.toFixed(3)})`;
+  window.addEventListener('scroll', calculateTargets, { passive: true });
+  window.addEventListener('resize', calculateTargets, { passive: true });
+  calculateTargets();
+
+  // Cinematic LERP Animation Loop (butter-smooth continuous interpolation)
+  const ease = 0.08;
+  function renderCinematic3D() {
+    if (isNearView) {
+      curRotX += (tgtRotX - curRotX) * ease;
+      curRotY += (tgtRotY - curRotY) * ease;
+      curTransY += (tgtTransY - curTransY) * ease;
+      curScale += (tgtScale - curScale) * ease;
+
+      figureWrap.style.transform = `perspective(1200px) translateY(${curTransY.toFixed(2)}px) rotateX(${curRotX.toFixed(2)}deg) rotateY(${curRotY.toFixed(2)}deg) scale(${curScale.toFixed(4)})`;
 
       if (shadow) {
-        const shadowScale = 1.0 - (norm * 0.1);
-        const shadowOpacity = 0.35 - Math.abs(norm) * 0.08;
-        shadow.style.transform = `translateX(-50%) scale(${shadowScale.toFixed(2)})`;
-        shadow.style.opacity = shadowOpacity.toFixed(2);
+        curShadowScale += (tgtShadowScale - curShadowScale) * ease;
+        curShadowOpacity += (tgtShadowOpacity - curShadowOpacity) * ease;
+        shadow.style.transform = `translateX(-50%) scale(${curShadowScale.toFixed(3)})`;
+        shadow.style.opacity = curShadowOpacity.toFixed(3);
       }
     }
-    ticking = false;
+    requestAnimationFrame(renderCinematic3D);
   }
 
-  function requestTick() {
-    if (!ticking) {
-      requestAnimationFrame(update3D);
-      ticking = true;
-    }
-  }
-
-  window.addEventListener('scroll', requestTick, { passive: true });
-  window.addEventListener('resize', requestTick, { passive: true });
-
-  stage.addEventListener('mouseenter', () => {
-    isHovered = true;
-  });
-
-  stage.addEventListener('mousemove', (e) => {
-    const rect = stage.getBoundingClientRect();
-    mouseX = ((e.clientX - rect.left) / rect.width - 0.5) * 2;
-    mouseY = ((e.clientY - rect.top) / rect.height - 0.5) * 2;
-    requestTick();
-  });
-
-  stage.addEventListener('mouseleave', () => {
-    isHovered = false;
-    mouseX = 0;
-    mouseY = 0;
-    requestTick();
-  });
-
-  requestTick();
+  requestAnimationFrame(renderCinematic3D);
 }
 
 function escapeHtml(string) {
