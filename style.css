@@ -1039,6 +1039,10 @@ button, input, select, textarea {
   gap: 2rem;
 }
 
+.mobile-more-expertise-wrap {
+  display: none;
+}
+
 .expertise-card-editorial {
   background-color: var(--bg-card);
   border: 1px solid var(--border-light);
@@ -3436,13 +3440,77 @@ button, input, select, textarea {
     display: none;
   }
 
-  /* Practice Areas Grid */
+  /* Hero Buttons on Mobile */
+  .hero-buttons {
+    flex-direction: column;
+    width: 100%;
+    gap: 0.65rem;
+  }
+  .hero-buttons .btn-pill-dark,
+  .hero-buttons .btn-pill-brass,
+  .hero-buttons .btn-pill-telegram {
+    width: 100%;
+    min-height: 48px;
+    justify-content: center;
+    font-size: 0.92rem;
+    padding: 0.75rem 1.2rem;
+  }
+
+  /* Practice Areas Grid - Mobile Collapsing */
   .expertise-symmetrical-grid {
     grid-template-columns: 1fr;
     gap: 1.1rem;
   }
   .expertise-card-editorial {
-    padding: 1.5rem 1.3rem;
+    padding: 1.35rem 1.2rem;
+  }
+  .expertise-symmetrical-grid:not(.show-all) .mobile-collapsible {
+    display: none !important;
+  }
+  .expertise-symmetrical-grid.show-all .mobile-collapsible {
+    display: flex !important;
+    animation: cardFadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+  .mobile-more-expertise-wrap {
+    display: flex !important;
+    justify-content: center;
+    margin-top: 1.2rem;
+    width: 100%;
+  }
+  .btn-more-mobile {
+    width: 100%;
+    min-height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+    background: var(--bg-white);
+    border: 1.5px solid var(--color-brass-primary);
+    border-radius: var(--radius-pill);
+    color: var(--color-brass-primary);
+    font-size: 0.92rem;
+    font-weight: 600;
+    cursor: pointer;
+    padding: 0.75rem 1.4rem;
+    transition: all 0.25s ease;
+    box-shadow: var(--shadow-subtle);
+  }
+  .btn-more-mobile:active {
+    background-color: rgba(114, 25, 39, 0.08);
+    transform: scale(0.98);
+  }
+  .more-chevron {
+    width: 18px;
+    height: 18px;
+    transition: transform 0.3s ease;
+  }
+  .expertise-symmetrical-grid.show-all + .mobile-more-expertise-wrap .more-chevron {
+    transform: rotate(180deg);
+  }
+
+  @keyframes cardFadeIn {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
   }
 
   /* About Advocate */

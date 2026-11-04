@@ -968,6 +968,26 @@ function initMobileNav() {
       });
     });
   }
+
+  // Mobile "მეტის ნახვა" Toggle for Practice Areas
+  const moreExpertiseBtn = document.getElementById('toggleMoreExpertiseBtn');
+  const expertiseGrid = document.querySelector('.expertise-symmetrical-grid');
+  const moreExpertiseLabel = document.getElementById('moreExpertiseLabel');
+
+  if (moreExpertiseBtn && expertiseGrid) {
+    moreExpertiseBtn.addEventListener('click', () => {
+      expertiseGrid.classList.toggle('show-all');
+      const isExpanded = expertiseGrid.classList.contains('show-all');
+      if (moreExpertiseLabel) {
+        moreExpertiseLabel.textContent = isExpanded 
+          ? "ნაკლების ჩვენება (3)" 
+          : "ყველა მიმართულების ნახვა (6)";
+      }
+      if (!isExpanded) {
+        expertiseGrid.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    });
+  }
 }
 
 function initContactForms() {
