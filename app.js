@@ -907,30 +907,38 @@ function initSmoothScrollSpy() {
 }
 
 /**
- * Google Photos Cinematic 3D Sculpture Controller
- * Pure scroll-driven parallax dolly depth with silky inertia (LERP)
- * Zero mouse-over reactions; sits directly on the page background
+ * Google Photos Cinematic 3D Sculpture Controller with Dynamic Solar Transit
+ * Simulates the sun traveling across the background from right to left on scroll,
+ * casting a sweeping volumetric shadow across the backdrop behind Lady Justice.
+ * Pure scroll-driven parallax dolly depth with silky inertia (LERP); zero mouseover.
  */
 function initThemis3dScroll() {
   const stage = document.getElementById('themisStage');
   const figureWrap = document.getElementById('themisFigureWrap');
-  const shadow = document.getElementById('themisPlinthShadow');
+  const figure = document.getElementById('themis3dFigure');
+  const solarBackdrop = document.getElementById('themisSolarBackdrop');
+  const solarShadow = document.getElementById('themisSolarShadow');
+  const shadowPlinth = document.getElementById('themisPlinthShadow');
   if (!stage || !figureWrap) return;
 
   // LERP current vs target values for smooth camera inertia
-  let curRotX = 0;
-  let curRotY = 0;
-  let curTransY = 0;
-  let curScale = 1.0;
-  let curShadowScale = 1.0;
-  let curShadowOpacity = 0.42;
+  let curRotX = 0, curRotY = 0, curTransY = 0, curScale = 1.0;
+  let tgtRotX = 0, tgtRotY = 0, tgtTransY = 0, tgtScale = 1.0;
 
-  let tgtRotX = 0;
-  let tgtRotY = 0;
-  let tgtTransY = 0;
-  let tgtScale = 1.0;
-  let tgtShadowScale = 1.0;
-  let tgtShadowOpacity = 0.42;
+  // Solar light transit (Sun gliding from right 82% to left 18%)
+  let curSunX = 82, curSunY = 22, curSunAlpha = 0.22;
+  let tgtSunX = 82, tgtSunY = 22, tgtSunAlpha = 0.22;
+
+  // Wall shadow silhouette sweep (moving across behind statue)
+  let curShadowX = -45, curShadowSkew = -5, curShadowRot = -2, curShadowScaleY = 1.04, curShadowOp = 0.38;
+  let tgtShadowX = -45, tgtShadowSkew = -5, tgtShadowRot = -2, tgtShadowScaleY = 1.04, tgtShadowOp = 0.38;
+
+  // Direct figure drop-shadow shift (light angle tracing)
+  let curDropX = 16, tgtDropX = 16;
+
+  // Floor plinth shadow
+  let curPlinthX = 12, curPlinthScale = 1.0, curPlinthOp = 0.42;
+  let tgtPlinthX = 12, tgtPlinthScale = 1.0, tgtPlinthOp = 0.42;
 
   let isNearView = false;
 
@@ -939,23 +947,41 @@ function initThemis3dScroll() {
     const windowHeight = window.innerHeight || document.documentElement.clientHeight;
 
     // Check if within active scroll perception zone
-    if (rect.bottom > -80 && rect.top < windowHeight + 80) {
+    if (rect.bottom > -100 && rect.top < windowHeight + 100) {
       isNearView = true;
       const totalDist = windowHeight + rect.height;
       const progress = Math.max(0, Math.min(1, (windowHeight - rect.top) / totalDist));
       // norm: -1 (entering from bottom) -> 0 (dead center of screen) -> +1 (leaving top)
       const norm = (progress - 0.5) * 2;
 
-      // Google Photos Cinematic 3D motion:
-      // Smooth 3D tilt + slow parallax dolly push
-      tgtRotX = norm * 7.0;       // perspective angle tilts from -7deg to +7deg
-      tgtRotY = norm * -4.5;      // subtle 3D volumetric yaw
-      tgtTransY = norm * -14;     // gentle vertical parallax within bounds (max 14px)
-      // Dolly zoom: smoothly expands outward as it reaches the screen center
+      // 1. Google Photos Cinematic 3D motion (tilt & dolly)
+      tgtRotX = norm * 6.5;         // tilts from -6.5deg to +6.5deg
+      tgtRotY = norm * -4.2;        // volumetric yaw
+      tgtTransY = norm * -14;       // subtle vertical dolly (max 14px)
       tgtScale = 1.0 + Math.cos(norm * Math.PI * 0.5) * 0.05;
 
-      tgtShadowScale = 1.0 - (norm * 0.08);
-      tgtShadowOpacity = 0.42 - Math.abs(norm) * 0.08;
+      // 2. Solar light movement across the background: RIGHT -> LEFT
+      // Progress 0.0 = Sun on right (84%); Progress 1.0 = Sun on left (16%)
+      tgtSunX = 84 - progress * 68;
+      tgtSunY = 20 + Math.sin(progress * Math.PI) * 14 + progress * 6;
+      tgtSunAlpha = 0.18 + Math.sin(progress * Math.PI) * 0.12;
+
+      // 3. Wall shadow silhouette sweep across the wall behind statue:
+      // When sun is at right, shadow is cast to left (-48px);
+      // As sun travels left, shadow sweeps smoothly to the right (+48px)
+      tgtShadowX = (progress - 0.5) * 96;
+      tgtShadowSkew = (progress - 0.5) * 11;
+      tgtShadowRot = (progress - 0.5) * 4;
+      tgtShadowScaleY = 1.02 + Math.abs(norm) * 0.06;
+      tgtShadowOp = 0.36 + Math.cos(norm * Math.PI * 0.5) * 0.08;
+
+      // 4. Statue's own directional drop-shadow & rim light angle
+      tgtDropX = (0.5 - progress) * 34; // glides smoothly from +17px to -17px
+
+      // 5. Floor plinth shadow
+      tgtPlinthX = (0.5 - progress) * 20;
+      tgtPlinthScale = 1.0 - (norm * 0.08);
+      tgtPlinthOp = 0.42 - Math.abs(norm) * 0.08;
     } else {
       isNearView = false;
     }
@@ -965,10 +991,11 @@ function initThemis3dScroll() {
   window.addEventListener('resize', calculateTargets, { passive: true });
   calculateTargets();
 
-  // Cinematic LERP Animation Loop (butter-smooth continuous interpolation)
+  // Cinematic LERP Animation Loop (continuous 60fps interpolation)
   const ease = 0.08;
   function renderCinematic3D() {
     if (isNearView) {
+      // Interpolate figure 3D
       curRotX += (tgtRotX - curRotX) * ease;
       curRotY += (tgtRotY - curRotY) * ease;
       curTransY += (tgtTransY - curTransY) * ease;
@@ -976,11 +1003,41 @@ function initThemis3dScroll() {
 
       figureWrap.style.transform = `perspective(1200px) translateY(${curTransY.toFixed(2)}px) rotateX(${curRotX.toFixed(2)}deg) rotateY(${curRotY.toFixed(2)}deg) scale(${curScale.toFixed(4)})`;
 
-      if (shadow) {
-        curShadowScale += (tgtShadowScale - curShadowScale) * ease;
-        curShadowOpacity += (tgtShadowOpacity - curShadowOpacity) * ease;
-        shadow.style.transform = `translateX(-50%) scale(${curShadowScale.toFixed(3)})`;
-        shadow.style.opacity = curShadowOpacity.toFixed(3);
+      // Interpolate solar backdrop
+      curSunX += (tgtSunX - curSunX) * ease;
+      curSunY += (tgtSunY - curSunY) * ease;
+      curSunAlpha += (tgtSunAlpha - curSunAlpha) * ease;
+
+      if (solarBackdrop) {
+        solarBackdrop.style.background = `radial-gradient(ellipse 380px 420px at ${curSunX.toFixed(1)}% ${curSunY.toFixed(1)}%, rgba(212, 175, 55, ${curSunAlpha.toFixed(3)}) 0%, rgba(220, 185, 110, ${(curSunAlpha * 0.45).toFixed(3)}) 38%, rgba(114, 25, 39, 0.02) 65%, transparent 80%)`;
+      }
+
+      // Interpolate wall shadow sweep behind figure
+      curShadowX += (tgtShadowX - curShadowX) * ease;
+      curShadowSkew += (tgtShadowSkew - curShadowSkew) * ease;
+      curShadowRot += (tgtShadowRot - curShadowRot) * ease;
+      curShadowScaleY += (tgtShadowScaleY - curShadowScaleY) * ease;
+      curShadowOp += (tgtShadowOp - curShadowOp) * ease;
+
+      if (solarShadow) {
+        solarShadow.style.transform = `translateX(calc(-50% + ${curShadowX.toFixed(1)}px)) rotate(${curShadowRot.toFixed(1)}deg) skewX(${curShadowSkew.toFixed(1)}deg) scaleY(${curShadowScaleY.toFixed(3)})`;
+        solarShadow.style.opacity = curShadowOp.toFixed(3);
+      }
+
+      // Interpolate direct figure shadow
+      curDropX += (tgtDropX - curDropX) * ease;
+      if (figure) {
+        figure.style.filter = `drop-shadow(${curDropX.toFixed(1)}px 20px 28px rgba(15, 23, 42, 0.28)) drop-shadow(${(-curDropX * 0.35).toFixed(1)}px 5px 14px rgba(212, 175, 55, 0.18))`;
+      }
+
+      // Interpolate floor plinth shadow
+      curPlinthX += (tgtPlinthX - curPlinthX) * ease;
+      curPlinthScale += (tgtPlinthScale - curPlinthScale) * ease;
+      curPlinthOp += (tgtPlinthOp - curPlinthOp) * ease;
+
+      if (shadowPlinth) {
+        shadowPlinth.style.transform = `translateX(calc(-50% + ${curPlinthX.toFixed(1)}px)) scale(${curPlinthScale.toFixed(3)})`;
+        shadowPlinth.style.opacity = curPlinthOp.toFixed(3);
       }
     }
     requestAnimationFrame(renderCinematic3D);
