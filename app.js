@@ -728,39 +728,99 @@ function initLegalAdvisor() {
   const toggleBtn = document.getElementById('advisorToggleBtn');
   const modal = document.getElementById('advisorModal');
   const closeBtn = document.getElementById('advisorCloseBtn');
+  const pillMinBtn = document.getElementById('advisorPillMinBtn');
   const chatForm = document.getElementById('advisorChatForm');
   const inputField = document.getElementById('advisorInputField');
   const chatBody = document.getElementById('advisorChatBody');
 
   if (!toggleBtn || !modal) return;
 
-  // Track if user has dismissed the chat (persists throughout the session)
-  let isDismissed = sessionStorage.getItem('ku_advisor_dismissed') === 'true';
-  let autoOpenTimer = null;
+  function openAdvisorChat() {
+    modal.classList.remove('hidden', 'closing');
+    toggleBtn.classList.add('is-open');
+    if (inputField) {
+      setTimeout(() => inputField.focus(), 80);
+    }
+  }
 
-  // Auto-popup გამორთულია — ჩატი იხსნება მხოლოდ ღილაკზე დაჭერით.
+  function closeAdvisorChat() {
+    if (modal.classList.contains('hidden')) return;
+    modal.classList.add('closing');
+    toggleBtn.classList.remove('is-open');
+    sessionStorage.setItem('ku_advisor_dismissed', 'true');
 
-  toggleBtn.addEventListener('click', () => {
-    const isNowOpening = modal.classList.contains('hidden');
-    modal.classList.toggle('hidden');
-    if (isNowOpening) {
-      if (autoOpenTimer) clearTimeout(autoOpenTimer);
-      if (inputField) inputField.focus();
+    const handleAnimEnd = () => {
+      modal.classList.remove('closing');
+      modal.classList.add('hidden');
+      modal.removeEventListener('animationend', handleAnimEnd);
+    };
+    modal.addEventListener('animationend', handleAnimEnd, { once: true });
+
+    // Fallback in case animationend does not fire
+    setTimeout(() => {
+      if (modal.classList.contains('closing')) {
+        modal.classList.remove('closing');
+        modal.classList.add('hidden');
+      }
+    }, 260);
+  }
+
+  toggleBtn.addEventListener('click', (e) => {
+    // If user clicked the explicit pill minimize button, do not open chat
+    if (e.target.closest('#advisorPillMinBtn')) return;
+
+    if (modal.classList.contains('hidden') || modal.classList.contains('closing')) {
+      openAdvisorChat();
     } else {
-      // User closed the chat manually: prevent automatic popups
-      sessionStorage.setItem('ku_advisor_dismissed', 'true');
-      if (autoOpenTimer) clearTimeout(autoOpenTimer);
+      closeAdvisorChat();
     }
   });
 
   if (closeBtn) {
-    closeBtn.addEventListener('click', () => {
-      modal.classList.add('hidden');
-      // Mark as dismissed: will NOT pop up automatically again unless user clicks it
-      sessionStorage.setItem('ku_advisor_dismissed', 'true');
-      if (autoOpenTimer) clearTimeout(autoOpenTimer);
+    closeBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      closeAdvisorChat();
     });
   }
+
+  // Pill Minimize Button (დაპატარავება მრგვალ ღილაკად)
+  if (pillMinBtn) {
+    pillMinBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      e.preventDefault();
+      toggleBtn.classList.add('minimized');
+      sessionStorage.setItem('ku_advisor_pill_minimized', 'true');
+    });
+  }
+
+  // Restore minimized state if previously dismissed/shrunk
+  if (sessionStorage.getItem('ku_advisor_pill_minimized') === 'true') {
+    toggleBtn.classList.add('minimized');
+  }
+
+  // Auto-shrink on scroll down to keep reading clear, expand back at top
+  let scrollThrottle = false;
+  window.addEventListener('scroll', () => {
+    if (scrollThrottle) return;
+    scrollThrottle = true;
+    setTimeout(() => { scrollThrottle = false; }, 100);
+
+    const currentScrollY = window.scrollY;
+    if (currentScrollY > 260 && !toggleBtn.classList.contains('minimized') && modal.classList.contains('hidden')) {
+      toggleBtn.classList.add('minimized');
+    } else if (currentScrollY < 80 && sessionStorage.getItem('ku_advisor_pill_minimized') !== 'true') {
+      toggleBtn.classList.remove('minimized');
+    }
+  }, { passive: true });
+
+  // Close when clicking outside of modal and toggle button
+  document.addEventListener('click', (e) => {
+    if (!modal.classList.contains('hidden') && 
+        !modal.contains(e.target) && 
+        !toggleBtn.contains(e.target)) {
+      closeAdvisorChat();
+    }
+  });
 
   document.querySelectorAll('.quick-tag-btn').forEach(tagBtn => {
     tagBtn.addEventListener('click', () => {

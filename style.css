@@ -2505,19 +2505,90 @@ button, input, select, textarea {
   background-color: var(--color-slate-black);
   border: 1.5px solid var(--color-brass-primary);
   border-radius: var(--radius-pill);
-  padding: 0.55rem 1.25rem 0.55rem 0.7rem;
+  padding: 0.5rem 0.85rem 0.5rem 0.65rem;
   display: flex;
   align-items: center;
   gap: 0.75rem;
   cursor: pointer;
   box-shadow: var(--shadow-float);
-  transition: var(--transition);
+  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  position: relative;
+  overflow: hidden;
+  max-width: 320px;
+  user-select: none;
 }
 
 .advisor-toggle-pill:hover {
   transform: translateY(-3px);
   background-color: #17233D;
-  box-shadow: 0 16px 36px rgba(15, 23, 42, 0.3);
+  box-shadow: 0 16px 36px rgba(15, 23, 42, 0.32);
+}
+
+/* Minimized / Compact Circle State (დაპატარავების რეჟიმი) */
+.advisor-toggle-pill.minimized {
+  width: 52px;
+  height: 52px;
+  padding: 0;
+  border-radius: 50%;
+  gap: 0;
+  justify-content: center;
+}
+
+.advisor-toggle-pill.minimized .advisor-pill-copy {
+  max-width: 0;
+  opacity: 0;
+  transform: translateX(10px);
+  pointer-events: none;
+  margin: 0;
+  padding: 0;
+}
+
+.advisor-toggle-pill.minimized .advisor-pill-minimize {
+  opacity: 0;
+  pointer-events: none;
+  width: 0;
+  padding: 0;
+  margin: 0;
+}
+
+/* Pulsing radar ripple for minimized circle */
+.advisor-toggle-pill.minimized::before {
+  content: '';
+  position: absolute;
+  inset: -3px;
+  border-radius: 50%;
+  border: 1.5px solid var(--color-brass-primary);
+  animation: pillSonar 2.4s cubic-bezier(0.24, 0, 0.38, 1) infinite;
+  pointer-events: none;
+}
+
+@keyframes pillSonar {
+  0% { transform: scale(1); opacity: 0.8; }
+  60% { transform: scale(1.24); opacity: 0; }
+  100% { transform: scale(1.24); opacity: 0; }
+}
+
+/* Expand on desktop hover when minimized */
+@media (hover: hover) {
+  .advisor-toggle-pill.minimized:hover {
+    width: auto;
+    border-radius: var(--radius-pill);
+    padding: 0.5rem 0.85rem 0.5rem 0.65rem;
+    gap: 0.75rem;
+  }
+  .advisor-toggle-pill.minimized:hover .advisor-pill-copy {
+    max-width: 220px;
+    opacity: 1;
+    transform: translateX(0);
+  }
+  .advisor-toggle-pill.minimized:hover .advisor-pill-minimize {
+    opacity: 0.6;
+    pointer-events: auto;
+    width: 20px;
+  }
+  .advisor-toggle-pill.minimized:hover::before {
+    display: none;
+  }
 }
 
 .advisor-icon-circ {
@@ -2529,11 +2600,57 @@ button, input, select, textarea {
   display: flex;
   align-items: center;
   justify-content: center;
+  position: relative;
+  flex-shrink: 0;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.25s ease;
 }
 
 .advisor-icon-circ svg {
-  width: 20px;
-  height: 20px;
+  width: 19px;
+  height: 19px;
+  position: absolute;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.25s ease;
+}
+
+.advisor-icon-circ .icon-chat {
+  opacity: 1;
+  transform: rotate(0deg) scale(1);
+}
+
+.advisor-icon-circ .icon-close {
+  opacity: 0;
+  transform: rotate(-90deg) scale(0.5);
+}
+
+/* When chat is open, button morphs to close trigger */
+.advisor-toggle-pill.is-open .advisor-icon-circ {
+  background-color: #4A101A;
+}
+
+.advisor-toggle-pill.is-open .advisor-icon-circ .icon-chat {
+  opacity: 0;
+  transform: rotate(90deg) scale(0.5);
+}
+
+.advisor-toggle-pill.is-open .advisor-icon-circ .icon-close {
+  opacity: 1;
+  transform: rotate(0deg) scale(1);
+}
+
+.live-dot-mini {
+  position: absolute;
+  top: 1px;
+  right: 1px;
+  width: 8px;
+  height: 8px;
+  background-color: #10B981;
+  border: 1.5px solid var(--color-slate-black);
+  border-radius: 50%;
+  display: none;
+}
+
+.advisor-toggle-pill.minimized .live-dot-mini {
+  display: block;
 }
 
 .advisor-pill-copy {
@@ -2541,6 +2658,10 @@ button, input, select, textarea {
   flex-direction: column;
   text-align: left;
   line-height: 1.2;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  white-space: nowrap;
+  overflow: hidden;
+  max-width: 220px;
 }
 
 .live-dot {
@@ -2550,6 +2671,13 @@ button, input, select, textarea {
   border-radius: 50%;
   display: inline-block;
   margin-bottom: 2px;
+  box-shadow: 0 0 6px rgba(16, 185, 129, 0.6);
+  animation: liveDotPulse 2s infinite ease-in-out;
+}
+
+@keyframes liveDotPulse {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.25); opacity: 0.65; }
 }
 
 .advisor-pill-copy strong {
@@ -2561,6 +2689,30 @@ button, input, select, textarea {
 .advisor-pill-copy small {
   font-size: 0.7rem;
   color: var(--color-brass-soft);
+}
+
+.advisor-pill-minimize {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  color: #94A3B8;
+  font-size: 0.75rem;
+  line-height: 1;
+  opacity: 0.55;
+  transition: all 0.2s ease;
+  margin-left: 0.2rem;
+  flex-shrink: 0;
+  cursor: pointer;
+}
+
+.advisor-pill-minimize:hover {
+  opacity: 1;
+  color: #FFFFFF;
+  background-color: rgba(255, 255, 255, 0.12);
+  transform: scale(1.1);
 }
 
 /* Modal Popup */
@@ -2579,12 +2731,23 @@ button, input, select, textarea {
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  animation: modalPop 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  transform-origin: bottom right;
+  animation: modalPop 0.28s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.advisor-popup-card.closing {
+  animation: modalPopDown 0.22s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  pointer-events: none;
 }
 
 @keyframes modalPop {
-  from { opacity: 0; transform: scale(0.95) translateY(10px); }
-  to { opacity: 1; transform: scale(1) translateY(0); }
+  0% { opacity: 0; transform: scale(0.85) translateY(18px); }
+  100% { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+@keyframes modalPopDown {
+  0% { opacity: 1; transform: scale(1) translateY(0); }
+  100% { opacity: 0; transform: scale(0.85) translateY(18px); }
 }
 
 .advisor-card-top {
@@ -3113,7 +3276,12 @@ button, input, select, textarea {
     right: 16px;
   }
   .advisor-toggle-pill {
-    padding: 0.45rem 0.9rem 0.45rem 0.55rem;
+    padding: 0.45rem 0.8rem 0.45rem 0.55rem;
+  }
+  .advisor-toggle-pill.minimized {
+    width: 48px;
+    height: 48px;
+    padding: 0;
   }
   .advisor-popup-card {
     position: fixed !important;
@@ -3128,6 +3296,14 @@ button, input, select, textarea {
     border-radius: 18px !important;
     box-shadow: 0 16px 48px rgba(15, 23, 42, 0.4) !important;
     z-index: 2100 !important;
+    transform-origin: bottom center !important;
+  }
+  .advisor-popup-card.closing {
+    animation: modalPopDownMobile 0.22s cubic-bezier(0.4, 0, 0.2, 1) forwards !important;
+  }
+  @keyframes modalPopDownMobile {
+    0% { opacity: 1; transform: translateY(0); }
+    100% { opacity: 0; transform: translateY(30px); }
   }
 
   /* Footer */

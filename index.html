@@ -1079,13 +1079,16 @@
   <div class="advisor-floating-container" id="advisorWidget">
     <button class="advisor-toggle-pill" id="advisorToggleBtn" aria-label="Open Legal Advisor">
       <div class="advisor-icon-circ">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        <svg class="icon-chat" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        <svg class="icon-close" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        <span class="live-dot-mini" aria-hidden="true"></span>
       </div>
       <div class="advisor-pill-copy">
         <span class="live-dot"></span>
         <strong data-i18n="adv.btn_txt">იურიდიული მრჩეველი</strong>
         <small data-i18n="adv.btn_sub">ონლაინ ასისტენტი</small>
       </div>
+      <span class="advisor-pill-minimize" id="advisorPillMinBtn" title="დაპატარავება" aria-label="Minimize button">✕</span>
     </button>
 
     <div class="advisor-popup-card hidden" id="advisorModal">
