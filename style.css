@@ -2524,6 +2524,61 @@ button, input, select, textarea {
   box-shadow: 0 16px 36px rgba(15, 23, 42, 0.32);
 }
 
+/* Lightning / Gleam sweep effect (ბზინვარება ელვასავით) */
+.advisor-toggle-pill::after {
+  content: '';
+  position: absolute;
+  top: -60%;
+  left: -120%;
+  width: 65%;
+  height: 220%;
+  background: linear-gradient(
+    115deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.08) 25%,
+    rgba(255, 255, 255, 0.65) 50%,
+    rgba(255, 255, 255, 0.12) 75%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  transform: rotate(22deg);
+  pointer-events: none;
+  animation: lightningGleam 4.5s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+  z-index: 2;
+}
+
+@keyframes lightningGleam {
+  0%, 72% {
+    left: -120%;
+    opacity: 0;
+  }
+  75% {
+    opacity: 0.85;
+  }
+  84% {
+    left: 200%;
+    opacity: 0.95;
+  }
+  85%, 100% {
+    left: 200%;
+    opacity: 0;
+  }
+}
+
+.advisor-toggle-pill:hover::after {
+  animation: lightningHover 0.7s cubic-bezier(0.16, 1, 0.3, 1) 1;
+}
+
+@keyframes lightningHover {
+  0% {
+    left: -120%;
+    opacity: 0.9;
+  }
+  100% {
+    left: 220%;
+    opacity: 0;
+  }
+}
+
 /* Minimized / Compact Circle State (დაპატარავების რეჟიმი) */
 .advisor-toggle-pill.minimized {
   width: 52px;
@@ -2808,7 +2863,27 @@ button, input, select, textarea {
   justify-content: center;
   padding: 0;
   flex-shrink: 0;
+  position: relative;
+  overflow: hidden;
   transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.advisor-close::after {
+  content: '';
+  position: absolute;
+  top: -60%;
+  left: -130%;
+  width: 70%;
+  height: 220%;
+  background: linear-gradient(
+    115deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.8) 50%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  transform: rotate(25deg);
+  pointer-events: none;
+  z-index: 2;
 }
 
 .advisor-close svg {
@@ -2816,6 +2891,8 @@ button, input, select, textarea {
   height: 20px;
   transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
   pointer-events: none;
+  position: relative;
+  z-index: 1;
 }
 
 .advisor-close:hover {
@@ -2828,6 +2905,15 @@ button, input, select, textarea {
 
 .advisor-close:hover svg {
   transform: rotate(90deg);
+}
+
+.advisor-close:hover::after {
+  animation: lightningCloseHover 0.45s ease-out 1 forwards;
+}
+
+@keyframes lightningCloseHover {
+  0% { left: -130%; opacity: 1; }
+  100% { left: 220%; opacity: 0; }
 }
 
 .advisor-chat-stream {
