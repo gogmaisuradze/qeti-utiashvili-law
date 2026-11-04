@@ -1038,7 +1038,7 @@ function initThemisPhotoScroll() {
     queued = false;
     const rect = scene.getBoundingClientRect();
     const progress = Math.max(0, Math.min(1, (innerHeight * .8 - rect.top) / (rect.height + innerHeight * .3)));
-    const angle = motion.matches ? 0 : 20 * Math.sin(progress * Math.PI * 2);
+    const angle = motion.matches ? 0 : 26 * Math.sin(progress * Math.PI * 2);
     const radians = angle * Math.PI / 180;
     beam.setAttribute('transform', `rotate(${angle} 589 353)`);
     [[539, 377], [638, 377]].forEach(([x, y], i) => {
