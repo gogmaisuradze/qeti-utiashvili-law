@@ -3168,3 +3168,17 @@ button, input, select, textarea {
     padding: 0.18rem 0.28rem;
   }
 }
+
+/* Scroll-linked photographic balance below the attorney gallery. */
+.advocate-visual-gallery { align-self: stretch; }
+.themis-scroll-scene { position: relative; flex: 1; min-height: 650px; margin-top: 2rem; scroll-margin-top: 110px; }
+.themis-scroll-stage { position: sticky; top: 110px; display: flex; justify-content: center; }
+.themis-photo-art { display: block; width: min(100%, 410px); height: auto; max-height: 72vh; overflow: visible; mix-blend-mode: multiply; }
+@media (max-width: 1024px) {
+ .themis-scroll-scene { flex: none; min-height: 0; margin: 2rem 0 0; }
+ .themis-scroll-stage { position: relative; top: auto; }
+ .themis-photo-art { max-height: 640px; width: min(100%, 380px); }
+}
+@media (prefers-reduced-motion: reduce) {
+ .themis-scroll-stage { position: relative; top: auto; }
+}

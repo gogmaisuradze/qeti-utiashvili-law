@@ -421,6 +421,23 @@
               <span class="sub-caption-tag">აკადემიური პორტრეტი</span>
             </div>
           </div>
+          <div class="themis-scroll-scene" id="themis-scroll">
+            <div class="themis-scroll-stage">
+              <svg class="themis-photo-art" viewBox="210 170 510 980" role="img" aria-labelledby="themis-photo-title">
+                <title id="themis-photo-title">თემიდა — სამართლიანობის სასწორი</title>
+                <defs>
+                  <filter id="themis-remove-white" color-interpolation-filters="sRGB"><feColorMatrix type="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  -1 -1 -1 0 3"/></filter>
+                  <clipPath id="themis-beam-clip"><path d="M523 351 L542 345 L552 348 L571 339 L581 347 L592 344 L611 350 L630 346 L638 339 L648 341 L651 352 L645 367 L635 374 L624 364 L608 362 L593 365 L579 360 L560 366 L547 360 L537 374 L526 370 Z"/></clipPath>
+                  <clipPath id="themis-left-pan-clip"><path d="M532 374 L549 374 L589 630 L481 630 L481 589 Z"/></clipPath>
+                  <clipPath id="themis-right-pan-clip"><path d="M629 374 L647 374 L687 623 L574 623 L574 584 Z"/></clipPath>
+                </defs>
+                <image href="themis-body-scroll.png" x="151" y="185" width="572" height="926" preserveAspectRatio="none"/>
+                <g id="themis-photo-beam"><image href="themis-reference-scroll.jpeg" width="800" height="1329" clip-path="url(#themis-beam-clip)" filter="url(#themis-remove-white)"/></g>
+                <g id="themis-photo-left-pan"><image href="themis-reference-scroll.jpeg" width="800" height="1329" clip-path="url(#themis-left-pan-clip)" filter="url(#themis-remove-white)"/></g>
+                <g id="themis-photo-right-pan"><image href="themis-reference-scroll.jpeg" width="800" height="1329" clip-path="url(#themis-right-pan-clip)" filter="url(#themis-remove-white)"/></g>
+              </svg>
+            </div>
+          </div>
         </div>
 
         <!-- Academic Record & Timeline Column -->

@@ -12,6 +12,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initMobileNav();
   initContactForms();
   initSmoothScrollSpy();
+  initThemisPhotoScroll();
 });
 
 /* ==========================================================================
@@ -957,4 +958,33 @@ function escapeHtml(string) {
     "'": '&#39;'
   };
   return String(string).replace(/[&<>"']/g, s => entityMap[s]);
+}
+
+function initThemisPhotoScroll() {
+  const scene = document.querySelector('.themis-scroll-scene');
+  if (!scene) return;
+  const beam = document.getElementById('themis-photo-beam');
+  const pans = [document.getElementById('themis-photo-left-pan'), document.getElementById('themis-photo-right-pan')];
+  const motion = window.matchMedia('(prefers-reduced-motion: reduce)');
+  let queued = false;
+  function update() {
+    queued = false;
+    const rect = scene.getBoundingClientRect();
+    const progress = Math.max(0, Math.min(1, (innerHeight * .8 - rect.top) / (rect.height + innerHeight * .3)));
+    const angle = motion.matches ? 0 : 10 * Math.sin(progress * Math.PI * 2);
+    const radians = angle * Math.PI / 180;
+    beam.setAttribute('transform', `rotate(${angle} 589 353)`);
+    [[539, 377], [638, 377]].forEach(([x, y], i) => {
+      const dx = x - 589, dy = y - 353;
+      const tx = dx * Math.cos(radians) - dy * Math.sin(radians) - dx;
+      const ty = dx * Math.sin(radians) + dy * Math.cos(radians) - dy;
+      pans[i].setAttribute('transform', `translate(${tx} ${ty})`);
+    });
+  }
+  function schedule() { if (!queued) { queued = true; requestAnimationFrame(update); } }
+  window.addEventListener('scroll', schedule, { passive: true });
+  window.addEventListener('resize', schedule);
+  window.addEventListener('load', schedule, { once: true });
+  motion.addEventListener('change', schedule);
+  update();
 }
