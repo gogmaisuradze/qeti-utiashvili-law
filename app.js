@@ -12,6 +12,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initMobileNav();
   initContactForms();
   initSmoothScrollSpy();
+  initThemis3dScroll();
 });
 
 /* ==========================================================================
@@ -891,6 +892,84 @@ function initSmoothScrollSpy() {
       }
     });
   });
+}
+
+/**
+ * 3D Themis Statue Sculpture Controller
+ * Scroll-reactive parallax & 3D perspective orientation (top to bottom)
+ * Strictly constrained within container bounds
+ */
+function initThemis3dScroll() {
+  const stage = document.getElementById('themisStage');
+  const figureWrap = document.getElementById('themisFigureWrap');
+  const shadow = document.getElementById('themisPlinthShadow');
+  if (!stage || !figureWrap) return;
+
+  let ticking = false;
+  let mouseX = 0;
+  let mouseY = 0;
+  let isHovered = false;
+
+  function update3D() {
+    const rect = stage.getBoundingClientRect();
+    const windowHeight = window.innerHeight || document.documentElement.clientHeight;
+
+    if (rect.bottom > 0 && rect.top < windowHeight) {
+      const totalDist = windowHeight + rect.height;
+      const progress = Math.max(0, Math.min(1, (windowHeight - rect.top) / totalDist));
+      const norm = (progress - 0.5) * 2; // -1 to +1
+
+      // 3D Tilt angles driven by scroll:
+      const scrollRotX = norm * 8.5;  // tilts forward/backward
+      const scrollRotY = norm * -6.5; // subtle axial rotation
+      const scrollTransY = norm * -16; // smooth parallax bounded strictly to 16px
+      const scrollScale = 1.0 + (1 - Math.abs(norm)) * 0.04;
+
+      const finalRotX = scrollRotX + (isHovered ? mouseY * 6 : 0);
+      const finalRotY = scrollRotY + (isHovered ? mouseX * 8 : 0);
+      const finalTransY = scrollTransY + (isHovered ? mouseY * -4 : 0);
+
+      figureWrap.style.transform = `perspective(1000px) translateY(${finalTransY.toFixed(1)}px) rotateX(${finalRotX.toFixed(2)}deg) rotateY(${finalRotY.toFixed(2)}deg) scale(${scrollScale.toFixed(3)})`;
+
+      if (shadow) {
+        const shadowScale = 1.0 - (norm * 0.1);
+        const shadowOpacity = 0.35 - Math.abs(norm) * 0.08;
+        shadow.style.transform = `translateX(-50%) scale(${shadowScale.toFixed(2)})`;
+        shadow.style.opacity = shadowOpacity.toFixed(2);
+      }
+    }
+    ticking = false;
+  }
+
+  function requestTick() {
+    if (!ticking) {
+      requestAnimationFrame(update3D);
+      ticking = true;
+    }
+  }
+
+  window.addEventListener('scroll', requestTick, { passive: true });
+  window.addEventListener('resize', requestTick, { passive: true });
+
+  stage.addEventListener('mouseenter', () => {
+    isHovered = true;
+  });
+
+  stage.addEventListener('mousemove', (e) => {
+    const rect = stage.getBoundingClientRect();
+    mouseX = ((e.clientX - rect.left) / rect.width - 0.5) * 2;
+    mouseY = ((e.clientY - rect.top) / rect.height - 0.5) * 2;
+    requestTick();
+  });
+
+  stage.addEventListener('mouseleave', () => {
+    isHovered = false;
+    mouseX = 0;
+    mouseY = 0;
+    requestTick();
+  });
+
+  requestTick();
 }
 
 function escapeHtml(string) {
