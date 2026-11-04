@@ -822,10 +822,17 @@ function initLegalAdvisor() {
     }
   });
 
+  document.querySelectorAll('.open-advisor-btn').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
+      openAdvisorChat();
+    });
+  });
+
   document.querySelectorAll('.quick-tag-btn').forEach(tagBtn => {
     tagBtn.addEventListener('click', () => {
       const qType = tagBtn.getAttribute('data-query');
-      handleQuickAdvisorQuery(qType);
+      if (qType) handleQuickAdvisorQuery(qType);
     });
   });
 
