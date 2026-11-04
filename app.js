@@ -907,33 +907,45 @@ function initSmoothScrollSpy() {
 }
 
 /**
- * Themis Sundial Silhouette Controller
- * Statue remains completely solid and grounded (zero 3D flex or bending).
- * As the user scrolls, a clean shadow silhouette sweeps across behind the statue
- * like a sundial (მზის / ჩრდილის საათი), pivoting at the base in exact synchronization.
+ * Themis Sundial Silhouette Controller with Curved Trajectory & Living Balance Scales
+ * 1. Statue body remains completely solid and grounded (zero 3D flex or bending).
+ * 2. Shadow silhouette follows an organic celestial arc trajectory behind the statue.
+ * 3. The scales of justice held in Lady Justice's hand gently move up and down,
+ *    reacting dynamically to scroll momentum and swaying in majestic equilibrium.
  */
 function initThemis3dScroll() {
   const stage = document.getElementById('themisStage');
   const figureWrap = document.getElementById('themisFigureWrap');
-  const figure = document.getElementById('themis3dFigure');
   const sundialShadow = document.getElementById('themisSolarShadow');
   const shadowPlinth = document.getElementById('themisPlinthShadow');
+  const scalesArmature = document.getElementById('themisScalesArmature');
   if (!stage || !sundialShadow) return;
 
   // Statue is solid & upright: ensure NO 3D warping or transform is applied
   if (figureWrap) figureWrap.style.transform = 'none';
-  if (figure) figure.style.transform = 'none';
 
-  // Sundial shadow state (angles & projection)
-  let curAngle = -36;
+  // Sundial shadow state (angles, trajectory shifts & projection)
+  let curAngle = -34;
   let curSkew = -12;
   let curScaleY = 1.05;
   let curOpacity = 0.32;
+  let curTrajX = 0;
+  let curTrajY = 0;
 
-  let tgtAngle = -36;
+  let tgtAngle = -34;
   let tgtSkew = -12;
   let tgtScaleY = 1.05;
   let tgtOpacity = 0.32;
+  let tgtTrajX = 0;
+  let tgtTrajY = 0;
+
+  // Living Scales Armature physics state
+  let curScalesY = 0;
+  let curScalesRot = 0;
+  let scrollInertiaY = 0;
+  let scrollInertiaRot = 0;
+  let lastScrollY = window.scrollY || window.pageYOffset || 0;
+  let lastScrollTime = performance.now();
 
   // Floor plinth shadow
   let curPlinthAngle = -15;
@@ -946,20 +958,36 @@ function initThemis3dScroll() {
   function calculateTargets() {
     const rect = stage.getBoundingClientRect();
     const windowHeight = window.innerHeight || document.documentElement.clientHeight;
+    const currentScrollY = window.scrollY || window.pageYOffset || 0;
+    const now = performance.now();
+    const dt = Math.max(10, now - lastScrollTime);
+
+    // Calculate scroll momentum for the scales
+    const scrollDelta = currentScrollY - lastScrollY;
+    const velocity = (scrollDelta / dt) * 16.6; // normalized to 60fps
+    lastScrollY = currentScrollY;
+    lastScrollTime = now;
+
+    // React to scroll velocity: scales dip down/tilt with inertial momentum
+    scrollInertiaY = Math.max(-10, Math.min(10, velocity * 0.45));
+    scrollInertiaRot = Math.max(-3.0, Math.min(3.0, -velocity * 0.12));
 
     // Active zone around viewport
-    if (rect.bottom > -120 && rect.top < windowHeight + 120) {
+    if (rect.bottom > -140 && rect.top < windowHeight + 140) {
       isNearView = true;
       const totalDist = windowHeight + rect.height;
       const progress = Math.max(0, Math.min(1, (windowHeight - rect.top) / totalDist));
       // norm: -1 (entering from bottom) -> 0 (dead center of screen) -> +1 (leaving top)
       const norm = (progress - 0.5) * 2;
 
-      // Sundial rotation: sweeps across from -38deg to +38deg like the shadow on a sundial
-      tgtAngle = norm * 38;
-      tgtSkew = norm * 14;
-      // Stretches slightly at sunrise/sunset angles, compact at zenith (noon)
-      tgtScaleY = 0.96 + Math.abs(norm) * 0.16;
+      // 1. Organic Celestial Arc Trajectory for the sundial shadow:
+      // The shadow sweeps across following a curved solar trajectory rather than a flat line
+      const solarArc = Math.sin(norm * Math.PI) * 5.5;
+      tgtAngle = (norm * 35) + solarArc;
+      tgtSkew = (norm * 13) + (solarArc * 0.4);
+      tgtTrajX = (norm * 22) + (Math.sin(norm * Math.PI) * 12);
+      tgtTrajY = Math.cos(norm * Math.PI * 0.5) * -10; // arches slightly higher at meridian
+      tgtScaleY = 0.95 + Math.abs(norm) * 0.18;
       tgtOpacity = 0.28 + (1 - Math.abs(norm)) * 0.10;
 
       // Contact plinth shadow rotates slightly with azimuth
@@ -976,21 +1004,47 @@ function initThemis3dScroll() {
 
   // Snappy, responsive interpolation for direct lockstep scroll synchronization
   const ease = 0.18;
+  const scalesEase = 0.10;
+
   function renderSundial() {
     if (isNearView) {
+      // Interpolate shadow trajectory
       curAngle += (tgtAngle - curAngle) * ease;
       curSkew += (tgtSkew - curSkew) * ease;
       curScaleY += (tgtScaleY - curScaleY) * ease;
       curOpacity += (tgtOpacity - curOpacity) * ease;
+      curTrajX += (tgtTrajX - curTrajX) * ease;
+      curTrajY += (tgtTrajY - curTrajY) * ease;
 
-      // Sweep the silhouette around the base anchor point (sundial pivot)
-      sundialShadow.style.transform = `translateX(-50%) rotate(${curAngle.toFixed(2)}deg) skewX(${curSkew.toFixed(2)}deg) scaleY(${curScaleY.toFixed(3)})`;
+      // Sweep the silhouette around the base anchor point following the curved trajectory
+      sundialShadow.style.transform = `translateX(calc(-50% + ${curTrajX.toFixed(1)}px)) translateY(${curTrajY.toFixed(1)}px) rotate(${curAngle.toFixed(2)}deg) skewX(${curSkew.toFixed(2)}deg) scaleY(${curScaleY.toFixed(3)})`;
       sundialShadow.style.opacity = curOpacity.toFixed(3);
 
+      // Interpolate floor plinth
       if (shadowPlinth) {
         curPlinthAngle += (tgtPlinthAngle - curPlinthAngle) * ease;
         curPlinthScaleX += (tgtPlinthScaleX - curPlinthScaleX) * ease;
         shadowPlinth.style.transform = `translateX(-50%) rotate(${curPlinthAngle.toFixed(2)}deg) scaleX(${curPlinthScaleX.toFixed(3)})`;
+      }
+
+      // Animate Living Scales in her hand:
+      // Ambient breathing + scroll momentum
+      if (scalesArmature) {
+        const t = performance.now() * 0.0022;
+        const ambientY = Math.sin(t) * 4.0 + Math.sin(t * 0.55) * 1.8;
+        const ambientRot = Math.cos(t * 0.75) * 1.8;
+
+        // Decay scroll inertia smoothly
+        scrollInertiaY *= 0.92;
+        scrollInertiaRot *= 0.92;
+
+        const targetY = ambientY + scrollInertiaY;
+        const targetRot = ambientRot + scrollInertiaRot;
+
+        curScalesY += (targetY - curScalesY) * scalesEase;
+        curScalesRot += (targetRot - curScalesRot) * scalesEase;
+
+        scalesArmature.style.transform = `translateY(${curScalesY.toFixed(2)}px) rotate(${curScalesRot.toFixed(2)}deg)`;
       }
     }
     requestAnimationFrame(renderSundial);
