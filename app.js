@@ -729,6 +729,7 @@ function initLegalAdvisor() {
   const modal = document.getElementById('advisorModal');
   const closeBtn = document.getElementById('advisorCloseBtn');
   const pillMinBtn = document.getElementById('advisorPillMinBtn');
+  const clearChatBtn = document.getElementById('advisorClearChatBtn');
   const chatForm = document.getElementById('advisorChatForm');
   const inputField = document.getElementById('advisorInputField');
   const chatBody = document.getElementById('advisorChatBody');
@@ -765,10 +766,28 @@ function initLegalAdvisor() {
     }, 260);
   }
 
+  // 3-State Machine:
+  // State 1: Minimized Icon (.minimized)
+  // State 2: Expanded Pill (default resting state)
+  // State 3: Open Chat Modal (.is-open)
   toggleBtn.addEventListener('click', (e) => {
-    // If user clicked the explicit pill minimize button, do not open chat
-    if (e.target.closest('#advisorPillMinBtn')) return;
+    // If widget is currently in State 1 (minimized circle), clicking it expands to State 2 (pill)
+    if (toggleBtn.classList.contains('minimized')) {
+      toggleBtn.classList.remove('minimized');
+      sessionStorage.removeItem('ku_advisor_pill_minimized');
+      return;
+    }
 
+    // If user clicked the explicit pill minimize button (✕), shrink to State 1 (circle)
+    if (e.target.closest('#advisorPillMinBtn')) {
+      e.stopPropagation();
+      e.preventDefault();
+      toggleBtn.classList.add('minimized');
+      sessionStorage.setItem('ku_advisor_pill_minimized', 'true');
+      return;
+    }
+
+    // Toggle between State 2 (pill) and State 3 (open chat window)
     if (modal.classList.contains('hidden') || modal.classList.contains('closing')) {
       openAdvisorChat();
     } else {
@@ -783,35 +802,52 @@ function initLegalAdvisor() {
     });
   }
 
-  // Pill Minimize Button (დაპატარავება მრგვალ ღილაკად)
-  if (pillMinBtn) {
-    pillMinBtn.addEventListener('click', (e) => {
-      e.stopPropagation();
-      e.preventDefault();
-      toggleBtn.classList.add('minimized');
-      sessionStorage.setItem('ku_advisor_pill_minimized', 'true');
-    });
-  }
-
-  // Restore minimized state if previously dismissed/shrunk
+  // Restore minimized state ONLY if previously explicitly dismissed by user
   if (sessionStorage.getItem('ku_advisor_pill_minimized') === 'true') {
     toggleBtn.classList.add('minimized');
   }
 
-  // Auto-shrink on scroll down to keep reading clear, expand back at top
-  let scrollThrottle = false;
-  window.addEventListener('scroll', () => {
-    if (scrollThrottle) return;
-    scrollThrottle = true;
-    setTimeout(() => { scrollThrottle = false; }, 100);
+  // Clear Chat History Button
+  if (clearChatBtn) {
+    clearChatBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      resetAdvisorChat();
+    });
+  }
 
-    const currentScrollY = window.scrollY;
-    if (currentScrollY > 260 && !toggleBtn.classList.contains('minimized') && modal.classList.contains('hidden')) {
-      toggleBtn.classList.add('minimized');
-    } else if (currentScrollY < 80 && sessionStorage.getItem('ku_advisor_pill_minimized') !== 'true') {
-      toggleBtn.classList.remove('minimized');
+  function resetAdvisorChat() {
+    if (!chatBody) return;
+    chatBody.innerHTML = `
+      <div class="chat-row system">
+        <div class="chat-bubble">
+          <p>
+            მოგესალმებით. მე ვარ ქეთევან უტიაშვილის საადვოკატო ბიუროს ვირტუალური ასისტენტი. 
+            ცენტრალური ოფისი მდებარეობს თბილისში, ილია ჭავჭავაძის გამზ. #26-ში, ხოლო საადვოკატო წარმომადგენლობას ვახორციელებთ მთელი საქართველოს მასშტაბით. რით შემიძლია დაგეხმაროთ დღეს?
+          </p>
+        </div>
+      </div>
+
+      <div class="chat-quick-tags">
+        <button class="quick-tag-btn" data-query="re_tbilisi">უძრავი ქონებისა და მშენებლობის დავები</button>
+        <button class="quick-tag-btn" data-query="corporate">სამეწარმეო & კორპორაციული</button>
+        <button class="quick-tag-btn" data-query="civil">სამოქალაქო & სახელშეკრულებო</button>
+        <button class="quick-tag-btn" data-query="mediation">მედიაცია და მორიგება</button>
+        <button class="quick-tag-btn" data-query="deadlines">სასამართლოში გასაჩივრების ვადები</button>
+        <button class="quick-tag-btn" data-query="booking">ცენტრალური ოფისის მისამართი & ჩაწერა</button>
+      </div>
+    `;
+    // Re-bind listeners for quick tags
+    chatBody.querySelectorAll('.quick-tag-btn').forEach(tagBtn => {
+      tagBtn.addEventListener('click', () => {
+        const qType = tagBtn.getAttribute('data-query');
+        if (qType) handleQuickAdvisorQuery(qType);
+      });
+    });
+    if (inputField) {
+      inputField.value = '';
+      inputField.placeholder = "დასვით თქვენი იურიდიული შეკითხვა...";
     }
-  }, { passive: true });
+  }
 
   // Close when clicking outside of modal and toggle button
   document.addEventListener('click', (e) => {
@@ -827,6 +863,7 @@ function initLegalAdvisor() {
     card.addEventListener('click', (e) => {
       e.preventDefault();
       const qType = card.getAttribute('data-advisor-query');
+      toggleBtn.classList.remove('minimized');
       openAdvisorChat();
       if (qType) {
         handleQuickAdvisorQuery(qType);
@@ -854,14 +891,14 @@ function initLegalAdvisor() {
 
   function handleQuickAdvisorQuery(type) {
     const promptMap = {
-      re_tbilisi: "უძრავი ქონებისა და მშენებლობის დავები თბილისში",
+      re_tbilisi: "უძრავი ქონებისა და მშენებლობის დავები",
       corporate: "სამეწარმეო და კორპორაციული სამართალი",
       civil: "სამოქალაქო და სახელშეკრულებო დავები",
       mediation: "მედიაცია და ალტერნატიული მორიგება",
-      administrative: "ადმინისტრაციული დავები (მერია, რეესტრი, შემოსავლები)",
+      administrative: "ადმინისტრაციული დავები (სახელმწიფო & მუნიციპალური ორგანოები)",
       family: "საოჯახო და მემკვიდრეობითი სამართალი",
       deadlines: "სასამართლოში გასაჩივრების ხანდაზმულობის ვადები",
-      booking: "თბილისის ოფისის მისამართი და ვიზიტის დაჯავშნა"
+      booking: "ცენტრალური ოფისის მისამართი და ვიზიტის დაჯავშნა"
     };
     const userText = promptMap[type] || "მაინტერესებს იურიდიული კონსულტაცია";
     appendChatBubble(userText, 'user');
