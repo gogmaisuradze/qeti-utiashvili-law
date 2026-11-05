@@ -773,13 +773,17 @@ function initLegalAdvisor() {
   function openAdvisorChat() {
     modal.classList.remove('hidden', 'closing');
     toggleBtn.classList.add('is-open');
-    if (inputField) {
+    if (inputField && window.innerWidth > 768) {
       setTimeout(() => inputField.focus(), 80);
     }
   }
 
   function closeAdvisorChat() {
     if (modal.classList.contains('hidden')) return;
+    if (inputField) inputField.blur();
+    document.body.classList.remove('chat-input-focused');
+    modal.style.height = '';
+    modal.style.bottom = '';
     modal.classList.add('closing');
     toggleBtn.classList.remove('is-open');
     sessionStorage.setItem('ku_advisor_dismissed', 'true');
@@ -958,6 +962,51 @@ function initLegalAdvisor() {
       appendChatBubble(text, 'user');
       inputField.value = '';
       generateAdvisorResponse(text);
+      if (chatBody) {
+        setTimeout(() => { chatBody.scrollTop = chatBody.scrollHeight; }, 50);
+      }
+    });
+  }
+
+  // Mobile virtual keyboard handling: hide bottom navigation bar and pin chat above keyboard
+  function updateMobileKeyboardLayout() {
+    if (window.innerWidth > 768) return;
+    if (!document.body.classList.contains('chat-input-focused')) return;
+    if (window.visualViewport) {
+      const vh = window.visualViewport.height;
+      modal.style.height = `${vh}px`;
+      modal.style.bottom = '0px';
+      if (chatBody) {
+        setTimeout(() => {
+          chatBody.scrollTop = chatBody.scrollHeight;
+        }, 60);
+      }
+    }
+  }
+
+  if (inputField) {
+    inputField.addEventListener('focus', () => {
+      document.body.classList.add('chat-input-focused');
+      updateMobileKeyboardLayout();
+    });
+
+    inputField.addEventListener('blur', () => {
+      document.body.classList.remove('chat-input-focused');
+      modal.style.height = '';
+      modal.style.bottom = '';
+    });
+  }
+
+  if (window.visualViewport) {
+    window.visualViewport.addEventListener('resize', () => {
+      if (document.body.classList.contains('chat-input-focused')) {
+        updateMobileKeyboardLayout();
+      }
+    });
+    window.visualViewport.addEventListener('scroll', () => {
+      if (document.body.classList.contains('chat-input-focused')) {
+        updateMobileKeyboardLayout();
+      }
     });
   }
 
