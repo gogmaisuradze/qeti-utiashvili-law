@@ -1159,23 +1159,25 @@
 
   <!-- FLOATING INTERACTIVE LEGAL ADVISOR -->
   <div class="advisor-floating-container" id="advisorWidget">
-    <button class="advisor-toggle-pill" id="advisorToggleBtn" aria-label="Open Legal Advisor">
-      <div class="advisor-icon-circ">
-        <svg class="icon-chat" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-        <svg class="icon-close" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-        <span class="live-dot-mini" aria-hidden="true"></span>
-      </div>
-      <div class="advisor-pill-copy">
-        <strong data-i18n="adv.btn_txt">იურიდიული მრჩეველი</strong>
-        <small data-i18n="adv.btn_sub">ონლაინ ასისტენტი</small>
-      </div>
-      <button type="button" class="advisor-pill-minimize" id="advisorPillMinBtn" title="დაპატარავება / ჩაკეცვა" aria-label="Minimize button">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+    <div class="advisor-pill-wrap" id="advisorPillWrap">
+      <button type="button" class="advisor-toggle-pill" id="advisorToggleBtn" aria-label="Open Legal Advisor">
+        <div class="advisor-icon-circ">
+          <svg class="icon-chat" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+          <svg class="icon-close" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+          <span class="live-dot-mini" aria-hidden="true"></span>
+        </div>
+        <div class="advisor-pill-copy">
+          <strong data-i18n="adv.btn_txt">იურიდიული მრჩეველი</strong>
+          <small data-i18n="adv.btn_sub">ონლაინ ასისტენტი</small>
+        </div>
+      </button>
+      <button type="button" class="advisor-pill-minimize" id="advisorPillMinBtn" title="ჩაკეცვა / დაპატარავება" aria-label="Minimize button">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
           <line x1="18" y1="6" x2="6" y2="18"></line>
           <line x1="6" y1="6" x2="18" y2="18"></line>
         </svg>
       </button>
-    </button>
+    </div>
 
     <div class="advisor-popup-card hidden" id="advisorModal">
       <div class="advisor-card-top">

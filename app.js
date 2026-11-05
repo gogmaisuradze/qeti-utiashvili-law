@@ -800,24 +800,45 @@ function initLegalAdvisor() {
     }, 260);
   }
 
+  const pillWrap = document.getElementById('advisorPillWrap');
+
+  function minimizePill() {
+    if (pillWrap) pillWrap.classList.add('minimized');
+    toggleBtn.classList.add('minimized');
+    sessionStorage.setItem('ku_advisor_pill_minimized', 'true');
+  }
+
+  function restorePill() {
+    if (pillWrap) pillWrap.classList.remove('minimized');
+    toggleBtn.classList.remove('minimized');
+    sessionStorage.removeItem('ku_advisor_pill_minimized');
+  }
+
+  // Top-right close button minimizes pill: "და რო დააჭერ პატარავდებოდეს"
+  if (pillMinBtn) {
+    pillMinBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      e.preventDefault();
+      minimizePill();
+    });
+  }
+
+  // Double-click returns to expanded pill position: "ორჯერ რო დააჭერ ისევ ამ პოზიციას უბრუნდებოდეს"
+  if (pillWrap) {
+    pillWrap.addEventListener('dblclick', (e) => {
+      e.stopPropagation();
+      restorePill();
+    });
+  }
+
   // 3-State Machine:
   // State 1: Minimized Icon (.minimized)
   // State 2: Expanded Pill (default resting state)
   // State 3: Open Chat Modal (.is-open)
   toggleBtn.addEventListener('click', (e) => {
     // If widget is currently in State 1 (minimized circle), clicking it expands to State 2 (pill)
-    if (toggleBtn.classList.contains('minimized')) {
-      toggleBtn.classList.remove('minimized');
-      sessionStorage.removeItem('ku_advisor_pill_minimized');
-      return;
-    }
-
-    // If user clicked the explicit pill minimize button (✕), shrink to State 1 (circle)
-    if (e.target.closest('#advisorPillMinBtn')) {
-      e.stopPropagation();
-      e.preventDefault();
-      toggleBtn.classList.add('minimized');
-      sessionStorage.setItem('ku_advisor_pill_minimized', 'true');
+    if (toggleBtn.classList.contains('minimized') || (pillWrap && pillWrap.classList.contains('minimized'))) {
+      restorePill();
       return;
     }
 
@@ -838,7 +859,7 @@ function initLegalAdvisor() {
 
   // Restore minimized state ONLY if previously explicitly dismissed by user
   if (sessionStorage.getItem('ku_advisor_pill_minimized') === 'true') {
-    toggleBtn.classList.add('minimized');
+    minimizePill();
   }
 
   // Clear Chat History Button
