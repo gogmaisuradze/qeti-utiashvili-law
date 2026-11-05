@@ -1970,11 +1970,11 @@ function initExpertiseCircularCarousel() {
   function getRadii() {
     const w = stage.clientWidth || 1000;
     if (w < 480) {
-      return { rx: Math.min(135, w * 0.33), ry: 45 };
+      return { rx: Math.min(115, w * 0.28), ry: 28 };
     } else if (w < 768) {
-      return { rx: Math.min(200, w * 0.34), ry: 60 };
+      return { rx: Math.min(170, w * 0.32), ry: 45 };
     } else if (w < 1024) {
-      return { rx: Math.min(310, w * 0.36), ry: 75 };
+      return { rx: Math.min(290, w * 0.35), ry: 65 };
     } else {
       // Large screen / desktop: spread out wide!
       return { rx: Math.min(430, w * 0.38), ry: 85 };

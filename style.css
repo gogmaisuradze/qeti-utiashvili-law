@@ -1444,44 +1444,78 @@ button, input, select, textarea {
 }
 
 @media (max-width: 640px) {
+  #expertise.section-editorial {
+    padding: 2.2rem 0 1.8rem;
+  }
+  #expertise .section-heading {
+    margin-bottom: 0.75rem;
+  }
+  .expertise-view-switch-bar {
+    margin-top: 0;
+    margin-bottom: 1.2rem;
+  }
+  .view-grid-toggle-btn {
+    padding: 6px 16px;
+    font-size: 0.8rem;
+    gap: 6px;
+  }
+  .expertise-carousel-wrapper {
+    padding: 0;
+  }
   .expertise-cards-stage.mode-carousel {
-    height: 310px;
+    height: 220px;
   }
   .expertise-cards-stage.mode-carousel .expertise-card-editorial {
-    width: 215px;
-    min-height: 165px;
-    padding: 1rem 0.95rem;
+    width: 205px;
+    min-height: 140px;
+    padding: 0.85rem 0.8rem;
     border-radius: 14px;
   }
   .expertise-cards-stage.mode-carousel .domain-title {
-    font-size: 0.92rem;
-    margin-bottom: 0.35rem;
+    font-size: 0.9rem;
+    margin-bottom: 0.25rem;
   }
   .expertise-cards-stage.mode-carousel .domain-desc {
     font-size: 0.68rem;
-    line-height: 1.4;
+    line-height: 1.35;
     -webkit-line-clamp: 2;
+    margin-bottom: 0;
   }
   .expertise-cards-stage.mode-carousel .card-contour-icon {
-    width: 44px;
-    height: 38px;
-    margin-bottom: 0.65rem;
-    border-radius: 22px 22px 5px 5px;
+    width: 42px;
+    height: 35px;
+    margin-bottom: 0.45rem;
+    border-radius: 21px 21px 4px 4px;
   }
   .expertise-cards-stage.mode-carousel .card-contour-icon svg {
-    width: 22px;
-    height: 22px;
+    width: 20px;
+    height: 20px;
   }
   .carousel-orbit-ring {
-    width: 290px;
-    height: 130px;
+    top: 110px;
+    width: 280px;
+    height: 100px;
+  }
+  .carousel-center-indicator {
+    margin: 0.35rem auto 0.2rem;
   }
   .center-index-big {
-    font-size: 2.6rem;
+    font-size: 2.1rem;
+  }
+  .center-total-tag {
+    font-size: 0.76rem;
+  }
+  .circular-carousel-controls {
+    margin-top: 0.35rem;
+    gap: 0.85rem;
   }
   .carousel-ctrl-btn {
-    width: 38px;
-    height: 38px;
+    width: 36px;
+    height: 36px;
+  }
+  .carousel-nav-hint {
+    margin-top: 0.35rem;
+    font-size: 0.72rem;
   }
   .view-pill-btn {
     padding: 6px 14px;
