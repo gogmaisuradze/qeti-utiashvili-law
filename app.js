@@ -507,6 +507,13 @@ function initCalendar() {
       const refCode = `KU-TBS-${calYear}-${Math.floor(1000 + Math.random() * 9000)}`;
       const monthStr = geoMonths[calMonth];
 
+      const botRemind = document.getElementById('botReminderCheck')?.checked;
+      const botReminderNotice = botRemind
+        ? `<div style="margin-top:0.75rem; padding:0.5rem 0.75rem; background:rgba(16,185,129,0.08); border-radius:6px; color:#047857; font-size:0.82rem; display:flex; align-items:center; gap:0.4rem;">
+            <span>✓</span> <strong>AI ასისტენტის შეხსენება & რეგისტრაცია გააქტიურებულია.</strong>
+          </div>`
+        : '';
+
       const receiptHTML = `
         <div style="margin-bottom:0.4rem;"><strong>ჯავშნის კოდი:</strong> <span style="font-family:monospace; color:#721927; font-weight:700;">${refCode}</span></div>
         <div style="margin-bottom:0.4rem;"><strong>კლიენტი:</strong> ${escapeHtml(name)}</div>
@@ -517,11 +524,32 @@ function initCalendar() {
         <div style="margin-bottom:0.4rem;"><strong>ფორმატი & მისამართი:</strong> ${formatDesc}</div>
         <div style="margin-bottom:0.4rem;"><strong>დავის საკითხი:</strong> ${escapeHtml(topic)}</div>
         <div><strong>ადვოკატი:</strong> ქეთევან უტიაშვილი (GBA აღმასრულებელი საბჭოს წევრი)</div>
+        ${botReminderNotice}
       `;
 
       document.getElementById('confirmedReceiptData').innerHTML = receiptHTML;
       appForm.classList.add('hidden');
       successBox.classList.remove('hidden');
+
+      const currentBookingData = {
+        name, phone, email, serviceText, formatDesc, topic, refCode,
+        dateTimeStr: `${selDay} ${monthStr}, ${calYear} • ${selTime}`
+      };
+
+      const tgLink = document.getElementById('telegramReminderBtn');
+      if (tgLink) {
+        tgLink.href = `https://t.me/saadvokatobot?start=${encodeURIComponent(refCode)}`;
+      }
+
+      const startBotBtn = document.getElementById('startBotChatForBookingBtn');
+      if (startBotBtn) {
+        startBotBtn.onclick = (ev) => {
+          ev.preventDefault();
+          if (typeof window.kuOpenAdvisorWithBooking === 'function') {
+            window.kuOpenAdvisorWithBooking(currentBookingData);
+          }
+        };
+      }
     });
   }
 
@@ -818,6 +846,45 @@ function initLegalAdvisor() {
     sessionStorage.removeItem('ku_advisor_pill_minimized');
   }
 
+  window.kuCloseAdvisorChat = closeAdvisorChat;
+
+  window.kuOpenAdvisorWithBooking = function(b) {
+    restorePill();
+    openAdvisorChat();
+    const safeName = escapeHtml(b.name || 'კლიენტი');
+    const safeRef = escapeHtml(b.refCode || '');
+    const safeDate = escapeHtml(b.dateTimeStr || '');
+    const safeFormat = escapeHtml(b.formatDesc || '');
+    const safeService = escapeHtml(b.serviceText || '');
+    const safeTopic = escapeHtml(b.topic || '');
+
+    const welcomeMsg = `<strong>ვიზიტის დადასტურება & AI მხარდაჭერა:</strong><br><br>` +
+      `მოგესალმებით, <strong>${safeName}</strong>! თქვენი ჯავშანი <strong>${safeRef}</strong> წარმატებით დარეგისტრირდა ადვოკატ ქეთევან უტიაშვილის ოფიციალურ განრიგში.<br><br>` +
+      `• <strong>თარიღი & დრო:</strong> ${safeDate}<br>` +
+      `• <strong>ფორმატი:</strong> ${safeFormat}<br>` +
+      `• <strong>მიმართულება:</strong> ${safeService}<br>` +
+      `• <strong>დავის საკითხი:</strong> ${safeTopic}<br><br>` +
+      `მე შევინახე თქვენი ვიზიტის მონაცემები და შეგახსენებთ შეხვედრას. შემიძლია წინასწარ გითხრათ, რა დოკუმენტები უნდა მოამზადოთ, ან გიპასუხოთ ნებისმიერ საპროცესო შეკითხვაზე.`;
+
+    appendChatBubble(welcomeMsg, 'system');
+
+    const tagsDiv = document.createElement('div');
+    tagsDiv.className = 'chat-quick-tags';
+    tagsDiv.innerHTML = `
+      <button class="quick-tag-btn" data-query="booking_docs">რა დოკუმენტები მოვამზადო ვიზიტისთვის?</button>
+      <button class="quick-tag-btn" data-query="booking_location">ოფისის ლოკაცია და მისვლის დეტალები</button>
+      <button class="quick-tag-btn" data-query="booking_prep">როგორ მოვემზადო კონსულტაციისთვის?</button>
+    `;
+    tagsDiv.querySelectorAll('.quick-tag-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const qType = btn.getAttribute('data-query');
+        if (qType) handleQuickAdvisorQuery(qType);
+      });
+    });
+    chatBody.appendChild(tagsDiv);
+    chatBody.scrollTop = chatBody.scrollHeight;
+  };
+
   // Top-right close button minimizes pill on first click ("პირველივეზე უნდა იკეცებოდეს")
   if (pillMinBtn) {
     pillMinBtn.addEventListener('click', (e) => {
@@ -1014,7 +1081,10 @@ function initLegalAdvisor() {
       administrative: "ადმინისტრაციული დავები (სახელმწიფო & მუნიციპალური ორგანოები)",
       family: "საოჯახო და მემკვიდრეობითი სამართალი",
       deadlines: "სასამართლოში გასაჩივრების ხანდაზმულობის ვადები",
-      booking: "ცენტრალური ოფისის მისამართი და ვიზიტის დაჯავშნა"
+      booking: "ცენტრალური ოფისის მისამართი და ვიზიტის დაჯავშნა",
+      booking_docs: "რა დოკუმენტები უნდა მოვამზადო ვიზიტისთვის?",
+      booking_location: "თბილისის ოფისის მისამართი, ლოკაცია და პარკინგი",
+      booking_prep: "როგორ მოვემზადო კონსულტაციისთვის?"
     };
     const userText = promptMap[type] || "მაინტერესებს იურიდიული კონსულტაცია";
     appendChatBubble(userText, 'user');
@@ -1141,6 +1211,31 @@ function initLegalAdvisor() {
       სამუშაო საათები: ორშაბათიდან პარასკევის ჩათვლით 10:00 - 18:00.<br><br>
       კონსულტაციაზე ჩასაწერად გამოიყენეთ ჩვენი <a href="#calendar" style="color:#721927; text-decoration:underline; font-weight:600;">ინტეგრირებული კალენდარი</a> ან დარეკეთ ნომერზე: <strong>+995 599 35 15 25</strong>.`;
     }
+    if (queryType === 'booking_docs' || q.includes('დოკუმენტ')) {
+      return `<strong>კონსულტაციისთვის საჭირო დოკუმენტაცია:</strong><br><br>
+      ვიზიტის მაქსიმალური ეფექტიანობისთვის სასურველია თან იქონიოთ:
+      <ul>
+        <li><strong>ხელშეკრულებები და დანართები</strong> (ასეთის არსებობის შემთხვევაში);</li>
+        <li><strong>ამონაწერი საჯარო რეესტრიდან</strong> და საკადასტრო კოდი (ქონებრივი დავებისთვის);</li>
+        <li><strong>მიმოწერები, ოფიციალური შეტყობინებები</strong> ან ადმინისტრაციული აქტები;</li>
+        <li><strong>პირადობის დამადასტურებელი დოკუმენტი</strong>.</li>
+      </ul>
+      თუ დოკუმენტები ელექტრონულ ფორმატში გაქვთ, შეგიძლიათ წინასწარ გადმოაგზავნოთ: <a href="mailto:office@utiashvililaw.ge" style="color:#721927; font-weight:600;">office@utiashvililaw.ge</a>`;
+    }
+    if (queryType === 'booking_location' || q.includes('ლოკაცია') || q.includes('პარკინგ')) {
+      return `<strong>თბილისის ცენტრალური ოფისის დეტალები:</strong><br><br>
+      • <strong>მისამართი:</strong> ქ. თბილისი, ილია ჭავჭავაძის გამზირი #26 (ვაკე);<br>
+      • <strong>სამუშაო საათები:</strong> ორშაბათი – პარასკევი, 10:00 – 18:00;<br>
+      • <strong>პარკინგი:</strong> ხელმისაწვდომია ჭავჭავაძის გამზირის მიმდებარე საპარკინგე ზონაში;<br>
+      • <strong>პირდაპირი კონტაქტი:</strong> <a href="tel:+995599351525" style="color:#721927; font-weight:600;">+995 599 35 15 25</a>.`;
+    }
+    if (queryType === 'booking_prep') {
+      return `<strong>როგორ მოემზადოთ ადვოკატთან ვიზიტისთვის:</strong><br><br>
+      1. <strong>ფაქტების ქრონოლოგია:</strong> მოკლედ ჩამოწერეთ მოვლენების თანმიმდევრობა თარიღების მიხედვით;<br>
+      2. <strong>მთავარი მიზანი:</strong> მკაფიოდ განსაზღვრეთ, რა არის თქვენი სასურველი იურიდიული შედეგი;<br>
+      3. <strong>კითხვების სია:</strong> წინასწარ ჩამოწერეთ ის ძირითადი კითხვები, რაც ყველაზე მეტად გაღელვებთ.<br><br>
+      ქეთევან უტიაშვილი პირისპირ განიხილავს თქვენი საქმის სტრატეგიას და განსაზღვრავს წარმატების შანსებს.`;
+    }
     return `გმადლობთ შეკითხვისთვის. თქვენი საკითხი მოითხოვს ქეთევან უტიაშვილის ინდივიდუალურ სამართლებრივ შეფასებას. 
     <br><br>გირჩევთ შეავსოთ ჩვენი <a href="#case-check" style="color:#721927; text-decoration:underline; font-weight:600;">საქმის ონლაინ შეფასება</a> ან მობრძანდეთ თბილისის ოფისში (ჭავჭავაძის გამზ. 26) <a href="#calendar" style="color:#721927; text-decoration:underline; font-weight:600;">კალენდარში წინასწარი ჩაწერით</a>.`;
   }
@@ -1189,7 +1284,19 @@ function initMobileNav() {
           navLinks.classList.remove('open');
           if (burger) burger.classList.remove('active');
         }
+        // If advisor chat is open, close it so target section is fully visible
+        if (typeof window.kuCloseAdvisorChat === 'function') {
+          window.kuCloseAdvisorChat();
+        }
         targetElement.scrollIntoView({ behavior: 'smooth' });
+        if (targetHash === '#calendar') {
+          const calBox = document.querySelector('.booking-split-container');
+          if (calBox) {
+            calBox.classList.remove('cal-highlight-flash');
+            void calBox.offsetWidth;
+            calBox.classList.add('cal-highlight-flash');
+          }
+        }
         if (history.pushState) {
           history.pushState(null, null, targetHash);
         } else {
