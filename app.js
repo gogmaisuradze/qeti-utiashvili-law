@@ -31,9 +31,9 @@ const i18nDictionary = {
     "nav.calendar": "კალენდარი",
     "nav.contact": "კონტაქტი",
     "nav.book_cta": "ვიზიტის დაჯავშნა",
-    "hero.badge": "20+ წლიანი უწყვეტი საადვოკატო პრაქტიკა • თბილისი",
+    "hero.badge": "20+ წლიანი უწყვეტი საადვოკატო პრაქტიკა • მთელი საქართველო",
     "hero.title": "აკადემიური სიზუსტე, სტრატეგიული დაცვა და უმაღლესი საადვოკატო ეთიკა",
-    "hero.desc": "საქართველოს ადვოკატთა ასოციაციის (GBA) აღმასრულებელი საბჭოს მოქმედი წევრი, ყოფილი სამოქალაქო კომიტეტის თავმჯდომარე და აკრედიტებული მედიატორი — ქეთევან უტიაშვილი გთავაზობთ საადვოკატო წარმომადგენლობას თბილისის საქალაქო, სააპელაციო და უზენაეს სასამართლოებში.",
+    "hero.desc": "საქართველოს ადვოკატთა ასოციაციის (GBA) აღმასრულებელი საბჭოს მოქმედი წევრი, ყოფილი სამოქალაქო კომიტეტის თავმჯდომარე და აკრედიტებული მედიატორი — ქეთევან უტიაშვილი ახორციელებს საადვოკატო საქმიანობას და სასამართლო წარმომადგენლობას მთელი საქართველოს მასშტაბით (ცენტრალური ოფისი: ქ. თბილისი).",
     "hero.cta_evaluate": "საქმის პირველადი შეფასება",
     "hero.cta_book": "კონსულტაციის დაჯავშნა",
     "hero.metric1": "უწყვეტი ბიურო",
@@ -136,9 +136,9 @@ const i18nDictionary = {
     "nav.calendar": "Calendar",
     "nav.contact": "Contact",
     "nav.book_cta": "Book Consultation",
-    "hero.badge": "20+ Years Continuous Practice • Tbilisi",
+    "hero.badge": "20+ Years Continuous Practice • Nationwide in Georgia",
     "hero.title": "Academic Precision, Strategic Defense & Highest Legal Ethics",
-    "hero.desc": "Executive Board Member of the Georgian Bar Association (GBA), former Chair of the Civil Law Committee, and Accredited Mediator — Ketevan Utiashvili provides strategic legal representation before Tbilisi City, Appellate, and Supreme Courts.",
+    "hero.desc": "Executive Board Member of the Georgian Bar Association (GBA), former Chair of the Civil Law Committee, and Accredited Mediator — Ketevan Utiashvili provides strategic legal defense and trial representation across all Georgia (Central Office: Tbilisi).",
     "hero.cta_evaluate": "Initial Case Assessment",
     "hero.cta_book": "Book Consultation",
     "hero.metric1": "Established Bureau",
@@ -241,9 +241,9 @@ const i18nDictionary = {
     "nav.calendar": "Календарь",
     "nav.contact": "Контакты",
     "nav.book_cta": "Запись на прием",
-    "hero.badge": "20+ лет непрерывной практики • Тбилиси",
+    "hero.badge": "20+ лет непрерывной практики • По всей Грузии",
     "hero.title": "Академическая точность, стратегическая защита и высшая этика",
-    "hero.desc": "Действующий член Исполнительного совета Ассоциации адвокатов Грузии (GBA), бывший председатель Гражданского комитета и аккредитованный медиатор — Кетеван Утиашвили предоставляет квалифицированные услуги в судах всех инстанций.",
+    "hero.desc": "Действующий член Исполнительного совета Ассоциации адвокатов Грузии (GBA), бывший председатель Гражданского комитета и аккредитованный медиатор — Кетеван Утиашвили ведет адвокатскую деятельность и судебное представительство по всей Грузии (Центральный офис: Тбилиси).",
     "hero.cta_evaluate": "Оценка дела",
     "hero.cta_book": "Забронировать визит",
     "hero.metric1": "Опыт с 2003 г.",
@@ -1001,14 +1001,25 @@ function initMobileNav() {
   const navLinks = document.getElementById('navLinks');
 
   if (burger && navLinks) {
-    burger.addEventListener('click', () => {
-      navLinks.classList.toggle('open');
+    burger.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const isOpen = navLinks.classList.toggle('open');
+      burger.classList.toggle('active', isOpen);
     });
 
-    document.querySelectorAll('.nav-item').forEach(link => {
+    document.querySelectorAll('.nav-item, .nav-drawer-cta-btn, .nav-drawer-phone-btn').forEach(link => {
       link.addEventListener('click', () => {
         navLinks.classList.remove('open');
+        burger.classList.remove('active');
       });
+    });
+
+    // Close menu when tapping outside
+    document.addEventListener('click', (e) => {
+      if (!navLinks.contains(e.target) && !burger.contains(e.target)) {
+        navLinks.classList.remove('open');
+        burger.classList.remove('active');
+      }
     });
   }
 
