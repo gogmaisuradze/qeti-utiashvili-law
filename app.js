@@ -1111,6 +1111,29 @@ function initMobileNav() {
     });
   }
 
+  // Universal in-page smooth navigation for all buttons and anchor links
+  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function(e) {
+      const targetHash = this.getAttribute('href');
+      if (!targetHash || targetHash === '#') return;
+      const targetElement = document.querySelector(targetHash);
+      if (targetElement) {
+        e.preventDefault();
+        // If mobile drawer menu is open, close it
+        if (navLinks && navLinks.classList.contains('open')) {
+          navLinks.classList.remove('open');
+          if (burger) burger.classList.remove('active');
+        }
+        targetElement.scrollIntoView({ behavior: 'smooth' });
+        if (history.pushState) {
+          history.pushState(null, null, targetHash);
+        } else {
+          location.hash = targetHash;
+        }
+      }
+    });
+  });
+
   // Mobile Bottom Navigation Bar Links Active State & Smooth Scrolling
   const mobNavLinks = document.querySelectorAll('.mob-nav-link[data-nav-target]');
   if (mobNavLinks.length > 0) {
