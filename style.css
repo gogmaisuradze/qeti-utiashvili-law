@@ -1249,6 +1249,11 @@ button, input, select, textarea {
   transform-origin: center center;
   cursor: pointer;
   padding: 1.8rem 1.6rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  justify-content: space-between;
   border-radius: var(--radius-lg);
   background-color: var(--bg-card);
   border: 1px solid var(--border-light);
@@ -1496,6 +1501,9 @@ button, input, select, textarea {
   padding: 2.2rem 2rem;
   display: flex;
   flex-direction: column;
+  align-items: center;
+  text-align: center;
+  justify-content: space-between;
   box-shadow: var(--shadow-subtle);
   transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
   cursor: pointer;
@@ -1520,36 +1528,37 @@ button, input, select, textarea {
 }
 
 .card-contour-icon {
-  width: 52px;
-  height: 52px;
-  border-radius: 14px;
-  background: var(--bg-white);
-  border: 1px solid rgba(114, 25, 39, 0.2);
-  color: var(--color-brass-primary);
+  width: 58px;
+  height: 58px;
+  border-radius: 50%;
+  background: rgba(114, 25, 39, 0.05);
+  border: 1px solid rgba(114, 25, 39, 0.14);
+  color: #721927;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: 1.4rem;
-  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.04);
+  margin: 0 auto 1.25rem;
+  box-shadow: 0 4px 14px rgba(114, 25, 39, 0.04);
   transition: all 0.28s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .card-contour-icon svg {
-  width: 26px;
-  height: 26px;
+  width: 32px;
+  height: 32px;
+  stroke: #721927;
   transition: transform 0.28s ease;
 }
 
-.expertise-card-editorial:hover .card-contour-icon {
-  background: linear-gradient(135deg, rgba(114, 25, 39, 0.09) 0%, rgba(114, 25, 39, 0.03) 100%);
-  border-color: var(--color-brass-primary);
-  color: var(--color-brass-primary);
-  transform: translateY(-2px);
-  box-shadow: 0 6px 18px rgba(114, 25, 39, 0.16);
+.expertise-card-editorial:hover .card-contour-icon,
+.expertise-card-editorial.active .card-contour-icon {
+  background: rgba(114, 25, 39, 0.09);
+  border-color: rgba(114, 25, 39, 0.25);
+  transform: translateY(-2px) scale(1.06);
+  box-shadow: 0 6px 18px rgba(114, 25, 39, 0.12);
 }
 
 .expertise-card-editorial:hover .card-contour-icon svg {
-  transform: scale(1.08);
+  transform: scale(1.05);
 }
 
 .domain-title {
