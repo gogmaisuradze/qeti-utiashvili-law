@@ -592,9 +592,20 @@
           <!-- STEP 1 -->
           <div class="wizard-step-panel active" id="wizardStep1">
             <h3 class="panel-serif-question" data-i18n="case.q1">რა ტიპის სამართლებრივი საკითხი გაქვთ თბილისში ან საქართველოში?</h3>
-            <p class="panel-hint-text" data-i18n="case.q1_hint">შეარჩიეთ ძირითადი მიმართულება:</p>
+            <div class="panel-hint-bar">
+              <p class="panel-hint-text" data-i18n="case.q1_hint">შეარჩიეთ ძირითადი მიმართულება:</p>
+              <div class="choice-scroll-controls">
+                <span class="scroll-swipe-hint">← გადაფურცლეთ →</span>
+                <button type="button" class="btn-scroll-arrow" id="caseScrollPrevBtn" aria-label="წინა მიმართულება" title="წინა">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>
+                </button>
+                <button type="button" class="btn-scroll-arrow" id="caseScrollNextBtn" aria-label="შემდეგი მიმართულება" title="შემდეგი">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+                </button>
+              </div>
+            </div>
 
-            <div class="choice-tiles-grid">
+            <div class="choice-tiles-grid" id="caseChoiceGrid">
               <label class="clean-choice-card">
                 <input type="radio" name="caseType" value="real_estate" checked>
                 <div class="choice-card-inner">

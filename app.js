@@ -637,6 +637,40 @@ function initCaseWizard() {
     });
   });
 
+  // Case Assessment Choice Grid Scrollable Controls (გასქროლვით დალაგება)
+  const choiceGrid = document.getElementById('caseChoiceGrid');
+  const scrollPrev = document.getElementById('caseScrollPrevBtn');
+  const scrollNext = document.getElementById('caseScrollNextBtn');
+  if (choiceGrid) {
+    if (scrollPrev) {
+      scrollPrev.addEventListener('click', (e) => {
+        e.preventDefault();
+        choiceGrid.scrollBy({ left: -300, behavior: 'smooth' });
+      });
+    }
+    if (scrollNext) {
+      scrollNext.addEventListener('click', (e) => {
+        e.preventDefault();
+        choiceGrid.scrollBy({ left: 300, behavior: 'smooth' });
+      });
+    }
+
+    // Allow vertical mouse wheel over choices to scroll horizontally on desktop
+    choiceGrid.addEventListener('wheel', (e) => {
+      if (Math.abs(e.deltaY) > Math.abs(e.deltaX)) {
+        e.preventDefault();
+        choiceGrid.scrollBy({ left: e.deltaY * 1.3, behavior: 'smooth' });
+      }
+    }, { passive: false });
+
+    // Scroll selected card smoothly into view on click
+    choiceGrid.querySelectorAll('.clean-choice-card').forEach(card => {
+      card.addEventListener('click', () => {
+        card.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+      });
+    });
+  }
+
   const forwardBtn = document.getElementById('forwardCaseToCalendarBtn');
   if (forwardBtn) {
     forwardBtn.addEventListener('click', (e) => {
