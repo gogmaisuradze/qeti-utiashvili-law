@@ -1265,13 +1265,13 @@ button, input, select, textarea {
 
 .expertise-cards-stage.mode-carousel .expertise-card-editorial:hover {
   transform: translateY(-6px);
-  border-color: rgba(184, 147, 88, 0.5);
+  border-color: rgba(114, 25, 39, 0.4);
   box-shadow: 0 16px 36px rgba(114, 25, 39, 0.14);
 }
 
 .expertise-cards-stage.mode-carousel .expertise-card-editorial.active {
-  border-color: var(--color-brass-primary) !important;
-  box-shadow: 0 18px 45px rgba(114, 25, 39, 0.16), 0 0 20px rgba(184, 147, 88, 0.2) !important;
+  border-color: #721927 !important;
+  box-shadow: 0 18px 45px rgba(114, 25, 39, 0.16), 0 0 0 1px #721927 !important;
   z-index: 10 !important;
 }
 
@@ -1458,14 +1458,14 @@ button, input, select, textarea {
     -webkit-line-clamp: 2;
   }
   .expertise-cards-stage.mode-carousel .card-contour-icon {
-    width: 36px;
-    height: 36px;
+    width: 44px;
+    height: 38px;
     margin-bottom: 0.65rem;
-    border-radius: 10px;
+    border-radius: 22px 22px 5px 5px;
   }
   .expertise-cards-stage.mode-carousel .card-contour-icon svg {
-    width: 18px;
-    height: 18px;
+    width: 22px;
+    height: 22px;
   }
   .carousel-orbit-ring {
     width: 290px;
@@ -1529,16 +1529,16 @@ button, input, select, textarea {
 
 .card-contour-icon {
   width: 58px;
-  height: 58px;
-  border-radius: 50%;
-  background: rgba(114, 25, 39, 0.05);
-  border: 1px solid rgba(114, 25, 39, 0.14);
+  height: 50px;
+  border-radius: 29px 29px 6px 6px;
+  background: #FAF3EE;
+  border: 1px solid rgba(114, 25, 39, 0.08);
   color: #721927;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: 0 auto 1.25rem;
-  box-shadow: 0 4px 14px rgba(114, 25, 39, 0.04);
+  margin: 0 auto 1.1rem;
+  box-shadow: 0 4px 14px rgba(114, 25, 39, 0.03);
   transition: all 0.28s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
@@ -1551,10 +1551,10 @@ button, input, select, textarea {
 
 .expertise-card-editorial:hover .card-contour-icon,
 .expertise-card-editorial.active .card-contour-icon {
-  background: rgba(114, 25, 39, 0.09);
+  background: #F5EAE4;
   border-color: rgba(114, 25, 39, 0.25);
-  transform: translateY(-2px) scale(1.06);
-  box-shadow: 0 6px 18px rgba(114, 25, 39, 0.12);
+  transform: translateY(-2px) scale(1.04);
+  box-shadow: 0 6px 18px rgba(114, 25, 39, 0.08);
 }
 
 .expertise-card-editorial:hover .card-contour-icon svg {
@@ -1571,25 +1571,14 @@ button, input, select, textarea {
 
 .domain-desc {
   font-size: 0.9rem;
-  line-height: 1.7;
+  line-height: 1.65;
   color: var(--color-text-muted);
   flex-grow: 1;
-  margin-bottom: 1.4rem;
+  margin-bottom: 0.5rem;
 }
 
 .domain-link-tag {
-  font-size: 0.82rem;
-  font-weight: 600;
-  color: var(--color-brass-primary);
-  display: inline-flex;
-  align-items: center;
-  gap: 0.35rem;
-  transition: var(--transition);
-}
-
-.expertise-card-editorial:hover .domain-link-tag {
-  color: var(--color-slate-black);
-  transform: translateX(4px);
+  display: none !important;
 }
 
 /* ==========================================================================
@@ -4429,12 +4418,12 @@ section[id],
   .card-contour-icon {
     width: 40px;
     height: 40px;
-    border-radius: 10px;
+    border-radius: 24px 24px 5px 5px;
     margin-bottom: 0.55rem;
   }
   .card-contour-icon svg {
-    width: 20px;
-    height: 20px;
+    width: 22px;
+    height: 22px;
   }
   .domain-title {
     font-size: 1.1rem;
