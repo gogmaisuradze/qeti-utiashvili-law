@@ -121,7 +121,7 @@ const i18nDictionary = {
     "cont.f_btn": "შეტყობინების გაგზავნა",
     "adv.btn_txt": "იურიდიული მრჩეველი",
     "adv.btn_sub": "ონლაინ ასისტენტი",
-    "adv.modal_title": "ინტეგრირებული იურიდიული მრჩეველი",
+    "adv.modal_title": "იურიდიული მრჩეველი",
     "adv.welcome_msg": "მოგესალმებით. მე ვარ ქეთევან უტიაშვილის საადვოკატო ბიუროს ვირტუალური ასისტენტი. ცენტრალური ოფისი მდებარეობს თბილისში, ილია ჭავჭავაძის გამზ. #26-ში. რით შემიძლია დაგეხმაროთ დღეს?"
   },
   en: {
@@ -226,7 +226,7 @@ const i18nDictionary = {
     "cont.f_btn": "Send Inquiry",
     "adv.btn_txt": "Legal Advisor",
     "adv.btn_sub": "Online Assistant",
-    "adv.modal_title": "Integrated Legal Advisor",
+    "adv.modal_title": "Legal Advisor",
     "adv.welcome_msg": "Welcome. I am the virtual legal advisor for Ketevan Utiashvili Law Office. Our central office is located at 26 Ilia Chavchavadze Ave, Tbilisi. How may I assist you today?"
   },
   ru: {
@@ -331,7 +331,7 @@ const i18nDictionary = {
     "cont.f_btn": "Отправить сообщение",
     "adv.btn_txt": "Юр. советник",
     "adv.btn_sub": "Онлайн-помощник",
-    "adv.modal_title": "Интегрированный юридический советник",
+    "adv.modal_title": "Юридический советник",
     "adv.welcome_msg": "Здравствуйте. Я виртуальный консультант адвокатского бюро Кетеван Утиашвили. Центральный офис находится в Тбилиси, просп. Ильи Чавчавадзе 26. Чем могу вам помочь?"
   }
 };
