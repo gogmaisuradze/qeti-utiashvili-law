@@ -1751,8 +1751,8 @@ function initScrollBurnCards() {
         span.className = 'burn-glyph';
         span.textContent = ch;
 
-        // Position coordinates normalized between 0 and 1
-        const x = chars.length > 1 ? idx / (chars.length - 1) : 0.5;
+        // Position coordinates normalized between 0 and 1 (inverted wave)
+        const x = chars.length > 1 ? 1 - (idx / (chars.length - 1)) : 0.5;
         const y = 0.5;
         // Two crossed waves + distance from center (exact algorithm from ScrollBurnText)
         const blob = 0.5 + 0.28 * Math.sin(x * 11.3 + y * 6.1 + 1.7) + 0.22 * Math.sin(x * 5.7 - y * 13.9 + 4.2);
@@ -1819,16 +1819,18 @@ function initScrollBurnCards() {
     ticking = false;
     const vh = window.innerHeight;
 
-    // Normal Exit Burn for Ethos Cards
+    // Inverted Entrance Unburn for Ethos Cards (Materializes into focus from bottom)
     cards.forEach(card => {
       const rect = card.getBoundingClientRect();
-      if (rect.top < vh * 0.28 && rect.bottom > 0) {
-        const exitProgress = Math.min(1, Math.max(0, (vh * 0.28 - rect.top) / (rect.height + vh * 0.15)));
-        const burn = Math.min(0.85, exitProgress * 1.0);
-        const ab = 0.35 + burn * 2.6;
+      if (rect.top > vh * 0.28 && rect.top < vh * 1.05) {
+        // Enters burned from below, unburns/resolves to crystal clear as it reaches reading zone
+        const entryProgress = Math.min(1, Math.max(0, (rect.top - vh * 0.28) / (vh * 0.65)));
+        const burn = Math.min(0.85, entryProgress * 0.95);
+        const ab = 0.35 + burn * 2.4;
         card.style.setProperty('--b', burn.toFixed(3));
         card.style.setProperty('--ab', ab.toFixed(2));
       } else {
+        // Crystal clear in reading position or once scrolled past
         card.style.setProperty('--b', '0');
         card.style.setProperty('--ab', '0.35');
       }
