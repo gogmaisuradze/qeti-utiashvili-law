@@ -231,6 +231,7 @@ const i18nDictionary = {
     "adv.modal_title": "იურიდიული მრჩეველი",
     "adv.online_tag": "ქეთევან უტიაშვილის AI ბიურო",
     "adv.clear_btn": "გასუფთავება",
+    "adv.btn_start": "დაწყება",
     "adv.welcome_msg": "მოგესალმებით. მე ვარ ქეთევან უტიაშვილის საადვოკატო ბიუროს ვირტუალური ასისტენტი. ცენტრალური ოფისი მდებარეობს თბილისში, ილია ჭავჭავაძის გამზ. #26-ში. რით შემიძლია დაგეხმაროთ დღეს?",
     "adv.input_ph": "დასვით თქვენი იურიდიული შეკითხვა..."
 },
@@ -444,6 +445,7 @@ const i18nDictionary = {
     "adv.modal_title": "Legal Advisor",
     "adv.online_tag": "Ketevan Utiashvili AI Bureau",
     "adv.clear_btn": "Clear",
+    "adv.btn_start": "Start",
     "adv.welcome_msg": "Welcome. I am the virtual assistant of Ketevan Utiashvili Law Office. Our central office is located at 26 Ilia Chavchavadze Ave, Tbilisi. How may I assist you today?",
     "adv.input_ph": "Ask your legal question..."
 },
@@ -657,6 +659,7 @@ const i18nDictionary = {
     "adv.modal_title": "Юридический советник",
     "adv.online_tag": "AI Бюро Кетеван Утиашвили",
     "adv.clear_btn": "Очистить",
+    "adv.btn_start": "Начать",
     "adv.welcome_msg": "Здравствуйте. Я виртуальный консультант адвокатского бюро Кетеван Утиашвили. Центральный офис находится в Тбилиси, просп. Ильи Чавчавадзе 26. Чем могу вам помочь?",
     "adv.input_ph": "Задайте ваш юридический вопрос..."
 }
@@ -1243,21 +1246,6 @@ function initLegalAdvisor() {
       `მე შევინახე თქვენი ვიზიტის მონაცემები და შეგახსენებთ შეხვედრას. შემიძლია წინასწარ გითხრათ, რა დოკუმენტები უნდა მოამზადოთ, ან გიპასუხოთ ნებისმიერ საპროცესო შეკითხვაზე.`;
 
     appendChatBubble(welcomeMsg, 'system');
-
-    const tagsDiv = document.createElement('div');
-    tagsDiv.className = 'chat-quick-tags';
-    tagsDiv.innerHTML = `
-      <button class="quick-tag-btn" data-query="booking_docs">რა დოკუმენტები მოვამზადო ვიზიტისთვის?</button>
-      <button class="quick-tag-btn" data-query="booking_location">ოფისის ლოკაცია და მისვლის დეტალები</button>
-      <button class="quick-tag-btn" data-query="booking_prep">როგორ მოვემზადო კონსულტაციისთვის?</button>
-    `;
-    tagsDiv.querySelectorAll('.quick-tag-btn').forEach(btn => {
-      btn.addEventListener('click', () => {
-        const qType = btn.getAttribute('data-query');
-        if (qType) handleQuickAdvisorQuery(qType);
-      });
-    });
-    chatBody.appendChild(tagsDiv);
     chatBody.scrollTop = chatBody.scrollHeight;
   };
 
@@ -1312,37 +1300,47 @@ function initLegalAdvisor() {
     });
   }
 
+  function handleStartChat() {
+    const startWrap = document.getElementById('chatStartWrap');
+    if (startWrap) startWrap.remove();
+
+    const curLang = currentLang || 'ka';
+    const dict = i18nDictionary[curLang] || i18nDictionary.ka;
+    const userPrompt = dict['adv.btn_start'] || "დაწყება";
+    appendChatBubble(userPrompt, 'user');
+    generateAdvisorResponse(userPrompt, 'start');
+    if (inputField && window.innerWidth > 768) {
+      inputField.focus();
+    }
+  }
+
   function resetAdvisorChat() {
     if (!chatBody) return;
+    const curLang = currentLang || 'ka';
+    const dict = i18nDictionary[curLang] || i18nDictionary.ka;
+    const welcomeTxt = dict['adv.welcome_msg'] || 'მოგესალმებით. მე ვარ ქეთევან უტიაშვილის საადვოკატო ბიუროს ვირტუალური ასისტენტი. ცენტრალური ოფისი მდებარეობს თბილისში, ილია ჭავჭავაძის გამზ. #26-ში. რით შემიძლია დაგეხმაროთ დღეს?';
+    const startTxt = dict['adv.btn_start'] || 'დაწყება';
     chatBody.innerHTML = `
       <div class="chat-row system">
         <div class="chat-bubble">
-          <p>
-            მოგესალმებით. მე ვარ ქეთევან უტიაშვილის საადვოკატო ბიუროს ვირტუალური ასისტენტი. 
-            ცენტრალური ოფისი მდებარეობს თბილისში, ილია ჭავჭავაძის გამზ. #26-ში, ხოლო საადვოკატო წარმომადგენლობას ვახორციელებთ მთელი საქართველოს მასშტაბით. რით შემიძლია დაგეხმაროთ დღეს?
-          </p>
+          <p data-i18n="adv.welcome_msg">${welcomeTxt}</p>
         </div>
       </div>
 
-      <div class="chat-quick-tags">
-        <button class="quick-tag-btn" data-query="re_tbilisi">უძრავი ქონებისა და მშენებლობის დავები</button>
-        <button class="quick-tag-btn" data-query="corporate">სამეწარმეო & კორპორაციული</button>
-        <button class="quick-tag-btn" data-query="civil">სამოქალაქო & სახელშეკრულებო</button>
-        <button class="quick-tag-btn" data-query="mediation">მედიაცია და მორიგება</button>
-        <button class="quick-tag-btn" data-query="deadlines">სასამართლოში გასაჩივრების ვადები</button>
-        <button class="quick-tag-btn" data-query="booking">ცენტრალური ოფისის მისამართი & ჩაწერა</button>
+      <div class="chat-start-wrap" id="chatStartWrap">
+        <button type="button" class="chat-start-btn" id="chatStartBtn">
+          <span data-i18n="adv.btn_start">${startTxt}</span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+        </button>
       </div>
     `;
-    // Re-bind listeners for quick tags
-    chatBody.querySelectorAll('.quick-tag-btn').forEach(tagBtn => {
-      tagBtn.addEventListener('click', () => {
-        const qType = tagBtn.getAttribute('data-query');
-        if (qType) handleQuickAdvisorQuery(qType);
-      });
-    });
+    const newStartBtn = document.getElementById('chatStartBtn');
+    if (newStartBtn) {
+      newStartBtn.addEventListener('click', handleStartChat);
+    }
     if (inputField) {
       inputField.value = '';
-      inputField.placeholder = "დასვით თქვენი იურიდიული შეკითხვა...";
+      inputField.placeholder = dict['adv.input_ph'] || "დასვით თქვენი იურიდიული შეკითხვა...";
     }
   }
 
@@ -1384,6 +1382,11 @@ function initLegalAdvisor() {
       }
     });
   });
+
+  const initialStartBtn = document.getElementById('chatStartBtn');
+  if (initialStartBtn) {
+    initialStartBtn.addEventListener('click', handleStartChat);
+  }
 
   document.querySelectorAll('.quick-tag-btn').forEach(tagBtn => {
     tagBtn.addEventListener('click', () => {
@@ -1516,6 +1519,11 @@ function initLegalAdvisor() {
   }
 
   function getDomainFallback(queryType, q) {
+    if (queryType === 'start' || q.includes('დაწყებ') || q === 'start') {
+      return `<strong>მოგესალმებით!</strong><br><br>
+      მე ვარ ქეთევან უტიაშვილის საადვოკატო ბიუროს ვირტუალური იურიდიული ასისტენტი.<br><br>
+      გთხოვთ ქვედა ველში მომწეროთ, რა სამართლებრივ საკითხზე გესაჭიროებათ კონსულტაცია (მაგ. <em>უძრავი ქონება, სამოქალაქო დავა, ბიზნესი, მედიაცია, საოჯახო</em> თუ სხვა), ან დასვით ნებისმიერი შეკითხვა და დაგეხმარებით.`;
+    }
     if (queryType === 're_tbilisi' || q.includes('უძრავ') || q.includes('მშენებ')) {
       return `<strong>უძრავი ქონება და მშენებლობის დავები:</strong><br><br>
       უძრავი ქონებისა და დეველოპერული ხელშეკრულებების სპეციფიკიდან გამომდინარე, აუცილებელია:
