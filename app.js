@@ -1182,6 +1182,10 @@ function initLegalAdvisor() {
     if (inputField && window.innerWidth > 768) {
       setTimeout(() => inputField.focus(), 80);
     }
+    // ჩატის გახსნისას, თუ ცარიელია, ბოტი თვითონ მიესალმება
+    if (chatBody && chatBody.children.length === 0) {
+      generateAdvisorResponse('გამარჯობა');
+    }
   }
 
   function closeAdvisorChat() {
