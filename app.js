@@ -88,6 +88,7 @@ const i18nDictionary = {
     "exp.more_btn": "ყველა მიმართულების ნახვა (6)",
     "exp.view_carousel": "3D წრიული კარუსელი",
     "exp.view_grid": "სრული ბადე",
+    "exp.counter_total": "06-დან",
     "exp.swipe_hint": "გადასაფურცლად გამოიყენეთ ისრები ან გადაფურცვლა",
     "exp.tag_realestate": "უძრავი ქონება",
     "exp.tag_corporate": "კორპორაციული",
@@ -300,6 +301,7 @@ const i18nDictionary = {
     "exp.more_btn": "View All Practice Areas (6)",
     "exp.view_carousel": "3D Circular Orbit",
     "exp.view_grid": "Symmetrical Grid",
+    "exp.counter_total": "OF 06",
     "exp.swipe_hint": "Use arrows, keyboard, or swipe to browse",
     "exp.tag_realestate": "Real Estate",
     "exp.tag_corporate": "Corporate",
@@ -512,6 +514,7 @@ const i18nDictionary = {
     "exp.more_btn": "Показать все направления (6)",
     "exp.view_carousel": "3D Круговая орбита",
     "exp.view_grid": "Сетка практики",
+    "exp.counter_total": "ИЗ 06",
     "exp.swipe_hint": "Используйте стрелки или свайп для навигации",
     "exp.tag_realestate": "Недвижимость",
     "exp.tag_corporate": "Корпоративное",
@@ -1965,13 +1968,16 @@ function initExpertiseCircularCarousel() {
   let currentMode = "carousel";
 
   function getRadii() {
-    const w = stage.clientWidth || 800;
+    const w = stage.clientWidth || 1000;
     if (w < 480) {
-      return { rx: Math.min(125, w * 0.32), ry: 50 };
+      return { rx: Math.min(135, w * 0.33), ry: 45 };
     } else if (w < 768) {
-      return { rx: Math.min(180, w * 0.33), ry: 75 };
+      return { rx: Math.min(200, w * 0.34), ry: 60 };
+    } else if (w < 1024) {
+      return { rx: Math.min(310, w * 0.36), ry: 75 };
     } else {
-      return { rx: Math.min(270, w * 0.34), ry: 95 };
+      // Large screen / desktop: spread out wide!
+      return { rx: Math.min(430, w * 0.38), ry: 85 };
     }
   }
 
@@ -1991,8 +1997,8 @@ function initExpertiseCircularCarousel() {
 
     const distance = Math.abs(adjustedOffset);
     const maxDistance = half + 1;
-    const scale = Math.max(0, 1 - (distance / maxDistance) * 0.28);
-    const opacity = Math.max(0.2, 1 - (distance / maxDistance) * 0.72);
+    const scale = Math.max(0, 1 - (distance / maxDistance) * 0.22);
+    const opacity = Math.max(0.25, 1 - (distance / maxDistance) * 0.65);
     const zIndex = VISIBLE_COUNT - distance;
 
     return { x, y, scale, opacity, zIndex, adjustedOffset };
