@@ -818,7 +818,7 @@ function initLegalAdvisor() {
     sessionStorage.removeItem('ku_advisor_pill_minimized');
   }
 
-  // Top-right close button minimizes pill: "და რო დააჭერ პატარავდებოდეს"
+  // Top-right close button minimizes pill on first click ("პირველივეზე უნდა იკეცებოდეს")
   if (pillMinBtn) {
     pillMinBtn.addEventListener('click', (e) => {
       e.stopPropagation();
@@ -827,26 +827,18 @@ function initLegalAdvisor() {
     });
   }
 
-  // Double-click returns to expanded pill position: "ორჯერ რო დააჭერ ისევ ამ პოზიციას უბრუნდებოდეს"
-  if (pillWrap) {
-    pillWrap.addEventListener('dblclick', (e) => {
-      e.stopPropagation();
-      restorePill();
-    });
-  }
-
-  // 3-State Machine:
-  // State 1: Minimized Icon (.minimized)
-  // State 2: Expanded Pill (default resting state)
-  // State 3: Open Chat Modal (.is-open)
+  // Toggle button single-click handler
   toggleBtn.addEventListener('click', (e) => {
-    // If widget is currently in State 1 (minimized circle), clicking it expands to State 2 (pill)
+    e.stopPropagation();
+
+    // If widget is currently in minimized circle state, single click restores it and opens chat
     if (toggleBtn.classList.contains('minimized') || (pillWrap && pillWrap.classList.contains('minimized'))) {
       restorePill();
+      openAdvisorChat();
       return;
     }
 
-    // Toggle between State 2 (pill) and State 3 (open chat window)
+    // Toggle between open chat window and closed
     if (modal.classList.contains('hidden') || modal.classList.contains('closing')) {
       openAdvisorChat();
     } else {
@@ -854,10 +846,13 @@ function initLegalAdvisor() {
     }
   });
 
+  // Chat window top-right close button (✕):
+  // 1 click closes chat AND minimizes to compact circle directly ("პირველივეზე უნდა იკეცებოდეს")
   if (closeBtn) {
     closeBtn.addEventListener('click', (e) => {
       e.stopPropagation();
       closeAdvisorChat();
+      minimizePill();
     });
   }
 
