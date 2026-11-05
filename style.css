@@ -1237,8 +1237,8 @@ button, input, select, textarea {
 .expertise-cards-stage.mode-carousel {
   position: relative;
   width: 100%;
-  height: 440px;
-  max-width: 1200px;
+  height: 475px;
+  max-width: 1240px;
   margin: 0 auto;
   overflow: visible;
   display: block;
@@ -1248,18 +1248,18 @@ button, input, select, textarea {
   position: absolute;
   left: 50%;
   top: 50%;
-  width: 300px;
-  min-height: 230px;
+  width: 340px;
+  min-height: 255px;
   box-sizing: border-box;
   transform-origin: center center;
   cursor: pointer;
-  padding: 1.8rem 1.6rem;
+  padding: 2rem 1.85rem;
   display: flex;
   flex-direction: column;
   align-items: center;
   text-align: center;
   justify-content: space-between;
-  border-radius: var(--radius-lg);
+  border-radius: 20px;
   background-color: var(--bg-card);
   border: 1px solid var(--border-light);
   box-shadow: var(--shadow-subtle);
@@ -1417,18 +1417,19 @@ button, input, select, textarea {
 /* Responsive for Circular Carousel */
 @media (max-width: 900px) {
   .expertise-cards-stage.mode-carousel {
-    height: 360px;
+    height: 390px;
   }
   .expertise-cards-stage.mode-carousel .expertise-card-editorial {
-    width: 250px;
-    min-height: 190px;
-    padding: 1.3rem 1.2rem;
+    width: 280px;
+    min-height: 215px;
+    padding: 1.5rem 1.35rem;
+    border-radius: 18px;
   }
   .expertise-cards-stage.mode-carousel .domain-title {
     font-size: 1.05rem;
   }
   .expertise-cards-stage.mode-carousel .domain-desc {
-    font-size: 0.74rem;
+    font-size: 0.76rem;
     -webkit-line-clamp: 2;
     display: -webkit-box;
     -webkit-box-orient: vertical;
@@ -1463,33 +1464,36 @@ button, input, select, textarea {
     padding: 0;
   }
   .expertise-cards-stage.mode-carousel {
-    height: 220px;
+    height: 250px;
   }
   .expertise-cards-stage.mode-carousel .expertise-card-editorial {
-    width: 205px;
-    min-height: 140px;
-    padding: 0.85rem 0.8rem;
-    border-radius: 14px;
+    width: 235px;
+    min-height: 165px;
+    padding: 1.1rem 0.95rem;
+    border-radius: 16px;
   }
   .expertise-cards-stage.mode-carousel .domain-title {
-    font-size: 0.9rem;
+    font-size: 0.95rem;
     margin-bottom: 0.25rem;
   }
   .expertise-cards-stage.mode-carousel .domain-desc {
-    font-size: 0.68rem;
+    font-size: 0.7rem;
     line-height: 1.35;
     -webkit-line-clamp: 2;
     margin-bottom: 0;
   }
   .expertise-cards-stage.mode-carousel .card-contour-icon {
-    width: 42px;
-    height: 35px;
+    width: auto;
+    height: auto;
     margin-bottom: 0.45rem;
-    border-radius: 21px 21px 4px 4px;
+    border-radius: 0 !important;
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
   }
   .expertise-cards-stage.mode-carousel .card-contour-icon svg {
-    width: 20px;
-    height: 20px;
+    width: 28px;
+    height: 28px;
   }
   .carousel-orbit-ring {
     top: 110px;
@@ -1536,8 +1540,8 @@ button, input, select, textarea {
 .expertise-card-editorial {
   background-color: var(--bg-card);
   border: 1px solid var(--border-light);
-  border-radius: var(--radius-lg);
-  padding: 2.2rem 2rem;
+  border-radius: 20px;
+  padding: 2.3rem 2.1rem;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -1556,9 +1560,10 @@ button, input, select, textarea {
 }
 
 .expertise-card-editorial:hover .card-contour-icon {
-  background-color: rgba(114, 25, 39, 0.08);
-  border-color: var(--color-brass-primary);
-  transform: scale(1.08);
+  background: transparent !important;
+  border-color: transparent !important;
+  box-shadow: none !important;
+  transform: translateY(-3px) scale(1.08);
 }
 
 .expertise-card-editorial:hover .domain-link-tag {
@@ -1567,33 +1572,35 @@ button, input, select, textarea {
 }
 
 .card-contour-icon {
-  width: 58px;
-  height: 50px;
-  border-radius: 29px 29px 6px 6px;
-  background: #FAF3EE;
-  border: 1px solid rgba(114, 25, 39, 0.08);
+  width: auto;
+  height: auto;
+  min-height: 48px;
+  border-radius: 0 !important;
+  background: transparent !important;
+  border: none !important;
   color: #721927;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: 0 auto 1.1rem;
-  box-shadow: 0 4px 14px rgba(114, 25, 39, 0.03);
-  transition: all 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+  margin: 0 auto 1rem;
+  box-shadow: none !important;
+  transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .card-contour-icon svg {
-  width: 32px;
-  height: 32px;
+  width: 44px;
+  height: 44px;
   stroke: #721927;
+  stroke-width: 1.7;
   transition: transform 0.28s ease;
 }
 
 .expertise-card-editorial:hover .card-contour-icon,
 .expertise-card-editorial.active .card-contour-icon {
-  background: #F5EAE4;
-  border-color: rgba(114, 25, 39, 0.25);
-  transform: translateY(-2px) scale(1.04);
-  box-shadow: 0 6px 18px rgba(114, 25, 39, 0.08);
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  transform: translateY(-2px) scale(1.06);
 }
 
 .expertise-card-editorial:hover .card-contour-icon svg {
@@ -4532,18 +4539,21 @@ section[id],
     gap: 0.65rem;
   }
   .expertise-card-editorial {
-    padding: 0.95rem 0.9rem;
-    border-radius: 12px;
+    padding: 1.15rem 1rem;
+    border-radius: 14px;
   }
   .card-contour-icon {
-    width: 40px;
-    height: 40px;
-    border-radius: 24px 24px 5px 5px;
+    width: auto;
+    height: auto;
+    border-radius: 0 !important;
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
     margin-bottom: 0.55rem;
   }
   .card-contour-icon svg {
-    width: 22px;
-    height: 22px;
+    width: 32px;
+    height: 32px;
   }
   .domain-title {
     font-size: 1.1rem;
