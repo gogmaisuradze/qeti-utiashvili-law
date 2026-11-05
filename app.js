@@ -849,11 +849,27 @@ function initLegalAdvisor() {
     }
   }
 
+  const mobCenterChatBtn = document.getElementById('mobCenterChatBtn');
+
+  // Center elevated mobile bottom bar chat button
+  if (mobCenterChatBtn) {
+    mobCenterChatBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      e.preventDefault();
+      if (modal.classList.contains('hidden') || modal.classList.contains('closing')) {
+        openAdvisorChat();
+      } else {
+        closeAdvisorChat();
+      }
+    });
+  }
+
   // Close when clicking outside of modal and toggle button
   document.addEventListener('click', (e) => {
     if (!modal.classList.contains('hidden') && 
         !modal.contains(e.target) && 
-        !toggleBtn.contains(e.target)) {
+        !toggleBtn.contains(e.target) &&
+        (!mobCenterChatBtn || !mobCenterChatBtn.contains(e.target))) {
       closeAdvisorChat();
     }
   });
@@ -862,6 +878,7 @@ function initLegalAdvisor() {
   document.querySelectorAll('.expertise-card-editorial[data-advisor-query]').forEach(card => {
     card.addEventListener('click', (e) => {
       e.preventDefault();
+      e.stopPropagation();
       const qType = card.getAttribute('data-advisor-query');
       toggleBtn.classList.remove('minimized');
       openAdvisorChat();
@@ -1044,7 +1061,7 @@ function initMobileNav() {
       burger.classList.toggle('active', isOpen);
     });
 
-    document.querySelectorAll('.nav-item, .nav-drawer-cta-btn, .nav-drawer-phone-btn').forEach(link => {
+    document.querySelectorAll('.nav-item, .nav-drawer-cta-btn, .nav-drawer-phone-btn, .nav-drawer-quick-call').forEach(link => {
       link.addEventListener('click', () => {
         navLinks.classList.remove('open');
         burger.classList.remove('active');
@@ -1058,6 +1075,39 @@ function initMobileNav() {
         burger.classList.remove('active');
       }
     });
+  }
+
+  // Mobile Bottom Navigation Bar Links Active State & Smooth Scrolling
+  const mobNavLinks = document.querySelectorAll('.mob-nav-link[data-nav-target]');
+  if (mobNavLinks.length > 0) {
+    mobNavLinks.forEach(link => {
+      link.addEventListener('click', () => {
+        mobNavLinks.forEach(l => l.classList.remove('active'));
+        link.classList.add('active');
+      });
+    });
+
+    window.addEventListener('scroll', () => {
+      const scrollPos = window.scrollY + 160;
+      const heroSec = document.getElementById('hero');
+      const expSec = document.getElementById('expertise');
+      const calSec = document.getElementById('calendar');
+
+      let current = 'hero';
+      if (calSec && scrollPos >= calSec.offsetTop) {
+        current = 'calendar';
+      } else if (expSec && scrollPos >= expSec.offsetTop) {
+        current = 'expertise';
+      }
+
+      mobNavLinks.forEach(link => {
+        if (link.getAttribute('data-nav-target') === current) {
+          link.classList.add('active');
+        } else {
+          link.classList.remove('active');
+        }
+      });
+    }, { passive: true });
   }
 
   // Mobile "მეტის ნახვა" Toggle for Practice Areas

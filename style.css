@@ -390,7 +390,9 @@ button, input, select, textarea {
 
 .nav-item-icon,
 .nav-item-arrow,
-.nav-mobile-drawer-bottom {
+.nav-mobile-drawer-bottom,
+.nav-drawer-laconic-bottom,
+.mobile-bottom-nav-bar {
   display: none;
 }
 
@@ -3167,6 +3169,9 @@ button, input, select, textarea {
     overflow-x: hidden;
     max-width: 100vw;
   }
+  body {
+    padding-bottom: calc(58px + env(safe-area-inset-bottom, 0px));
+  }
 
   /* Prevent iOS Safari auto-zoom on form inputs */
   input, select, textarea, .modern-input {
@@ -3380,66 +3385,31 @@ button, input, select, textarea {
     color: var(--color-brass-primary);
   }
 
-  .nav-mobile-drawer-bottom {
+  .nav-drawer-laconic-bottom {
     display: flex;
-    flex-direction: column;
-    gap: 0.45rem;
-    padding-top: 0.65rem;
+    align-items: center;
+    justify-content: center;
+    padding-top: 0.5rem;
     margin-top: 0.35rem;
     border-top: 1px solid rgba(15, 23, 42, 0.08);
   }
-  .nav-drawer-cta-btn {
-    display: flex;
+  .nav-drawer-quick-call {
+    display: inline-flex;
     align-items: center;
-    justify-content: center;
-    gap: 0.5rem;
-    background: var(--color-brass-primary);
-    color: #FFFFFF;
-    font-size: 0.88rem;
-    font-weight: 600;
-    padding: 0.65rem 1rem;
-    border-radius: var(--radius-pill);
-    box-shadow: 0 4px 14px rgba(114, 25, 39, 0.35);
-    text-decoration: none;
-  }
-  .nav-drawer-cta-btn svg {
-    width: 16px;
-    height: 16px;
-  }
-  .nav-drawer-phone-btn {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.5rem;
-    background: var(--color-slate-black);
-    color: #FFFFFF;
+    gap: 0.45rem;
     font-size: 0.82rem;
-    font-weight: 500;
-    padding: 0.55rem 1rem;
-    border-radius: var(--radius-pill);
+    font-weight: 600;
+    color: var(--color-brass-primary);
     text-decoration: none;
+    padding: 0.4rem 0.85rem;
+    border-radius: var(--radius-pill);
+    background: rgba(114, 25, 39, 0.06);
+    border: 1px solid rgba(114, 25, 39, 0.15);
+    transition: all 0.2s ease;
   }
-  .nav-drawer-phone-btn svg {
+  .nav-drawer-quick-call svg {
     width: 15px;
     height: 15px;
-    color: var(--color-brass-soft);
-  }
-  .nav-drawer-region-tag {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.4rem;
-    font-size: 0.68rem;
-    color: var(--color-text-muted);
-    padding: 0.2rem 0;
-    text-align: center;
-  }
-  .region-live-dot {
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    background-color: #10B981;
-    flex-shrink: 0;
   }
 
   /* Hero Section (Compact & Fitted) */
@@ -3836,46 +3806,28 @@ button, input, select, textarea {
     align-items: center;
   }
 
-  /* Floating AI Advisor on Mobile */
+  /* Floating AI Advisor on Mobile: pill is docked into center bottom nav button */
   .advisor-floating-container {
-    bottom: max(12px, env(safe-area-inset-bottom));
-    right: 12px;
+    bottom: 0;
+    right: 0;
+    pointer-events: none;
   }
   .advisor-toggle-pill {
-    padding: 0.38rem 0.6rem 0.38rem 0.45rem;
-    gap: 0.55rem;
-  }
-  .advisor-toggle-pill .advisor-pill-copy strong {
-    font-size: 0.8rem;
-  }
-  .advisor-toggle-pill .advisor-pill-copy small {
-    font-size: 0.64rem;
-  }
-  .advisor-toggle-pill.minimized {
-    width: 46px;
-    height: 46px;
-    padding: 0;
-  }
-  .advisor-pill-minimize {
-    width: 26px;
-    height: 26px;
-  }
-  .advisor-pill-minimize svg {
-    width: 13px;
-    height: 13px;
+    display: none !important;
   }
   .advisor-popup-card {
+    pointer-events: auto;
     position: fixed !important;
     top: auto !important;
-    bottom: 8px !important;
+    bottom: calc(64px + env(safe-area-inset-bottom, 0px)) !important;
     left: 8px !important;
     right: 8px !important;
     width: auto !important;
     max-width: calc(100vw - 16px) !important;
-    height: calc(100dvh - 70px) !important;
-    max-height: 560px !important;
+    height: calc(100dvh - 84px) !important;
+    max-height: 580px !important;
     border-radius: 16px !important;
-    box-shadow: 0 16px 48px rgba(15, 23, 42, 0.4) !important;
+    box-shadow: 0 16px 48px rgba(15, 23, 42, 0.45) !important;
     z-index: 2100 !important;
     transform-origin: bottom center !important;
   }
@@ -3885,6 +3837,119 @@ button, input, select, textarea {
   @keyframes modalPopDownMobile {
     0% { opacity: 1; transform: translateY(0); }
     100% { opacity: 0; transform: translateY(30px); }
+  }
+
+  /* Mobile Bottom App Bar (მენიუს იკონები დაბლა, შუაში ჩატი) */
+  .mobile-bottom-nav-bar {
+    display: flex;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: calc(56px + env(safe-area-inset-bottom, 0px));
+    padding: 0 6px env(safe-area-inset-bottom, 0px);
+    background: rgba(15, 23, 42, 0.96);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+    border-top: 1px solid rgba(255, 255, 255, 0.12);
+    align-items: center;
+    justify-content: space-around;
+    z-index: 2000;
+    box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.35);
+  }
+
+  .mob-nav-link {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 3px;
+    color: #94A3B8;
+    text-decoration: none;
+    font-size: 0.68rem;
+    font-weight: 500;
+    padding: 4px 0;
+    transition: color 0.2s ease, transform 0.2s ease;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .mob-nav-link svg {
+    width: 20px;
+    height: 20px;
+    stroke-width: 1.8;
+    transition: transform 0.2s ease, color 0.2s ease;
+  }
+  .mob-nav-link:active,
+  .mob-nav-link.active {
+    color: #FFFFFF;
+  }
+  .mob-nav-link.active svg {
+    color: var(--color-brass-soft);
+    transform: translateY(-1px);
+  }
+  .mob-nav-link.mob-nav-call {
+    color: #CBD5E1;
+  }
+  .mob-nav-link.mob-nav-call svg {
+    color: var(--color-brass-soft);
+  }
+
+  /* Center Elevated Chat Button (შუაში ჩასმული ჩატი) */
+  .mob-nav-chat-center {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    border: none;
+    padding: 0;
+    margin-top: -14px;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    position: relative;
+    z-index: 2;
+  }
+  .mob-chat-center-circ {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--color-brass-primary) 0%, #520F1B 100%);
+    border: 3px solid #0F172A;
+    box-shadow: 0 4px 16px rgba(114, 25, 39, 0.6), 0 0 0 1px rgba(255, 255, 255, 0.16);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #FFFFFF;
+    position: relative;
+    transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s ease;
+  }
+  .mob-chat-center-circ svg {
+    width: 22px;
+    height: 22px;
+  }
+  .mob-nav-chat-center:active .mob-chat-center-circ {
+    transform: scale(0.92);
+    box-shadow: 0 2px 8px rgba(114, 25, 39, 0.7);
+  }
+  .mob-chat-live-dot {
+    position: absolute;
+    top: 2px;
+    right: 2px;
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background-color: #10B981;
+    border: 2px solid #0F172A;
+    box-shadow: 0 0 6px #10B981;
+    animation: liveDotPulse 2s infinite ease-in-out;
+  }
+  .mob-chat-center-label {
+    font-size: 0.65rem;
+    font-weight: 600;
+    color: #FFFFFF;
+    margin-top: 2px;
+    letter-spacing: 0.02em;
   }
 
   /* Compact Bundled Editorial Footer on Mobile */
