@@ -1300,60 +1300,13 @@ function initLegalAdvisor() {
     });
   }
 
-  function handleStartChat(e) {
-    if (e) {
-      e.preventDefault();
-      e.stopPropagation();
-    }
-    const startWrap = document.getElementById('chatStartWrap');
-    if (startWrap) {
-      startWrap.style.display = 'none';
-      setTimeout(() => {
-        if (startWrap && startWrap.parentNode) startWrap.remove();
-      }, 300);
-    }
-
-    const curLang = currentLang || 'ka';
-    const dict = i18nDictionary[curLang] || i18nDictionary.ka;
-    const userPrompt = dict['adv.btn_start'] || "დაწყება";
-    appendChatBubble(userPrompt, 'user');
-    generateAdvisorResponse(userPrompt, 'start');
-    if (inputField && window.innerWidth > 768) {
-      setTimeout(() => inputField.focus(), 100);
-    }
-  }
-
   function resetAdvisorChat() {
     if (!chatBody) return;
-    const curLang = currentLang || 'ka';
-    const dict = i18nDictionary[curLang] || i18nDictionary.ka;
-    const welcomeTxt = dict['adv.welcome_msg'] || 'მოგესალმებით. მე ვარ ქეთევან უტიაშვილის საადვოკატო ბიუროს ვირტუალური ასისტენტი. ცენტრალური ოფისი მდებარეობს თბილისში, ილია ჭავჭავაძის გამზ. #26-ში. რით შემიძლია დაგეხმაროთ დღეს?';
-    const startTxt = dict['adv.btn_start'] || 'დაწყება';
-    chatBody.innerHTML = `
-      <div class="chat-row system">
-        <div class="chat-bubble">
-          <p data-i18n="adv.welcome_msg">${welcomeTxt}</p>
-        </div>
-      </div>
-
-      <div class="chat-start-wrap" id="chatStartWrap">
-        <button type="button" class="chat-start-btn" id="chatStartBtn">
-          <span data-i18n="adv.btn_start">${startTxt}</span>
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
-        </button>
-      </div>
-    `;
-    const newStartBtn = document.getElementById('chatStartBtn');
-    if (newStartBtn) {
-      newStartBtn.addEventListener('click', (e) => {
-        e.preventDefault();
-        e.stopPropagation();
-        handleStartChat(e);
-      });
-    }
+    chatBody.innerHTML = '';
+    const sid = 'web-' + Date.now() + '-' + Math.random().toString(36).slice(2, 10);
+    try { localStorage.setItem('ku_advisor_sid', sid); } catch (e) {}
     if (inputField) {
       inputField.value = '';
-      inputField.placeholder = dict['adv.input_ph'] || "დასვით თქვენი იურიდიული შეკითხვა...";
     }
   }
 
@@ -1394,32 +1347,16 @@ function initLegalAdvisor() {
   });
 
   // Practice Area Cards -> Direct Route to On-Site AI Legal Advisor!
+  // Practice Area Cards -> Open Advisor Chat
   document.querySelectorAll('.expertise-card-editorial[data-advisor-query]').forEach(card => {
     card.addEventListener('click', (e) => {
       e.preventDefault();
       e.stopPropagation();
-      const qType = card.getAttribute('data-advisor-query');
       toggleBtn.classList.remove('minimized');
       openAdvisorChat();
-      if (qType) {
-        handleQuickAdvisorQuery(qType);
+      if (inputField) {
+        setTimeout(() => inputField.focus(), 120);
       }
-    });
-  });
-
-  const initialStartBtn = document.getElementById('chatStartBtn');
-  if (initialStartBtn) {
-    initialStartBtn.addEventListener('click', (e) => {
-      e.preventDefault();
-      e.stopPropagation();
-      handleStartChat(e);
-    });
-  }
-
-  document.querySelectorAll('.quick-tag-btn').forEach(tagBtn => {
-    tagBtn.addEventListener('click', () => {
-      const qType = tagBtn.getAttribute('data-query');
-      if (qType) handleQuickAdvisorQuery(qType);
     });
   });
 
@@ -1479,25 +1416,6 @@ function initLegalAdvisor() {
     });
   }
 
-  function handleQuickAdvisorQuery(type) {
-    const promptMap = {
-      re_tbilisi: "უძრავი ქონებისა და მშენებლობის დავები",
-      corporate: "სამეწარმეო და კორპორაციული სამართალი",
-      civil: "სამოქალაქო და სახელშეკრულებო დავები",
-      mediation: "მედიაცია და ალტერნატიული მორიგება",
-      administrative: "ადმინისტრაციული დავები (სახელმწიფო & მუნიციპალური ორგანოები)",
-      family: "საოჯახო და მემკვიდრეობითი სამართალი",
-      deadlines: "სასამართლოში გასაჩივრების ხანდაზმულობის ვადები",
-      booking: "ცენტრალური ოფისის მისამართი და ვიზიტის დაჯავშნა",
-      booking_docs: "რა დოკუმენტები უნდა მოვამზადო ვიზიტისთვის?",
-      booking_location: "თბილისის ოფისის მისამართი, ლოკაცია და პარკინგი",
-      booking_prep: "როგორ მოვემზადო კონსულტაციისთვის?"
-    };
-    const userText = promptMap[type] || "მაინტერესებს იურიდიული კონსულტაცია";
-    appendChatBubble(userText, 'user');
-    generateAdvisorResponse(userText, type);
-  }
-
   function appendChatBubble(content, sender = 'system') {
     const row = document.createElement('div');
     row.className = `chat-row ${sender}`;
@@ -1506,150 +1424,69 @@ function initLegalAdvisor() {
     chatBody.scrollTop = chatBody.scrollHeight;
   }
 
-  async function generateAdvisorResponse(query, queryType = '') {
-    const q = query.toLowerCase();
+  const ADVISOR_WEBHOOK = window.N8N_CHAT_WEBHOOK || 'https://meticulous-oyster.pikapod.net/webhook/utiashvili-website-chat';
 
+  async function generateAdvisorResponse(query) {
     const typingDiv = document.createElement('div');
     typingDiv.className = 'chat-row system';
-    typingDiv.innerHTML = `<div class="chat-bubble" style="color:#721927; font-style:italic;">ვირტუალური ასისტენტი ამუშავებს მონაცემებს...</div>`;
+    typingDiv.innerHTML = `<div class="chat-bubble" style="color:#721927; font-style:italic;">ასისტენტი ამუშავებს შეტყობინებას...</div>`;
     chatBody.appendChild(typingDiv);
     chatBody.scrollTop = chatBody.scrollHeight;
 
-    // --- რეალური AI ასისტენტი (n8n webhook) ---
-    const ADVISOR_WEBHOOK = 'https://meticulous-oyster.pikapod.net/webhook/utiashvili-website-chat';
     let sid = null;
     try { sid = localStorage.getItem('ku_advisor_sid'); } catch (e) {}
     if (!sid) {
       sid = 'web-' + Date.now() + '-' + Math.random().toString(36).slice(2, 10);
       try { localStorage.setItem('ku_advisor_sid', sid); } catch (e) {}
     }
+
     try {
       const resp = await fetch(ADVISOR_WEBHOOK, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ message: query, sessionId: sid })
+        body: JSON.stringify({
+          message: query,
+          sessionId: sid,
+          lang: currentLang || 'ka'
+        })
       });
-      const data = await resp.json().catch(() => ({}));
-      typingDiv.remove();
-      const raw = (data && (data.reply || data.output)) ? (data.reply || data.output) : '';
-      if (raw) {
-        const safe = String(raw)
-          .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+
+      if (typingDiv && typingDiv.parentNode) typingDiv.remove();
+
+      if (!resp.ok) {
+        throw new Error(`HTTP error ${resp.status}`);
+      }
+
+      const raw = await resp.text();
+      let replyText = '';
+
+      try {
+        const data = JSON.parse(raw);
+        if (Array.isArray(data) && data.length > 0) {
+          replyText = data[0].output || data[0].reply || data[0].text || data[0].message || data[0].response || JSON.stringify(data[0]);
+        } else if (typeof data === 'object' && data !== null) {
+          replyText = data.output || data.reply || data.text || data.message || data.response || '';
+        } else if (typeof data === 'string') {
+          replyText = data;
+        }
+      } catch (jsonErr) {
+        replyText = raw;
+      }
+
+      if (replyText) {
+        const safe = String(replyText)
+          .replace(/&/g, '&amp;')
+          .replace(/</g, '&lt;')
+          .replace(/>/g, '&gt;')
           .replace(/\n/g, '<br>');
         appendChatBubble(safe, 'system');
       } else {
-        appendChatBubble(getDomainFallback(queryType, q), 'system');
+        appendChatBubble('პასუხი ვერ მიიღო სერვერიდან.', 'system');
       }
     } catch (err) {
-      typingDiv.remove();
-      appendChatBubble(getDomainFallback(queryType, q), 'system');
+      if (typingDiv && typingDiv.parentNode) typingDiv.remove();
+      appendChatBubble('კავშირის შეცდომა. ბოტი ჯერ არ არის მიბმული ან სერვერი დროებით მიუწვდომელია.', 'system');
     }
-  }
-
-  function getDomainFallback(queryType, q) {
-    if (queryType === 'start' || q.includes('დაწყებ') || q === 'start') {
-      return `<strong>მოგესალმებით!</strong><br><br>
-      მე ვარ ქეთევან უტიაშვილის საადვოკატო ბიუროს ვირტუალური იურიდიული ასისტენტი.<br><br>
-      გთხოვთ ქვედა ველში მომწეროთ, რა სამართლებრივ საკითხზე გესაჭიროებათ კონსულტაცია (მაგ. <em>უძრავი ქონება, სამოქალაქო დავა, ბიზნესი, მედიაცია, საოჯახო</em> თუ სხვა), ან დასვით ნებისმიერი შეკითხვა და დაგეხმარებით.`;
-    }
-    if (queryType === 're_tbilisi' || q.includes('უძრავ') || q.includes('მშენებ')) {
-      return `<strong>უძრავი ქონება და მშენებლობის დავები:</strong><br><br>
-      უძრავი ქონებისა და დეველოპერული ხელშეკრულებების სპეციფიკიდან გამომდინარე, აუცილებელია:
-      <ul>
-        <li>მშენებლობის ეტაპებისა და ვადების გადაცილების აუდიტი;</li>
-        <li>საჯარო რეესტრის ვალდებულებებისა და პირგასამტეხლოს მექანიზმების შემოწმება;</li>
-        <li>საადვოკატო გაფრთხილების დროული მომზადება.</li>
-      </ul>
-      <br>ქეთევან უტიაშვილის საადვოკატო ბიურო ახორციელებს ხელშეკრულებების სრულ სამართლებრივ ექსპერტიზას. შეგიძლიათ <a href="#calendar" style="color:#721927; text-decoration:underline; font-weight:600;">დაჯავშნოთ ვიზიტი თბილისის ოფისში (ჭავჭავაძის 26)</a>.`;
-    }
-    if (queryType === 'corporate' || q.includes('კორპორაცი') || q.includes('სამეწარმეო') || q.includes('პარტნიორ')) {
-      return `<strong>სამეწარმეო და კორპორაციული სამართალი:</strong><br><br>
-      კორპორაციულ დავებსა და ბიზნეს-აქტივების მართვაში გადამწყვეტია:
-      <ul>
-        <li>წესდებით განსაზღვრული კვორუმი და პარტნიორთა კრების ოქმების სისწორე;</li>
-        <li>წილების გასხვისების, დივიდენდების განაწილებისა და დირექტორის პასუხისმგებლობის საკითხები;</li>
-        <li>უცხოური ინვესტიციების დაცვა და ბიზნეს-აქტივების იურიდიული აუდიტი (Due Diligence).</li>
-      </ul>
-      <br>გირჩევთ წინასწარ კონსულტაციას ქეთევან უტიაშვილთან. <a href="#calendar" style="color:#721927; text-decoration:underline; font-weight:600;">დაჯავშნეთ ვიზიტი კალენდარში</a>.`;
-    }
-    if (queryType === 'civil' || q.includes('სამოქალაქო') || q.includes('ხელშეკრულებ') || q.includes('ვალ')) {
-      return `<strong>სამოქალაქო და სახელშეკრულებო დავები:</strong><br><br>
-      სამოქალაქო კოდექსის თანახმად, სახელშეკრულებო მოთხოვნებზე მოქმედებს ხანდაზმულობის 3-წლიანი ვადა.<br><br>
-      ბიურო უზრუნველყოფს:
-      <ul>
-        <li>პირველადი საადვოკატო პრეტენზიის მომზადებას;</li>
-        <li>სარჩელის უზრუნველყოფის ღონისძიებების (ყადაღის) გამოყენებას;</li>
-        <li>წარმომადგენლობას თბილისის საქალაქო, სააპელაციო და უზენაეს სასამართლოში.</li>
-      </ul>`;
-    }
-    if (queryType === 'mediation' || q.includes('მედია') || q.includes('მორიგებ')) {
-      return `<strong>მედიაცია და ალტერნატიული მორიგება:</strong><br><br>
-      ქეთევან უტიაშვილი არის საქართველოს მედიატორთა ასოციაციის აკრედიტებული მედიატორი.<br><br>
-      უპირატესობები:
-      • სრული კონფიდენციალურობა;<br>
-      • დავის მოგვარება 2-4 კვირაში წლობით სასამართლო პროცესების ნაცვლად;<br>
-      • მიღწეულ სამედიაციო შეთანხმებას აქვს <strong>სასამართლო გადაწყვეტილების ტოლფასი სააღსრულებო ძალა</strong>.`;
-    }
-    if (queryType === 'administrative' || q.includes('ადმინისტრაცი') || q.includes('მერია') || q.includes('რეესტრ')) {
-      return `<strong>ადმინისტრაციული დავები (მერია, რეესტრი, შემოსავლები):</strong><br><br>
-      ადმინისტრაციული აქტის გასაჩივრებისთვის საქართველოს კანონმდებლობით დადგენილია <strong>მკაცრი 30-დღიანი ვადა</strong>.<br><br>
-      ბიურო წარმატებით წარმართავს:
-      <ul>
-        <li>თბილისის მერიისა და ზედამხედველობის სამსახურის ჯარიმების გასაჩივრებას;</li>
-        <li>საჯარო რეესტრის უარის ან შეჩერების გასაჩივრებას;</li>
-        <li>საგადასახადო და საბაჟო დავებს.</li>
-      </ul>`;
-    }
-    if (queryType === 'family' || q.includes('საოჯახო') || q.includes('მემკვიდრეობ') || q.includes('ანდერძ')) {
-      return `<strong>საოჯახო & მემკვიდრეობითი სამართალი:</strong><br><br>
-      თანასაკუთრების გაყოფასა და მემკვიდრეობის მიღებაში მნიშვნელოვანია 6-თვიანი საპროცესო ვადის დაცვა ნოტარიუსთან.<br><br>
-      ბიურო იცავს თქვენს ინტერესებს:
-      <ul>
-        <li>სამკვიდრო ქონების გაყოფასა და ანდერძის ნამდვილობის დავებში;</li>
-        <li>საოჯახო შეთანხმებების გაფორმებასა და არასრულწლოვანთა ქონებრივი უფლებების დაცვაში.</li>
-      </ul>`;
-    }
-    if (queryType === 'deadlines' || q.includes('ვადა') || q.includes('ხანდაზმულ')) {
-      return `<strong>ხანდაზმულობის ვადები სამოქალაქო კოდექსით:</strong><br><br>
-      • სახელშეკრულებო მოთხოვნებზე: <strong>3 წელი</strong><br>
-      • უძრავ ქონებასთან დაკავშირებულ მოთხოვნებზე: <strong>6 წელი</strong><br>
-      • პერიოდულად შესასრულებელ ვალდებულებებზე: <strong>3 წელი</strong><br>
-      • ადმინისტრაციული აქტის გასაჩივრება: <strong>30 კალენდარული დღე</strong><br><br>
-      <em>გაფრთხილება:</em> ვადის გადაცილება საქმის წაგების საფუძველია. შეგიძლიათ შეაფასოთ თქვენი საქმე ჩვენს <a href="#case-check" style="color:#721927; text-decoration:underline; font-weight:600;">ონლაინ დიაგნოსტიკაში</a>.`;
-    }
-    if (queryType === 'booking' || q.includes('კალენდარ') || q.includes('ჩაწერ') || q.includes('ვიზიტ') || q.includes('მისამართ')) {
-      return `<strong>თბილისის ცენტრალური ოფისი & ვიზიტი:</strong><br><br>
-      მისამართი: <strong>ქ. თბილისი, ილია ჭავჭავაძის გამზირი #26</strong> (ვაკე).<br>
-      სამუშაო საათები: ორშაბათიდან პარასკევის ჩათვლით 10:00 - 18:00.<br><br>
-      კონსულტაციაზე ჩასაწერად გამოიყენეთ ჩვენი <a href="#calendar" style="color:#721927; text-decoration:underline; font-weight:600;">ინტეგრირებული კალენდარი</a> ან დარეკეთ ნომერზე: <strong>+995 599 35 15 25</strong>.`;
-    }
-    if (queryType === 'booking_docs' || q.includes('დოკუმენტ')) {
-      return `<strong>კონსულტაციისთვის საჭირო დოკუმენტაცია:</strong><br><br>
-      ვიზიტის მაქსიმალური ეფექტიანობისთვის სასურველია თან იქონიოთ:
-      <ul>
-        <li><strong>ხელშეკრულებები და დანართები</strong> (ასეთის არსებობის შემთხვევაში);</li>
-        <li><strong>ამონაწერი საჯარო რეესტრიდან</strong> და საკადასტრო კოდი (ქონებრივი დავებისთვის);</li>
-        <li><strong>მიმოწერები, ოფიციალური შეტყობინებები</strong> ან ადმინისტრაციული აქტები;</li>
-        <li><strong>პირადობის დამადასტურებელი დოკუმენტი</strong>.</li>
-      </ul>
-      თუ დოკუმენტები ელექტრონულ ფორმატში გაქვთ, შეგიძლიათ წინასწარ გადმოაგზავნოთ: <a href="mailto:office@utiashvililaw.ge" style="color:#721927; font-weight:600;">office@utiashvililaw.ge</a>`;
-    }
-    if (queryType === 'booking_location' || q.includes('ლოკაცია') || q.includes('პარკინგ')) {
-      return `<strong>თბილისის ცენტრალური ოფისის დეტალები:</strong><br><br>
-      • <strong>მისამართი:</strong> ქ. თბილისი, ილია ჭავჭავაძის გამზირი #26 (ვაკე);<br>
-      • <strong>სამუშაო საათები:</strong> ორშაბათი – პარასკევი, 10:00 – 18:00;<br>
-      • <strong>პარკინგი:</strong> ხელმისაწვდომია ჭავჭავაძის გამზირის მიმდებარე საპარკინგე ზონაში;<br>
-      • <strong>პირდაპირი კონტაქტი:</strong> <a href="tel:+995599351525" style="color:#721927; font-weight:600;">+995 599 35 15 25</a>.`;
-    }
-    if (queryType === 'booking_prep') {
-      return `<strong>როგორ მოემზადოთ ადვოკატთან ვიზიტისთვის:</strong><br><br>
-      1. <strong>ფაქტების ქრონოლოგია:</strong> მოკლედ ჩამოწერეთ მოვლენების თანმიმდევრობა თარიღების მიხედვით;<br>
-      2. <strong>მთავარი მიზანი:</strong> მკაფიოდ განსაზღვრეთ, რა არის თქვენი სასურველი იურიდიული შედეგი;<br>
-      3. <strong>კითხვების სია:</strong> წინასწარ ჩამოწერეთ ის ძირითადი კითხვები, რაც ყველაზე მეტად გაღელვებთ.<br><br>
-      ქეთევან უტიაშვილი პირისპირ განიხილავს თქვენი საქმის სტრატეგიას და განსაზღვრავს წარმატების შანსებს.`;
-    }
-    return `გმადლობთ შეკითხვისთვის. თქვენი საკითხი მოითხოვს ქეთევან უტიაშვილის ინდივიდუალურ სამართლებრივ შეფასებას. 
-    <br><br>გირჩევთ შეავსოთ ჩვენი <a href="#case-check" style="color:#721927; text-decoration:underline; font-weight:600;">საქმის ონლაინ შეფასება</a> ან მობრძანდეთ თბილისის ოფისში (ჭავჭავაძის გამზ. 26) <a href="#calendar" style="color:#721927; text-decoration:underline; font-weight:600;">კალენდარში წინასწარი ჩაწერით</a>.`;
   }
 }
 
