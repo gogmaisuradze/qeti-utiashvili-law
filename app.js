@@ -14,6 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initSmoothScrollSpy();
   initThemisContourParallax();
   initScrollBurnCards();
+  initExpertiseCircularCarousel();
 });
 
 /* ==========================================================================
@@ -85,6 +86,15 @@ const i18nDictionary = {
     "exp.d6_desc": "თანასაკუთრების გაყოფა, მემკვიდრეობის მიღება, ანდერძის გასაჩივრება, საოჯახო შეთანხმებები და ბავშვთა უფლებების დაცვა.",
     "exp.d6_link": "საოჯახო კონსულტაცია →",
     "exp.more_btn": "ყველა მიმართულების ნახვა (6)",
+    "exp.view_carousel": "3D წრიული კარუსელი",
+    "exp.view_grid": "სრული ბადე",
+    "exp.swipe_hint": "გადასაფურცლად გამოიყენეთ ისრები ან გადაფურცვლა",
+    "exp.tag_realestate": "უძრავი ქონება",
+    "exp.tag_corporate": "კორპორაციული",
+    "exp.tag_civil": "სამოქალაქო დავა",
+    "exp.tag_mediation": "მედიაცია",
+    "exp.tag_admin": "ადმინისტრაციული",
+    "exp.tag_family": "საოჯახო",
     "about.badge_gba": "საქართველოს ადვოკატთა ასოციაცია (GBA) • 20+ წელი",
     "about.tag_court": "საადვოკატო პრაქტიკა",
     "about.tag_med": "კონსულტაცია & მედიაცია",
@@ -288,6 +298,15 @@ const i18nDictionary = {
     "exp.d6_desc": "Division of marital/joint property, estate probate, will contestations, marital agreements, and child rights protection.",
     "exp.d6_link": "Family Consultation →",
     "exp.more_btn": "View All Practice Areas (6)",
+    "exp.view_carousel": "3D Circular Orbit",
+    "exp.view_grid": "Symmetrical Grid",
+    "exp.swipe_hint": "Use arrows, keyboard, or swipe to browse",
+    "exp.tag_realestate": "Real Estate",
+    "exp.tag_corporate": "Corporate",
+    "exp.tag_civil": "Civil Law",
+    "exp.tag_mediation": "Mediation",
+    "exp.tag_admin": "Administrative",
+    "exp.tag_family": "Family Law",
     "about.badge_gba": "Georgian Bar Association (GBA) • 20+ Years",
     "about.tag_court": "Trial Practice",
     "about.tag_med": "Consultation & Mediation",
@@ -491,6 +510,15 @@ const i18nDictionary = {
     "exp.d6_desc": "Раздел совместного имущества, принятие наследства, оспаривание завещаний, брачные соглашения и защита прав детей.",
     "exp.d6_link": "Семейная консультация →",
     "exp.more_btn": "Показать все направления (6)",
+    "exp.view_carousel": "3D Круговая орбита",
+    "exp.view_grid": "Сетка практики",
+    "exp.swipe_hint": "Используйте стрелки или свайп для навигации",
+    "exp.tag_realestate": "Недвижимость",
+    "exp.tag_corporate": "Корпоративное",
+    "exp.tag_civil": "Гражданское",
+    "exp.tag_mediation": "Медиация",
+    "exp.tag_admin": "Административное",
+    "exp.tag_family": "Семейное право",
     "about.badge_gba": "Ассоциация адвокатов Грузии (GBA) • 20+ лет",
     "about.tag_court": "Адвокатская практика",
     "about.tag_med": "Консультация и медиация",
@@ -1905,4 +1933,286 @@ function initScrollBurnCards() {
     });
     updateBurn();
   };
+}
+
+/* ==========================================================================
+   10. PRACTICE DOMAINS 3D CIRCULAR ORBITAL CAROUSEL
+   ========================================================================== */
+function initExpertiseCircularCarousel() {
+  const container = document.getElementById('expertiseCarouselContainer');
+  const track = document.getElementById('circularCarouselTrack');
+  const cards = Array.from(document.querySelectorAll('.circular-carousel-card'));
+  const prevBtn = document.getElementById('carouselPrevBtn');
+  const nextBtn = document.getElementById('carouselNextBtn');
+  const dots = Array.from(document.querySelectorAll('.carousel-dot'));
+  const activeIndexEl = document.getElementById('carouselActiveIndex');
+  const viewModeCarouselBtn = document.getElementById('viewModeCarouselBtn');
+  const viewModeGridBtn = document.getElementById('viewModeGridBtn');
+  const gridEl = document.querySelector('.expertise-symmetrical-grid');
+  const moreWrap = document.querySelector('.mobile-more-expertise-wrap');
+
+  if (!container || !track || cards.length === 0) return;
+
+  const VISIBLE_COUNT = 5;
+  const total = cards.length;
+  let activeIndex = 0;
+  let isHovered = false;
+  let isFocused = false;
+  let autoPlayTimer = null;
+  const autoPlayInterval = 4000;
+
+  function getRadii() {
+    const w = track.clientWidth || 800;
+    if (w < 480) {
+      return { rx: Math.min(125, w * 0.32), ry: 50 };
+    } else if (w < 768) {
+      return { rx: Math.min(180, w * 0.33), ry: 75 };
+    } else {
+      return { rx: Math.min(265, w * 0.34), ry: 95 };
+    }
+  }
+
+  function getItemPosition(index, activeIdx, totalCount, rx, ry) {
+    const offset = index - activeIdx;
+    const half = Math.floor(VISIBLE_COUNT / 2);
+    let adjustedOffset = offset;
+
+    if (offset > half) adjustedOffset = offset - totalCount;
+    if (offset < -half) adjustedOffset = offset + totalCount;
+
+    if (Math.abs(adjustedOffset) > half * 2) return null;
+
+    const angle = (adjustedOffset / VISIBLE_COUNT) * Math.PI;
+    const x = Math.sin(angle) * rx;
+    const y = -Math.cos(angle) * ry;
+
+    const distance = Math.abs(adjustedOffset);
+    const maxDistance = half + 1;
+    const scale = Math.max(0, 1 - (distance / maxDistance) * 0.28);
+    const opacity = Math.max(0.2, 1 - (distance / maxDistance) * 0.72);
+    const zIndex = VISIBLE_COUNT - distance;
+
+    return { x, y, scale, opacity, zIndex, adjustedOffset };
+  }
+
+  function updateCarousel() {
+    const { rx, ry } = getRadii();
+
+    cards.forEach((card, i) => {
+      const pos = getItemPosition(i, activeIndex, total, rx, ry);
+      if (!pos) {
+        card.style.opacity = '0';
+        card.style.pointerEvents = 'none';
+        card.style.zIndex = '0';
+        card.classList.remove('active');
+        card.setAttribute('aria-selected', 'false');
+        return;
+      }
+
+      const isActive = (i === activeIndex);
+      card.style.transform = `translate3d(calc(-50% + ${pos.x.toFixed(1)}px), calc(-50% + ${pos.y.toFixed(1)}px), 0) scale(${pos.scale.toFixed(3)})`;
+      card.style.opacity = pos.opacity.toFixed(2);
+      card.style.zIndex = pos.zIndex;
+      card.style.pointerEvents = 'auto';
+
+      if (isActive) {
+        card.classList.add('active');
+        card.setAttribute('aria-selected', 'true');
+      } else {
+        card.classList.remove('active');
+        card.setAttribute('aria-selected', 'false');
+      }
+    });
+
+    if (activeIndexEl) {
+      activeIndexEl.textContent = String(activeIndex + 1).padStart(2, '0');
+    }
+
+    dots.forEach((dot, i) => {
+      if (i === activeIndex) {
+        dot.classList.add('active');
+        dot.setAttribute('aria-selected', 'true');
+      } else {
+        dot.classList.remove('active');
+        dot.setAttribute('aria-selected', 'false');
+      }
+    });
+  }
+
+  function goTo(index) {
+    activeIndex = ((index % total) + total) % total;
+    updateCarousel();
+  }
+
+  function next() {
+    goTo(activeIndex + 1);
+  }
+
+  function prev() {
+    goTo(activeIndex - 1);
+  }
+
+  function startTimer() {
+    stopTimer();
+    if (isHovered || isFocused) return;
+    autoPlayTimer = setInterval(next, autoPlayInterval);
+  }
+
+  function stopTimer() {
+    if (autoPlayTimer) {
+      clearInterval(autoPlayTimer);
+      autoPlayTimer = null;
+    }
+  }
+
+  // Navigation events
+  if (prevBtn) {
+    prevBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      prev();
+      startTimer();
+    });
+  }
+
+  if (nextBtn) {
+    nextBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      next();
+      startTimer();
+    });
+  }
+
+  dots.forEach((dot, i) => {
+    dot.addEventListener('click', (e) => {
+      e.preventDefault();
+      goTo(i);
+      startTimer();
+    });
+  });
+
+  // Card click routing
+  cards.forEach((card, i) => {
+    card.addEventListener('click', (e) => {
+      e.preventDefault();
+      if (i !== activeIndex) {
+        goTo(i);
+        startTimer();
+      } else {
+        // Active card clicked: trigger AI Legal Advisor
+        const query = card.getAttribute('data-advisor-query');
+        const toggleBtn = document.getElementById('advisorToggleBtn');
+        if (toggleBtn) toggleBtn.classList.remove('minimized');
+        if (typeof openAdvisorChat === 'function') openAdvisorChat();
+        if (query && typeof handleQuickAdvisorQuery === 'function') {
+          handleQuickAdvisorQuery(query);
+        }
+      }
+    });
+  });
+
+  // Hover & Focus Auto-Play Controls
+  container.addEventListener('mouseenter', () => {
+    isHovered = true;
+    stopTimer();
+  });
+
+  container.addEventListener('mouseleave', () => {
+    isHovered = false;
+    startTimer();
+  });
+
+  container.addEventListener('focusin', () => {
+    isFocused = true;
+    stopTimer();
+  });
+
+  container.addEventListener('focusout', () => {
+    isFocused = false;
+    startTimer();
+  });
+
+  // Keyboard navigation
+  container.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowLeft') {
+      e.preventDefault();
+      prev();
+      startTimer();
+    } else if (e.key === 'ArrowRight') {
+      e.preventDefault();
+      next();
+      startTimer();
+    }
+  });
+
+  // Touch Swipe gestures
+  let touchStartX = 0;
+  let touchStartY = 0;
+
+  track.addEventListener('touchstart', (e) => {
+    if (e.touches && e.touches.length > 0) {
+      touchStartX = e.touches[0].clientX;
+      touchStartY = e.touches[0].clientY;
+      isHovered = true;
+      stopTimer();
+    }
+  }, { passive: true });
+
+  track.addEventListener('touchend', (e) => {
+    if (e.changedTouches && e.changedTouches.length > 0) {
+      const deltaX = e.changedTouches[0].clientX - touchStartX;
+      const deltaY = e.changedTouches[0].clientY - touchStartY;
+      if (Math.abs(deltaX) > 40 && Math.abs(deltaX) > Math.abs(deltaY)) {
+        if (deltaX < 0) {
+          next();
+        } else {
+          prev();
+        }
+      }
+      isHovered = false;
+      startTimer();
+    }
+  }, { passive: true });
+
+  // View Mode Switcher
+  if (viewModeCarouselBtn && viewModeGridBtn) {
+    viewModeCarouselBtn.addEventListener('click', () => {
+      viewModeCarouselBtn.classList.add('active');
+      viewModeCarouselBtn.setAttribute('aria-selected', 'true');
+      viewModeGridBtn.classList.remove('active');
+      viewModeGridBtn.setAttribute('aria-selected', 'false');
+
+      container.classList.remove('view-hidden');
+      if (gridEl) gridEl.classList.add('view-hidden');
+      if (moreWrap) moreWrap.classList.add('view-hidden');
+      updateCarousel();
+      startTimer();
+    });
+
+    viewModeGridBtn.addEventListener('click', () => {
+      viewModeGridBtn.classList.add('active');
+      viewModeGridBtn.setAttribute('aria-selected', 'true');
+      viewModeCarouselBtn.classList.remove('active');
+      viewModeCarouselBtn.setAttribute('aria-selected', 'false');
+
+      container.classList.add('view-hidden');
+      if (gridEl) gridEl.classList.remove('view-hidden');
+      if (moreWrap) moreWrap.classList.remove('view-hidden');
+      stopTimer();
+    });
+
+    // Default: grid and mobile-more-wrap are hidden in favor of carousel
+    if (gridEl) gridEl.classList.add('view-hidden');
+    if (moreWrap) moreWrap.classList.add('view-hidden');
+  }
+
+  // Window resize handler
+  let resizeTimer = null;
+  window.addEventListener('resize', () => {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(updateCarousel, 120);
+  }, { passive: true });
+
+  // Initial render
+  updateCarousel();
+  startTimer();
 }

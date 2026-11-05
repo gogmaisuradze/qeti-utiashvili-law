@@ -16,7 +16,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&family=Noto+Serif+Georgian:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   
-  <link rel="stylesheet" href="style.css?v=3.3.0">
+  <link rel="stylesheet" href="style.css?v=3.4.0">
   <script src="soft-preview.js" defer></script>
 </head>
 <body class="editorial-body">
@@ -307,6 +307,219 @@
         <p class="section-subtitle-text" data-i18n="exp.subtitle">
           დახვეწილი და შედეგზე ორიენტირებული საადვოკატო წარმომადგენლობა კერძო და ბიზნეს სექტორში.
         </p>
+      </div>
+
+      <!-- Practice Domains View Switcher -->
+      <div class="expertise-view-switch-bar">
+        <div class="view-switch-pill" role="tablist" aria-label="Practice Domains View">
+          <button type="button" class="view-pill-btn active" id="viewModeCarouselBtn" role="tab" aria-selected="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="view-icon"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="2.5"/><circle cx="12" cy="5" r="1.5" fill="currentColor"/><circle cx="19" cy="12" r="1.5" fill="currentColor"/><circle cx="12" cy="19" r="1.5" fill="currentColor"/><circle cx="5" cy="12" r="1.5" fill="currentColor"/></svg>
+            <span data-i18n="exp.view_carousel">3D წრიული კარუსელი</span>
+          </button>
+          <button type="button" class="view-pill-btn" id="viewModeGridBtn" role="tab" aria-selected="false">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="view-icon"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/></svg>
+            <span data-i18n="exp.view_grid">სრული ბადე</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- CIRCULAR 3D ORBITAL CAROUSEL -->
+      <div class="circular-carousel-container" id="expertiseCarouselContainer" role="region" aria-label="Circular 3D Carousel" tabindex="0">
+        <!-- Ambient Orbit Ring Background -->
+        <div class="carousel-orbit-ring" aria-hidden="true"></div>
+
+        <!-- Center Counter Indicator (Spec: 01 of 06) -->
+        <div class="carousel-center-indicator" id="carouselCenterIndicator" aria-hidden="true">
+          <div class="center-indicator-inner">
+            <span class="center-index-big" id="carouselActiveIndex">01</span>
+            <span class="center-total-tag">OF 06</span>
+          </div>
+        </div>
+
+        <!-- Circular Track with 6 Orbiting Cards -->
+        <div class="circular-carousel-track" id="circularCarouselTrack">
+          <!-- Item 1: Real Estate -->
+          <div class="circular-carousel-card active" data-carousel-index="0" data-advisor-query="re_tbilisi" role="option" aria-selected="true" tabindex="0">
+            <div class="carousel-card-top">
+              <span class="carousel-card-tag" data-i18n="exp.tag_realestate">უძრავი ქონება</span>
+              <div class="carousel-card-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M2 9.5L12 3l10 6.5"/>
+                  <path d="M4 9.5h16v1.5H4z"/>
+                  <path d="M6 11v8M10 11v8M14 11v8M18 11v8"/>
+                  <path d="M3 19h18v2H3z"/>
+                  <path d="M1 21h22"/>
+                  <circle cx="12" cy="7.2" r="0.8" fill="currentColor"/>
+                </svg>
+              </div>
+            </div>
+            <div class="carousel-card-content">
+              <h3 class="carousel-card-title" data-i18n="exp.d1_title">უძრავი ქონება & მშენებლობა</h3>
+              <p class="carousel-card-desc" data-i18n="exp.d1_desc">
+                დეველოპერული ხელშეკრულებების აუდიტი, ვადების გადაცილება, საკუთრების უფლების რეგისტრაცია საჯარო რეესტრში და საინვესტიციო რისკების პრევენცია.
+              </p>
+            </div>
+            <div class="carousel-card-footer">
+              <span class="carousel-card-cta" data-i18n="exp.d1_link">სრული სამართლებრივი თანხლება →</span>
+            </div>
+          </div>
+
+          <!-- Item 2: Corporate -->
+          <div class="circular-carousel-card" data-carousel-index="1" data-advisor-query="corporate" role="option" aria-selected="false" tabindex="0">
+            <div class="carousel-card-top">
+              <span class="carousel-card-tag" data-i18n="exp.tag_corporate">კორპორაციული</span>
+              <div class="carousel-card-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M12 2L4 5.5v6.2c0 5.4 3.4 10.4 8 11.8 4.6-1.4 8-6.4 8-11.8V5.5L12 2z"/>
+                  <path d="M12 7.5v6"/>
+                  <path d="M9.5 10.5h5"/>
+                  <circle cx="12" cy="7.5" r="1.5"/>
+                  <path d="M10 14l2 2 2-2"/>
+                  <line x1="8.5" y1="18.5" x2="15.5" y2="18.5"/>
+                </svg>
+              </div>
+            </div>
+            <div class="carousel-card-content">
+              <h3 class="carousel-card-title" data-i18n="exp.d2_title">კორპორაციული სამართალი</h3>
+              <p class="carousel-card-desc" data-i18n="exp.d2_desc">
+                საწარმოთა დაფუძნება, პარტნიორთა შეთანხმებები, წესდება, კორპორაციული დავები, უცხოური ინვესტიციების დაცვა და ბიზნეს აქტივების აუდიტი.
+              </p>
+            </div>
+            <div class="carousel-card-footer">
+              <span class="carousel-card-cta" data-i18n="exp.d2_link">კორპორაციული მართვა →</span>
+            </div>
+          </div>
+
+          <!-- Item 3: Civil -->
+          <div class="circular-carousel-card" data-carousel-index="2" data-advisor-query="civil" role="option" aria-selected="false" tabindex="0">
+            <div class="carousel-card-top">
+              <span class="carousel-card-tag" data-i18n="exp.tag_civil">სამოქალაქო დავა</span>
+              <div class="carousel-card-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M14 3l4.5 4.5"/>
+                  <path d="M16.5 1.5l5 5-1.5 1.5-5-5z"/>
+                  <path d="M11 6l2.5 2.5"/>
+                  <path d="M12.5 7.5L5 15l1.5 1.5 7.5-7.5"/>
+                  <rect x="2" y="19" width="10" height="3" rx="0.8"/>
+                  <path d="M18 14c1.5 1 2.5 2.5 2.5 4.5"/>
+                  <path d="M15 16.5c.8.6 1.3 1.4 1.3 2.5"/>
+                </svg>
+              </div>
+            </div>
+            <div class="carousel-card-content">
+              <h3 class="carousel-card-title" data-i18n="exp.d3_title">სამოქალაქო დავები</h3>
+              <p class="carousel-card-desc" data-i18n="exp.d3_desc">
+                ვალდებულებითი დავები, ვალის ამოღება, ზიანის ანაზღაურება და წარმომადგენლობა საქართველოს ყველა ინსტანციის სასამართლოში (საქალაქო, სააპელაციო, უზენაესი).
+              </p>
+            </div>
+            <div class="carousel-card-footer">
+              <span class="carousel-card-cta" data-i18n="exp.d3_link">სასამართლო დაცვა →</span>
+            </div>
+          </div>
+
+          <!-- Item 4: Mediation -->
+          <div class="circular-carousel-card" data-carousel-index="3" data-advisor-query="mediation" role="option" aria-selected="false" tabindex="0">
+            <div class="carousel-card-top">
+              <span class="carousel-card-tag" data-i18n="exp.tag_mediation">მედიაცია</span>
+              <div class="carousel-card-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M11 15h2"/>
+                  <path d="M7 11l4 4 4-4"/>
+                  <path d="M2 13l4.5-4.5a2.1 2.1 0 0 1 3 0L11 10"/>
+                  <path d="M22 13l-4.5-4.5a2.1 2.1 0 0 0-3 0L13 10"/>
+                  <path d="M6.5 17.5L9 20h6l2.5-2.5"/>
+                  <circle cx="12" cy="5" r="2"/>
+                  <path d="M9.5 7.5c.8-.6 1.6-.8 2.5-.8s1.7.2 2.5.8"/>
+                </svg>
+              </div>
+            </div>
+            <div class="carousel-card-content">
+              <h3 class="carousel-card-title" data-i18n="exp.d4_title">მედიაცია & მორიგება</h3>
+              <p class="carousel-card-desc" data-i18n="exp.d4_desc">
+                საქართველოს მედიატორთა ასოციაციის აკრედიტებული მედიატორი. კონფიდენციალური მოლაპარაკებები სასამართლო სააღსრულებო ძალით.
+              </p>
+            </div>
+            <div class="carousel-card-footer">
+              <span class="carousel-card-cta" data-i18n="exp.d4_link">ალტერნატიული მორიგება →</span>
+            </div>
+          </div>
+
+          <!-- Item 5: Administrative -->
+          <div class="circular-carousel-card" data-carousel-index="4" data-advisor-query="administrative" role="option" aria-selected="false" tabindex="0">
+            <div class="carousel-card-top">
+              <span class="carousel-card-tag" data-i18n="exp.tag_admin">ადმინისტრაციული</span>
+              <div class="carousel-card-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M12 2v2"/>
+                  <path d="M7 6c0-2.8 2.2-4 5-4s5 1.2 5 4"/>
+                  <path d="M5 9h14"/>
+                  <path d="M4 9v2h16V9"/>
+                  <path d="M6 11v8M10 11v8M14 11v8M18 11v8"/>
+                  <path d="M2 19h20v2.5H2z"/>
+                </svg>
+              </div>
+            </div>
+            <div class="carousel-card-content">
+              <h3 class="carousel-card-title" data-i18n="exp.d5_title">ადმინისტრაციული სამართალი</h3>
+              <p class="carousel-card-desc" data-i18n="exp.d5_desc">
+                დავები სახელმწიფო და მუნიციპალურ ორგანოებთან, ზედამხედველობის სამსახურთან, საჯარო რეესტრთან, შემოსავლების სამსახურსა და საგადასახადო ორგანოებთან მთელი ქვეყნის მასშტაბით.
+              </p>
+            </div>
+            <div class="carousel-card-footer">
+              <span class="carousel-card-cta" data-i18n="exp.d5_link">ადმინისტრაციული დაცვა →</span>
+            </div>
+          </div>
+
+          <!-- Item 6: Family -->
+          <div class="circular-carousel-card" data-carousel-index="5" data-advisor-query="family" role="option" aria-selected="false" tabindex="0">
+            <div class="carousel-card-top">
+              <span class="carousel-card-tag" data-i18n="exp.tag_family">საოჯახო</span>
+              <div class="carousel-card-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M19 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2z"/>
+                  <path d="M9 7h6M9 11h6M9 15h3"/>
+                  <circle cx="16" cy="15.5" r="2.2"/>
+                  <path d="M17.5 17.2l1.5 2.8"/>
+                  <path d="M14.5 17.2l-1.5 2.8"/>
+                </svg>
+              </div>
+            </div>
+            <div class="carousel-card-content">
+              <h3 class="carousel-card-title" data-i18n="exp.d6_title">საოჯახო & მემკვიდრეობითი</h3>
+              <p class="carousel-card-desc" data-i18n="exp.d6_desc">
+                თანასაკუთრების გაყოფა, მემკვიდრეობის მიღება, ანდერძის გასაჩივრება, საოჯახო შეთანხმებები და ბავშვთა უფლებების დაცვა.
+              </p>
+            </div>
+            <div class="carousel-card-footer">
+              <span class="carousel-card-cta" data-i18n="exp.d6_link">საოჯახო კონსულტაცია →</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Controls: Prev, Dots, Next -->
+        <div class="circular-carousel-controls">
+          <button type="button" class="carousel-ctrl-btn prev-btn" id="carouselPrevBtn" aria-label="Previous Practice Domain">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="size-5"><polyline points="15 18 9 12 15 6"/></svg>
+          </button>
+
+          <div class="carousel-dots-group" id="carouselDotsGroup" role="tablist" aria-label="Practice areas carousel pagination">
+            <button type="button" class="carousel-dot active" data-dot-index="0" aria-label="Domain 1" role="tab" aria-selected="true"></button>
+            <button type="button" class="carousel-dot" data-dot-index="1" aria-label="Domain 2" role="tab" aria-selected="false"></button>
+            <button type="button" class="carousel-dot" data-dot-index="2" aria-label="Domain 3" role="tab" aria-selected="false"></button>
+            <button type="button" class="carousel-dot" data-dot-index="3" aria-label="Domain 4" role="tab" aria-selected="false"></button>
+            <button type="button" class="carousel-dot" data-dot-index="4" aria-label="Domain 5" role="tab" aria-selected="false"></button>
+            <button type="button" class="carousel-dot" data-dot-index="5" aria-label="Domain 6" role="tab" aria-selected="false"></button>
+          </div>
+
+          <button type="button" class="carousel-ctrl-btn next-btn" id="carouselNextBtn" aria-label="Next Practice Domain">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="size-5"><polyline points="9 18 15 12 9 6"/></svg>
+          </button>
+        </div>
+
+        <!-- Swipe navigation hint -->
+        <div class="carousel-nav-hint">
+          <span data-i18n="exp.swipe_hint">გადასაფურცლად გამოიყენეთ ისრები ან გადაფურცვლა</span>
+        </div>
       </div>
 
       <div class="expertise-symmetrical-grid">
@@ -1267,6 +1480,6 @@
     </div>
   </div>
 
-  <script src="app.js?v=3.3.0"></script>
+  <script src="app.js?v=3.4.0"></script>
 </body>
 </html>
