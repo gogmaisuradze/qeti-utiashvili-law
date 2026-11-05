@@ -16,7 +16,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&family=Noto+Serif+Georgian:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   
-  <link rel="stylesheet" href="style.css?v=3.4.1">
+  <link rel="stylesheet" href="style.css?v=3.5.0">
   <script src="soft-preview.js" defer></script>
 </head>
 <body class="editorial-body">
@@ -309,18 +309,12 @@
         </p>
       </div>
 
-      <!-- Practice Domains View Switcher -->
+      <!-- Practice Domains View Switcher: Single Grid Toggle -->
       <div class="expertise-view-switch-bar">
-        <div class="view-switch-pill" role="tablist" aria-label="Practice Domains View">
-          <button type="button" class="view-pill-btn active" id="viewModeCarouselBtn" role="tab" aria-selected="true">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="view-icon"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="2.5"/><circle cx="12" cy="5" r="1.5" fill="currentColor"/><circle cx="19" cy="12" r="1.5" fill="currentColor"/><circle cx="12" cy="19" r="1.5" fill="currentColor"/><circle cx="5" cy="12" r="1.5" fill="currentColor"/></svg>
-            <span data-i18n="exp.view_carousel">3D წრიული კარუსელი</span>
-          </button>
-          <button type="button" class="view-pill-btn" id="viewModeGridBtn" role="tab" aria-selected="false">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="view-icon"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/></svg>
-            <span data-i18n="exp.view_grid">სრული ბადე</span>
-          </button>
-        </div>
+        <button type="button" class="view-grid-toggle-btn" id="toggleGridViewBtn" aria-pressed="false" aria-label="სრული ბადის ხედის ჩართვა">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="view-icon"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/></svg>
+          <span id="gridToggleLabel" data-i18n="exp.view_grid">სრული ბადე</span>
+        </button>
       </div>
 
       <!-- CIRCULAR 3D ORBITAL CAROUSEL WRAPPER -->
@@ -461,12 +455,12 @@
           </button>
 
           <div class="carousel-dots-group" id="carouselDotsGroup" role="tablist" aria-label="Practice areas carousel pagination">
-            <button type="button" class="carousel-dot active" data-dot-index="0" aria-label="Domain 1" role="tab" aria-selected="true"></button>
-            <button type="button" class="carousel-dot" data-dot-index="1" aria-label="Domain 2" role="tab" aria-selected="false"></button>
-            <button type="button" class="carousel-dot" data-dot-index="2" aria-label="Domain 3" role="tab" aria-selected="false"></button>
-            <button type="button" class="carousel-dot" data-dot-index="3" aria-label="Domain 4" role="tab" aria-selected="false"></button>
-            <button type="button" class="carousel-dot" data-dot-index="4" aria-label="Domain 5" role="tab" aria-selected="false"></button>
-            <button type="button" class="carousel-dot" data-dot-index="5" aria-label="Domain 6" role="tab" aria-selected="false"></button>
+            <button type="button" class="carousel-dot active" data-dot-index="0" aria-label="Domain 1" role="tab" aria-selected="true"><span class="dot-progress-fill"></span></button>
+            <button type="button" class="carousel-dot" data-dot-index="1" aria-label="Domain 2" role="tab" aria-selected="false"><span class="dot-progress-fill"></span></button>
+            <button type="button" class="carousel-dot" data-dot-index="2" aria-label="Domain 3" role="tab" aria-selected="false"><span class="dot-progress-fill"></span></button>
+            <button type="button" class="carousel-dot" data-dot-index="3" aria-label="Domain 4" role="tab" aria-selected="false"><span class="dot-progress-fill"></span></button>
+            <button type="button" class="carousel-dot" data-dot-index="4" aria-label="Domain 5" role="tab" aria-selected="false"><span class="dot-progress-fill"></span></button>
+            <button type="button" class="carousel-dot" data-dot-index="5" aria-label="Domain 6" role="tab" aria-selected="false"><span class="dot-progress-fill"></span></button>
           </div>
 
           <button type="button" class="carousel-ctrl-btn next-btn" id="carouselNextBtn" aria-label="Next Practice Domain">
@@ -1321,6 +1315,6 @@
     </div>
   </div>
 
-  <script src="app.js?v=3.4.1"></script>
+  <script src="app.js?v=3.5.0"></script>
 </body>
 </html>

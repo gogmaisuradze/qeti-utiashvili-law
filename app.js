@@ -1946,8 +1946,7 @@ function initExpertiseCircularCarousel() {
   const nextBtn = document.getElementById("carouselNextBtn");
   const dots = Array.from(document.querySelectorAll(".carousel-dot"));
   const activeIndexEl = document.getElementById("carouselActiveIndex");
-  const viewModeCarouselBtn = document.getElementById("viewModeCarouselBtn");
-  const viewModeGridBtn = document.getElementById("viewModeGridBtn");
+  const toggleGridViewBtn = document.getElementById("toggleGridViewBtn");
   const moreWrap = document.querySelector(".mobile-more-expertise-wrap");
   const orbitRing = document.getElementById("carouselOrbitRing");
   const centerIndicator = document.getElementById("carouselCenterIndicator");
@@ -2033,13 +2032,24 @@ function initExpertiseCircularCarousel() {
       activeIndexEl.textContent = String(activeIndex + 1).padStart(2, "0");
     }
 
+    // Smooth filling dot progress
     dots.forEach((dot, i) => {
+      const fillEl = dot.querySelector(".dot-progress-fill");
       if (i === activeIndex) {
         dot.classList.add("active");
         dot.setAttribute("aria-selected", "true");
+        if (fillEl) {
+          fillEl.style.animation = "none";
+          void fillEl.offsetWidth; // trigger reflow
+          fillEl.style.animation = `dotFillProgress ${autoPlayInterval}ms linear forwards`;
+        }
       } else {
         dot.classList.remove("active");
         dot.setAttribute("aria-selected", "false");
+        if (fillEl) {
+          fillEl.style.animation = "none";
+          fillEl.style.width = "0%";
+        }
       }
     });
   }
@@ -2105,7 +2115,7 @@ function initExpertiseCircularCarousel() {
           goTo(i);
           startTimer();
         } else {
-          // Active card clicked: let it trigger the legal advisor as normal
+          // Active card clicked: trigger AI Legal Advisor
           const query = card.getAttribute("data-advisor-query");
           const toggleBtn = document.getElementById("advisorToggleBtn");
           if (toggleBtn) toggleBtn.classList.remove("minimized");
@@ -2118,24 +2128,28 @@ function initExpertiseCircularCarousel() {
     });
   });
 
-  // Hover & Focus Auto-Play Controls
+  // Hover & Focus Auto-Play Controls (pauses timer and freezes dot progress animation)
   container.addEventListener("mouseenter", () => {
     isHovered = true;
+    container.classList.add("is-paused");
     stopTimer();
   });
 
   container.addEventListener("mouseleave", () => {
     isHovered = false;
+    container.classList.remove("is-paused");
     startTimer();
   });
 
   container.addEventListener("focusin", () => {
     isFocused = true;
+    container.classList.add("is-paused");
     stopTimer();
   });
 
   container.addEventListener("focusout", () => {
     isFocused = false;
+    container.classList.remove("is-paused");
     startTimer();
   });
 
@@ -2163,6 +2177,7 @@ function initExpertiseCircularCarousel() {
       touchStartX = e.touches[0].clientX;
       touchStartY = e.touches[0].clientY;
       isHovered = true;
+      container.classList.add("is-paused");
       stopTimer();
     }
   }, { passive: true });
@@ -2180,57 +2195,55 @@ function initExpertiseCircularCarousel() {
         }
       }
       isHovered = false;
+      container.classList.remove("is-paused");
       startTimer();
     }
   }, { passive: true });
 
-  // View Mode Switcher
-  if (viewModeCarouselBtn && viewModeGridBtn) {
-    viewModeCarouselBtn.addEventListener("click", () => {
-      currentMode = "carousel";
-      viewModeCarouselBtn.classList.add("active");
-      viewModeCarouselBtn.setAttribute("aria-selected", "true");
-      viewModeGridBtn.classList.remove("active");
-      viewModeGridBtn.setAttribute("aria-selected", "false");
+  // Single Grid View Toggle Button
+  if (toggleGridViewBtn) {
+    toggleGridViewBtn.addEventListener("click", () => {
+      const isGridNow = (currentMode === "carousel");
+      currentMode = isGridNow ? "grid" : "carousel";
 
-      stage.classList.remove("mode-grid");
-      stage.classList.add("mode-carousel");
+      if (isGridNow) {
+        toggleGridViewBtn.classList.add("active");
+        toggleGridViewBtn.setAttribute("aria-pressed", "true");
 
-      if (orbitRing) orbitRing.style.display = "";
-      if (centerIndicator) centerIndicator.style.display = "";
-      if (controlsBar) controlsBar.style.display = "";
-      if (navHint) navHint.style.display = "";
-      if (moreWrap) moreWrap.style.display = "none";
+        stage.classList.remove("mode-carousel");
+        stage.classList.add("mode-grid");
 
-      updateCarousel();
-      startTimer();
-    });
+        if (orbitRing) orbitRing.style.display = "none";
+        if (centerIndicator) centerIndicator.style.display = "none";
+        if (controlsBar) controlsBar.style.display = "none";
+        if (navHint) navHint.style.display = "none";
+        if (moreWrap) moreWrap.style.display = "";
 
-    viewModeGridBtn.addEventListener("click", () => {
-      currentMode = "grid";
-      viewModeGridBtn.classList.add("active");
-      viewModeGridBtn.setAttribute("aria-selected", "true");
-      viewModeCarouselBtn.classList.remove("active");
-      viewModeCarouselBtn.setAttribute("aria-selected", "false");
+        cards.forEach(card => {
+          card.style.transform = "";
+          card.style.opacity = "";
+          card.style.zIndex = "";
+          card.style.pointerEvents = "";
+          card.classList.remove("active");
+        });
 
-      stage.classList.remove("mode-carousel");
-      stage.classList.add("mode-grid");
+        stopTimer();
+      } else {
+        toggleGridViewBtn.classList.remove("active");
+        toggleGridViewBtn.setAttribute("aria-pressed", "false");
 
-      if (orbitRing) orbitRing.style.display = "none";
-      if (centerIndicator) centerIndicator.style.display = "none";
-      if (controlsBar) controlsBar.style.display = "none";
-      if (navHint) navHint.style.display = "none";
-      if (moreWrap) moreWrap.style.display = "";
+        stage.classList.remove("mode-grid");
+        stage.classList.add("mode-carousel");
 
-      cards.forEach(card => {
-        card.style.transform = "";
-        card.style.opacity = "";
-        card.style.zIndex = "";
-        card.style.pointerEvents = "";
-        card.classList.remove("active");
-      });
+        if (orbitRing) orbitRing.style.display = "";
+        if (centerIndicator) centerIndicator.style.display = "";
+        if (controlsBar) controlsBar.style.display = "";
+        if (navHint) navHint.style.display = "";
+        if (moreWrap) moreWrap.style.display = "none";
 
-      stopTimer();
+        updateCarousel();
+        startTimer();
+      }
     });
 
     // Default: Carousel mode active, hide mobile more button in carousel mode
