@@ -678,6 +678,7 @@ button, input, select, textarea {
 .btn-pill-brass {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 0.55rem;
   background-color: var(--color-brass-primary);
   color: #FFFFFF;
@@ -689,6 +690,9 @@ button, input, select, textarea {
   cursor: pointer;
   transition: var(--transition);
   box-shadow: 0 4px 16px rgba(114, 25, 39, 0.25);
+  white-space: nowrap;
+  flex-shrink: 0;
+  text-decoration: none;
 }
 
 .btn-pill-brass:hover {
@@ -2277,6 +2281,37 @@ button, input, select, textarea {
   margin-top: 1.5rem;
 }
 
+.cta-box-text {
+  flex: 1;
+  min-width: 0;
+}
+
+#forwardCaseToCalendarBtn {
+  flex-shrink: 0;
+  white-space: nowrap;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.65rem;
+  padding: 0.85rem 1.85rem;
+  border-radius: var(--radius-pill);
+  font-size: 0.92rem;
+  font-weight: 500;
+  line-height: 1.2;
+}
+
+#forwardCaseToCalendarBtn svg.btn-arrow-icon {
+  width: 16px;
+  height: 16px;
+  stroke: currentColor;
+  flex-shrink: 0;
+  transition: transform 0.25s ease;
+}
+
+#forwardCaseToCalendarBtn:hover svg.btn-arrow-icon {
+  transform: translateX(4px);
+}
+
 .cta-box-text h5 {
   display: flex;
   align-items: center;
@@ -3331,6 +3366,15 @@ section[id],
   .sheet-unified-cta-box {
     flex-direction: column;
     text-align: center;
+    padding: 1.4rem 1.25rem;
+    gap: 1.2rem;
+  }
+  .sheet-unified-cta-box .cta-box-text h5 {
+    justify-content: center;
+  }
+  #forwardCaseToCalendarBtn {
+    width: auto;
+    max-width: 100%;
   }
   .footer-top-grid {
     grid-template-columns: 1fr 1fr;
@@ -3358,6 +3402,19 @@ section[id],
   #contact,
   #full-width-map {
     scroll-margin-top: 68px;
+  }
+
+  .sheet-unified-cta-box {
+    padding: 1.25rem 1rem;
+    gap: 1rem;
+  }
+  #forwardCaseToCalendarBtn {
+    width: 100%;
+    max-width: 340px;
+    padding: 0.8rem 1.25rem;
+    font-size: 0.88rem;
+    white-space: nowrap;
+    justify-content: center;
   }
 
   /* Prevent iOS Safari auto-zoom on form inputs */
@@ -4396,6 +4453,15 @@ section[id],
   .sub-caption-tag {
     font-size: 0.56rem;
     padding: 0.16rem 0.26rem;
+  }
+  #forwardCaseToCalendarBtn {
+    width: 100%;
+    max-width: 100%;
+    padding: 0.72rem 0.85rem;
+    font-size: 0.82rem;
+    white-space: nowrap;
+    justify-content: center;
+    letter-spacing: -0.01em;
   }
 }
 
