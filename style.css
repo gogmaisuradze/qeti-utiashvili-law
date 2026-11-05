@@ -2466,16 +2466,20 @@ button, input, select, textarea {
 
 #forwardCaseToCalendarBtn {
   flex-shrink: 0;
-  white-space: nowrap;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
+  white-space: nowrap !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
   gap: 0.65rem;
   padding: 0.85rem 1.85rem;
   border-radius: var(--radius-pill);
-  font-size: 0.92rem;
-  font-weight: 500;
+  font-size: 0.95rem;
+  font-weight: 600;
   line-height: 1.2;
+}
+
+#forwardCaseToCalendarBtn span {
+  white-space: nowrap !important;
 }
 
 #forwardCaseToCalendarBtn svg.btn-arrow-icon {
@@ -3086,11 +3090,13 @@ button, input, select, textarea {
   transform: scale(0.6);
 }
 
-/* მაუსის მიტანისას (hover) ჩნდება გათიშვის ღილაკი */
-.advisor-pill-wrap:not(.minimized):hover .advisor-pill-minimize {
-  opacity: 1;
-  pointer-events: auto;
-  transform: scale(1);
+/* მაუსის მიტანისას (hover) ჩნდება გათიშვის ღილაკი მხოლოდ desktop-ზე */
+@media (hover: hover) {
+  .advisor-pill-wrap:not(.minimized):hover .advisor-pill-minimize {
+    opacity: 1;
+    pointer-events: auto;
+    transform: scale(1);
+  }
 }
 
 .advisor-pill-minimize svg {
@@ -4364,16 +4370,20 @@ section[id],
     transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.22s ease, visibility 0.28s;
   }
 
-  /* როცა წერენ - კლავიატურა რჩება, ქვედა ნავიგაციის პანელი ქრება ("კლავიატურა დატოვე ეს ნაწილი საერთოდ არ უნდა როცა წერენ") */
+  /* როცა წერენ ან ჩატი გახსნილია - კლავიატურა რჩება, ქვედა ნავიგაციის პანელი ქრება ("კლავიატურა დატოვე ეს ნაწილი საერთოდ არ უნდა როცა წერენ") */
+  body.advisor-modal-open .mobile-bottom-nav-bar,
   body.chat-input-focused .mobile-bottom-nav-bar,
+  body:has(#advisorModal:not(.hidden)) .mobile-bottom-nav-bar,
   body:has(#advisorInputField:focus) .mobile-bottom-nav-bar {
+    display: none !important;
     transform: translateY(120%) !important;
     opacity: 0 !important;
     visibility: hidden !important;
     pointer-events: none !important;
   }
 
-  /* როცა წერენ - ჩატის ფანჯარა ეკვრის უშუალოდ კლავიატურას ზედაპირზე */
+  /* როცა წერენ ან ჩატი გახსნილია - ჩატის ფანჯარა ეკვრის უშუალოდ კლავიატურას ზედაპირზე */
+  body.advisor-modal-open .advisor-popup-card,
   body.chat-input-focused .advisor-popup-card,
   body:has(#advisorInputField:focus) .advisor-popup-card {
     bottom: 0 !important;

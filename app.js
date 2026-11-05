@@ -29,7 +29,6 @@ const i18nDictionary = {
     "nav.about": "ადვოკატი",
     "nav.case_check": "შეფასება",
     "nav.calendar": "კალენდარი",
-    "nav.contact": "კონტაქტი",
     "nav.book_cta": "ვიზიტის დაჯავშნა",
     "hero.badge": "20+ წლიანი უწყვეტი საადვოკატო პრაქტიკა • მთელი საქართველო",
     "hero.title": "აკადემიური სიზუსტე, სტრატეგიული დაცვა და უმაღლესი საადვოკატო ეთიკა",
@@ -42,6 +41,77 @@ const i18nDictionary = {
     "hero.metric4": "კონფიდენციალურობა",
     "hero.card_name": "ქეთევან უტიაშვილი",
     "hero.card_role": "ადვოკატი • GBA აღმასრულებელი საბჭო",
+    "vision.eyebrow": "FOUNDATIONAL ETHOS",
+    "vision.title": "ხედვა, მისია და ძირითადი ღირებულებები",
+    "vision.subtitle": "აკადემიური სტანდარტები, რომლებიც განსაზღვრავს ჩვენი ბიუროს რეპუტაციასა და წარმატებას 2003 წლიდან.",
+    "vision.card1_cat": "OUR VISION",
+    "vision.card1_title": "ჩვენი ხედვა",
+    "vision.card1_body": "ვიყოთ უმაღლესი აკადემიური სანდოობისა და საერთაშორისო სტანდარტების მატარებელი საადვოკატო ბიურო საქართველოში, რომელიც ქმნის პრეცედენტულ, ინოვაციურ და დაცულ სამართლებრივ გარემოს თითოეული კლიენტისთვის.",
+    "vision.card1_badge": "გლობალური & ევროპული სტანდარტი",
+    "vision.card2_cat": "OUR MISSION",
+    "vision.card2_title": "ჩვენი მისია",
+    "vision.card2_body": "კლიენტის კანონიერი უფლებებისა და აქტივების შეუპოვარი, სტრატეგიული და პასუხისმგებლიანი დაცვა ყველა ინსტანციის სასამართლოში, სახელმწიფო უწყებებთან ურთიერთობასა და სამედიაციო მოლაპარაკებებში.",
+    "vision.card2_badge": "კომპლექსური & სტრატეგიული დაცვა",
+    "vision.card3_cat": "CORE VALUES",
+    "vision.card3_title": "ფუნდამენტური ღირებულებები",
+    "vision.v1_t": "კეთილსინდისიერება",
+    "vision.v1_d": "პროფესიული ეთიკის უმკაცრესი დაცვა.",
+    "vision.v2_t": "აკადემიური სიზუსტე",
+    "vision.v2_d": "ყოველი საქმის საფუძვლიანი სამართლებრივი ანალიზი.",
+    "vision.v3_t": "კლიენტზე ფოკუსი",
+    "vision.v3_d": "ინდივიდუალური, პერსონალიზებული საპროცესო სტრატეგია.",
+    "vision.v4_t": "კონფიდენციალურობა",
+    "vision.v4_d": "საადვოკატო საიდუმლოების 100%-იანი გარანტია.",
+    "exp.eyebrow": "PRACTICE DOMAINS",
+    "exp.title": "სამართლებრივი ექსპერტიზა",
+    "exp.subtitle": "დახვეწილი და შედეგზე ორიენტირებული საადვოკატო წარმომადგენლობა კერძო და ბიზნეს სექტორში.",
+    "exp.d1_title": "უძრავი ქონება & მშენებლობა",
+    "exp.d1_desc": "დეველოპერული ხელშეკრულებების აუდიტი, ვადების გადაცილება, საკუთრების უფლების რეგისტრაცია საჯარო რეესტრში და საინვესტიციო რისკების პრევენცია.",
+    "exp.d1_link": "სრული სამართლებრივი თანხლება →",
+    "exp.d2_title": "კორპორაციული სამართალი",
+    "exp.d2_desc": "საწარმოთა დაფუძნება, პარტნიორთა შეთანხმებები, წესდება, კორპორაციული დავები, უცხოური ინვესტიციების დაცვა და ბიზნეს აქტივების აუდიტი.",
+    "exp.d2_link": "კორპორაციული მართვა →",
+    "exp.d3_title": "სამოქალაქო დავები",
+    "exp.d3_desc": "ვალდებულებითი დავები, ვალის ამოღება, ზიანის ანაზღაურება და წარმომადგენლობა საქართველოს ყველა ინსტანციის სასამართლოში (საქალაქო, სააპელაციო, უზენაესი).",
+    "exp.d3_link": "სასამართლო დაცვა →",
+    "exp.d4_title": "მედიაცია & მორიგება",
+    "exp.d4_desc": "საქართველოს მედიატორთა ასოციაციის აკრედიტებული მედიატორი. კონფიდენციალური მოლაპარაკებები სასამართლო სააღსრულებო ძალით.",
+    "exp.d4_link": "ალტერნატიული მორიგება →",
+    "exp.d5_title": "ადმინისტრაციული სამართალი",
+    "exp.d5_desc": "დავები სახელმწიფო და მუნიციპალურ ორგანოებთან, ზედამხედველობის სამსახურთან, საჯარო რეესტრთან, შემოსავლების სამსახურსა და საგადასახადო ორგანოებთან მთელი ქვეყნის მასშტაბით.",
+    "exp.d5_link": "ადმინისტრაციული დაცვა →",
+    "exp.d6_title": "საოჯახო & მემკვიდრეობითი",
+    "exp.d6_desc": "თანასაკუთრების გაყოფა, მემკვიდრეობის მიღება, ანდერძის გასაჩივრება, საოჯახო შეთანხმებები და ბავშვთა უფლებების დაცვა.",
+    "exp.d6_link": "საოჯახო კონსულტაცია →",
+    "exp.more_btn": "ყველა მიმართულების ნახვა (6)",
+    "about.badge_gba": "საქართველოს ადვოკატთა ასოციაცია (GBA) • 20+ წელი",
+    "about.tag_court": "საადვოკატო პრაქტიკა",
+    "about.tag_med": "კონსულტაცია & მედიაცია",
+    "about.tag_portrait": "აკადემიური პორტრეტი",
+    "about.eyebrow": "PRINCIPAL ATTORNEY",
+    "about.name": "ქეთევან უტიაშვილი",
+    "about.titles": "საადვოკატო ბიუროს დამფუძნებელი • GBA აღმასრულებელი საბჭოს წევრი • აკრედიტებული მედიატორი",
+    "about.lead": "20 წელზე მეტია წარმატებით ახორციელებს საადვოკატო საქმიანობას მთელი საქართველოს მასშტაბით. ბიურო დაფუძნდა 2003 წლის 18 ივლისს; ცენტრალური ოფისი და საცხოვრებელი ადგილი მდებარეობს თბილისში (ილია ჭავჭავაძის გამზ. #26), ხოლო საადვოკატო დაცვა და სასამართლო წარმომადგენლობა მოიცავს როგორც დედაქალაქს, ისე საქართველოს ყველა რეგიონს.",
+    "about.rec1_years": "2025 – დღემდე",
+    "about.rec1_title": "აღმასრულებელი საბჭოს წევრი",
+    "about.rec1_sub": "საქართველოს ადვოკატთა ასოციაცია (GBA)",
+    "about.rec2_years": "2022 – 2025",
+    "about.rec2_title": "სამოქალაქო კომიტეტის თავმჯდომარე",
+    "about.rec2_sub": "საქართველოს ადვოკატთა ასოციაცია (სამოქალაქო სამართლის პრაქტიკის ხელმძღვანელობა)",
+    "about.rec3_years": "2015 – 2021",
+    "about.rec3_title": "ეთიკის კომისიის წევრი ადვოკატი",
+    "about.rec3_sub": "საქართველოს ადვოკატთა ასოციაცია (პროფესიული ეთიკის სტანდარტების დაცვა)",
+    "about.rec4_years": "2022 – დღემდე",
+    "about.rec4_title": "აკრედიტებული მედიატორი",
+    "about.rec4_sub": "საქართველოს მედიატორთა ასოციაცია (Mediators Association of Georgia)",
+    "about.rec5_years": "2003 – დღემდე",
+    "about.rec5_title": "დამფუძნებელი & მმართველი ადვოკატი",
+    "about.rec5_sub": "Ketevan Utiashvili Law Office / ქეთევან უტიაშვილის საადვოკატო ბიურო",
+    "about.rec6_years": "2021 – დღემდე",
+    "about.rec6_title": "დირექტორი",
+    "about.rec6_sub": "ბავშვთა უფლებათა დაცვის ცენტრი",
+    "about.quote": "„ჩემი მიზანია არა მხოლოდ სამართლებრივი გამარჯვება სასამართლო დარბაზში, არამედ კლიენტის ინტერესების უმაღლესი აკადემიური სიზუსტით, უმკაცრესი ეთიკითა და სტრატეგიული შორსმჭვრეტელობით დაცვა.“",
+    "about.cite": "— ქეთევან უტიაშვილი",
     "case.step1": "დავის კატეგორია",
     "case.step2": "საქმის სტადია",
     "case.step3": "ვადები & საბუთები",
@@ -87,43 +157,71 @@ const i18nDictionary = {
     "case.lbl_counsel": "წამყვანი ადვოკატი:",
     "case.advice_title": "ადვოკატის წინასწარი რეკომენდაცია:",
     "case.advice_body": "საქმის გარემოებები მიუთითებს, რომ პირველ ეტაპზე აუცილებელია ხელშეკრულების პირობების იურიდიული აუდიტი და ოფიციალური საადვოკატო გაფრთხილების მომზადება. გირჩევთ თბილისის ცენტრალურ ოფისში (ჭავჭავაძის გამზ. 26) პირისპირ ვიზიტს ან ონლაინ კონსულტაციას საპროცესო ვადის გასვლამდე.",
-    "case.assign_title": "გადაეცით ეს ბარათი ქეთევან უტიაშვილს განსახილველად:",
-    "case.btn_send": "საქმის გადაგზავნა ადვოკატთან",
     "case.btn_edit": "მონაცემების ჩასწორება",
-    "case.btn_direct_book": "ვიზიტის დაჯავშნა კალენდარში",
+    "cal.eyebrow": "APPOINTMENT & LAW OFFICE CONTACT",
+    "cal.title": "კონსულტაციის დაჯავშნა & ცენტრალური ოფისი",
+    "cal.subtitle": "შეარჩიეთ თქვენთვის მოსახერხებელი დღე და საათი თბილისის ოფისში (ჭავჭავაძის გამზ. 26) პირისპირ ვიზიტისთვის ან ონლაინ ვიდეოკონსულტაციისთვის.",
     "cal.select_time": "ხელმისაწვდომი საათები:",
     "cal.sum_lawyer": "ადვოკატი:",
     "cal.sum_slot": "არჩეული დრო:",
     "cal.format_office": "ვიზიტი ოფისში",
-    "cal.format_office_sub": "",
     "cal.format_online": "ონლაინ კონსულტაცია",
-    "cal.format_online_sub": "",
     "cal.field_name": "სახელი და გვარი *",
     "cal.field_phone": "ტელეფონის ნომერი *",
     "cal.field_email": "ელექტრონული ფოსტა",
-    "cal.field_topic": "დავის მოკლე აღწერა / სასაუბრო თემა",
+    "cal.service_lbl": "სამართლებრივი მიმართულება",
+    "cal.field_topic": "დავის მოკლე აღწერა / შეკითხვა",
+    "cal.bot_remind_title": "AI ასისტენტით შეხსენება & რეგისტრაცია",
+    "cal.bot_remind_sub": "თუ გსურთ, ბოტი დაარეგისტრირებს ვიზიტს და გამოგიგზავნით შეხსენებას",
     "cal.btn_confirm": "ვიზიტის დადასტურება",
     "cal.succ_title": "ვიზიტი წარმატებით დაიჯავშნა!",
     "cal.succ_desc": "თქვენი კონსულტაცია შეტანილია ადვოკატის ოფიციალურ განრიგში.",
+    "cal.bot_action_title": "AI ასისტენტის მხარდაჭერა & შეხსენება",
+    "cal.bot_action_desc": "ვიზიტი მიღებულია. შეგიძლიათ გაესაუბროთ ბოტს საქმის მოსამზადებლად ან მიიღოთ შეხსენება.",
+    "cal.bot_btn_chat": "ბოტთან დაკავშირება & საქმის განხილვა",
+    "cal.bot_btn_tg": "Telegram შეხსენება (@saadvokatobot)",
     "cal.btn_new": "ახალი ჯავშნის გაკეთება",
+    "cal.w1": "ორშ",
+    "cal.w2": "სამ",
+    "cal.w3": "ოთხ",
+    "cal.w4": "ხუთ",
+    "cal.w5": "პარ",
+    "cal.w6": "შაბ",
+    "cal.w7": "კვი",
     "cont.c1_cap": "ცენტრალური ოფისი",
     "cont.c1_val": "ქ. თბილისი, ილია ჭავჭავაძის გამზირი #26",
-    "cont.c1_sub": "ვაკე, თბილისი, საქართველო",
-    "cont.c2_cap": "პირდაპირი ხაზი & WhatsApp",
-    "cont.c2_sub": "სამუშაო საათები: 10:00 - 18:00 (ორშაბათი - პარასკევი)",
+    "cont.c1_sub": "ვაკე, თბილისი • სამუშაო საათები: 10:00 – 18:00",
+    "cont.c2_cap": "პირდაპირი ხაზი & სოც. ქსელები",
+    "cont.c2_sub": "სატელეფონო და ონლაინ მიღება (ორშაბათი – პარასკევი)",
     "cont.c3_cap": "ოფიციალური ელ-ფოსტა",
-    "cont.form_title": "გაგზავნეთ შეტყობინება ბიუროში",
-    "cont.form_sub": "ადვოკატი გაეცნობა თქვენს საკითხს და გიპასუხებთ 24 საათის განმავლობაში.",
-    "cont.f_name": "სახელი, გვარი *",
-    "cont.f_phone": "ტელეფონი *",
-    "cont.f_service": "სასურველი მიმართულება",
-    "cont.f_msg": "საქმის მოკლე შინაარსი",
-    "cont.f_btn": "შეტყობინების გაგზავნა",
+    "map.title": "თბილისის ცენტრალური ოფისის ლოკაცია",
+    "map.addr": "ილია ჭავჭავაძის გამზ. #26, თბილისი",
+    "map.back_btn": "↑ კალენდარში დაბრუნება",
+    "map.open_gmaps": "Google Maps-ში გახსნა ↗",
+    "footer.brand_sub": "— საადვოკატო ბიურო • საქართველო —",
+    "footer.desc": "საქართველოს ადვოკატთა ასოციაციის (GBA) აღმასრულებელი საბჭოს წევრი. საადვოკატო წარმომადგენლობა მთელი საქართველოს მასშტაბით (ცენტრალური ოფისი: თბილისი).",
+    "footer.nav_title": "ნავიგაცია",
+    "footer.serv_title": "სერვისები",
+    "footer.accred_title": "აკრედიტაცია & ეთიკა",
+    "footer.b1": "საქართველოს ადვოკატთა ასოციაცია (GBA)",
+    "footer.b2": "საქართველოს მედიატორთა ასოციაცია (MAG)",
+    "footer.b3": "ბავშვთა უფლებათა დაცვის ცენტრი",
+    "footer.b4": "კონფიდენციალურობის გარანტია",
+    "footer.copy": "© 2003 – 2026 ქეთევან უტიაშვილის საადვოკატო ბიურო. საადვოკატო წარმომადგენლობა მთელი საქართველოს მასშტაბით.",
+    "footer.office_line": "ცენტრალური ოფისი: ქ. თბილისი, ჭავჭავაძის გამზ. #26",
+    "mobnav.home": "მთავარი",
+    "mobnav.practice": "ექსპერტიზა",
+    "mobnav.chat": "ჩატი",
+    "mobnav.booking": "ჯავშანი",
+    "mobnav.call": "დარეკვა",
     "adv.btn_txt": "იურიდიული მრჩეველი",
     "adv.btn_sub": "ონლაინ ასისტენტი",
     "adv.modal_title": "იურიდიული მრჩეველი",
-    "adv.welcome_msg": "მოგესალმებით. მე ვარ ქეთევან უტიაშვილის საადვოკატო ბიუროს ვირტუალური ასისტენტი. ცენტრალური ოფისი მდებარეობს თბილისში, ილია ჭავჭავაძის გამზ. #26-ში. რით შემიძლია დაგეხმაროთ დღეს?"
-  },
+    "adv.online_tag": "ქეთევან უტიაშვილის AI ბიურო",
+    "adv.clear_btn": "გასუფთავება",
+    "adv.welcome_msg": "მოგესალმებით. მე ვარ ქეთევან უტიაშვილის საადვოკატო ბიუროს ვირტუალური ასისტენტი. ცენტრალური ოფისი მდებარეობს თბილისში, ილია ჭავჭავაძის გამზ. #26-ში. რით შემიძლია დაგეხმაროთ დღეს?",
+    "adv.input_ph": "დასვით თქვენი იურიდიული შეკითხვა..."
+},
   en: {
     "topbar.location": "26 Ilia Chavchavadze Ave., Tbilisi",
     "topbar.hours": "Mon – Fri: 10:00 – 18:00",
@@ -134,7 +232,6 @@ const i18nDictionary = {
     "nav.about": "Attorney",
     "nav.case_check": "Assessment",
     "nav.calendar": "Calendar",
-    "nav.contact": "Contact",
     "nav.book_cta": "Book Consultation",
     "hero.badge": "20+ Years Continuous Practice • Nationwide in Georgia",
     "hero.title": "Academic Precision, Strategic Defense & Highest Legal Ethics",
@@ -147,6 +244,77 @@ const i18nDictionary = {
     "hero.metric4": "Confidentiality",
     "hero.card_name": "Ketevan Utiashvili",
     "hero.card_role": "Attorney • GBA Executive Board",
+    "vision.eyebrow": "FOUNDATIONAL ETHOS",
+    "vision.title": "Vision, Mission & Core Values",
+    "vision.subtitle": "Academic standards defining the reputation and success of our law office since 2003.",
+    "vision.card1_cat": "OUR VISION",
+    "vision.card1_title": "Our Vision",
+    "vision.card1_body": "To be a law office of supreme academic credibility and international standards in Georgia, creating precedential, innovative, and secure legal solutions for every client.",
+    "vision.card1_badge": "Global & European Standards",
+    "vision.card2_cat": "OUR MISSION",
+    "vision.card2_title": "Our Mission",
+    "vision.card2_body": "Relentless, strategic, and responsible protection of client rights and assets in all court instances, state agencies, and mediation proceedings.",
+    "vision.card2_badge": "Comprehensive & Strategic Defense",
+    "vision.card3_cat": "CORE VALUES",
+    "vision.card3_title": "Core Values",
+    "vision.v1_t": "Integrity",
+    "vision.v1_d": "Strict adherence to professional legal ethics.",
+    "vision.v2_t": "Academic Precision",
+    "vision.v2_d": "In-depth legal analysis of every individual case.",
+    "vision.v3_t": "Client-Centricity",
+    "vision.v3_d": "Tailored, personalized procedural strategy.",
+    "vision.v4_t": "Confidentiality",
+    "vision.v4_d": "100% guarantee of attorney-client privilege.",
+    "exp.eyebrow": "PRACTICE DOMAINS",
+    "exp.title": "Legal Practice & Expertise",
+    "exp.subtitle": "Refined and results-driven legal representation across private and corporate sectors.",
+    "exp.d1_title": "Real Estate & Construction",
+    "exp.d1_desc": "Developer contract audits, delivery delays, title registration in public registry, and investment risk prevention.",
+    "exp.d1_link": "Full Legal Counsel →",
+    "exp.d2_title": "Corporate & Business Law",
+    "exp.d2_desc": "Company formation, shareholder agreements, corporate charters, disputes, foreign investment security, and due diligence.",
+    "exp.d2_link": "Corporate Governance →",
+    "exp.d3_title": "Civil & Contractual Disputes",
+    "exp.d3_desc": "Obligatory disputes, debt recovery, damages compensation, and trial representation in all court instances (City, Appellate, Supreme).",
+    "exp.d3_link": "Litigation Defense →",
+    "exp.d4_title": "Mediation & Settlement",
+    "exp.d4_desc": "Accredited Mediator by Mediators Association of Georgia. Confidential dispute resolution with court-enforceable power.",
+    "exp.d4_link": "Alternative Settlement →",
+    "exp.d5_title": "Administrative Law",
+    "exp.d5_desc": "Disputes with state and municipal authorities, supervision departments, public registry, revenue service, and tax inspectors nationwide.",
+    "exp.d5_link": "Administrative Defense →",
+    "exp.d6_title": "Family & Inheritance Law",
+    "exp.d6_desc": "Division of marital/joint property, estate probate, will contestations, marital agreements, and child rights protection.",
+    "exp.d6_link": "Family Consultation →",
+    "exp.more_btn": "View All Practice Areas (6)",
+    "about.badge_gba": "Georgian Bar Association (GBA) • 20+ Years",
+    "about.tag_court": "Trial Practice",
+    "about.tag_med": "Consultation & Mediation",
+    "about.tag_portrait": "Academic Portrait",
+    "about.eyebrow": "PRINCIPAL ATTORNEY",
+    "about.name": "Ketevan Utiashvili",
+    "about.titles": "Law Office Founder • GBA Executive Board Member • Accredited Mediator",
+    "about.lead": "Practicing law with excellence across Georgia for over 20 years. Bureau founded on July 18, 2003; central office and residence located in Tbilisi (26 Ilia Chavchavadze Ave.), with litigation representation spanning the capital and all regions of Georgia.",
+    "about.rec1_years": "2025 – Present",
+    "about.rec1_title": "Executive Board Member",
+    "about.rec1_sub": "Georgian Bar Association (GBA)",
+    "about.rec2_years": "2022 – 2025",
+    "about.rec2_title": "Civil Law Committee Chair",
+    "about.rec2_sub": "Georgian Bar Association (Supervising civil litigation practice)",
+    "about.rec3_years": "2015 – 2021",
+    "about.rec3_title": "Ethics Commission Member Attorney",
+    "about.rec3_sub": "Georgian Bar Association (Enforcing highest ethical standards)",
+    "about.rec4_years": "2022 – Present",
+    "about.rec4_title": "Accredited Mediator",
+    "about.rec4_sub": "Mediators Association of Georgia",
+    "about.rec5_years": "2003 – Present",
+    "about.rec5_title": "Founder & Managing Attorney",
+    "about.rec5_sub": "Ketevan Utiashvili Law Office",
+    "about.rec6_years": "2021 – Present",
+    "about.rec6_title": "Director",
+    "about.rec6_sub": "Child Rights Protection Center",
+    "about.quote": "“My goal is not only legal victory in courtroom proceedings, but defending client interests with supreme academic precision, uncompromising ethics, and strategic foresight.”",
+    "about.cite": "— Ketevan Utiashvili",
     "case.step1": "Case Category",
     "case.step2": "Case Stage",
     "case.step3": "Deadlines & Docs",
@@ -192,43 +360,71 @@ const i18nDictionary = {
     "case.lbl_counsel": "Lead Attorney:",
     "case.advice_title": "Attorney's Preliminary Strategy:",
     "case.advice_body": "Given the facts, an immediate contract audit and formal attorney warning letter are required before litigation. We advise an in-person meeting at our central Tbilisi office (26 Chavchavadze Ave.) or video consultation.",
-    "case.assign_title": "Submit this sheet to Ketevan Utiashvili for review:",
-    "case.btn_send": "Forward Case to Attorney",
     "case.btn_edit": "Edit Details",
-    "case.btn_direct_book": "Book Directly in Calendar",
+    "cal.eyebrow": "APPOINTMENT & LAW OFFICE CONTACT",
+    "cal.title": "Book Consultation & Central Office",
+    "cal.subtitle": "Select your preferred date and time for an in-person meeting at our Tbilisi office (26 Chavchavadze Ave.) or online video consultation.",
     "cal.select_time": "Available Time Slots:",
     "cal.sum_lawyer": "Attorney:",
     "cal.sum_slot": "Selected Slot:",
     "cal.format_office": "Office Visit",
-    "cal.format_office_sub": "",
     "cal.format_online": "Online Consultation",
-    "cal.format_online_sub": "",
     "cal.field_name": "Full Name *",
     "cal.field_phone": "Phone Number *",
     "cal.field_email": "Email Address",
+    "cal.service_lbl": "Practice Area",
     "cal.field_topic": "Brief topic of discussion",
+    "cal.bot_remind_title": "AI Assistant Reminder & Registration",
+    "cal.bot_remind_sub": "Bot will register your appointment and send timely reminders",
     "cal.btn_confirm": "Confirm Appointment",
     "cal.succ_title": "Appointment Successfully Confirmed!",
     "cal.succ_desc": "Your consultation has been booked on the attorney's official calendar.",
+    "cal.bot_action_title": "AI Assistant Support & Reminders",
+    "cal.bot_action_desc": "Booking received. Connect with the bot to prepare documents or receive reminders.",
+    "cal.bot_btn_chat": "Connect with Bot & Discuss Case",
+    "cal.bot_btn_tg": "Telegram Reminder (@saadvokatobot)",
     "cal.btn_new": "Book Another Slot",
+    "cal.w1": "Mon",
+    "cal.w2": "Tue",
+    "cal.w3": "Wed",
+    "cal.w4": "Thu",
+    "cal.w5": "Fri",
+    "cal.w6": "Sat",
+    "cal.w7": "Sun",
     "cont.c1_cap": "Central Law Office",
     "cont.c1_val": "26 Ilia Chavchavadze Ave., Tbilisi",
-    "cont.c1_sub": "Vake, Tbilisi, Georgia",
-    "cont.c2_cap": "Direct Line & WhatsApp",
-    "cont.c2_sub": "Business Hours: 10:00 - 18:00 (Mon - Fri)",
+    "cont.c1_sub": "Vake, Tbilisi • Business Hours: 10:00 – 18:00",
+    "cont.c2_cap": "Direct Line & Socials",
+    "cont.c2_sub": "Phone & online reception (Monday – Friday)",
     "cont.c3_cap": "Official Email",
-    "cont.form_title": "Send a Message to the Bureau",
-    "cont.form_sub": "Attorney will review your case and respond within 24 hours.",
-    "cont.f_name": "Full Name *",
-    "cont.f_phone": "Phone *",
-    "cont.f_service": "Practice Area",
-    "cont.f_msg": "Brief Summary of Dispute",
-    "cont.f_btn": "Send Inquiry",
+    "map.title": "Central Tbilisi Office Location",
+    "map.addr": "26 Ilia Chavchavadze Ave., Tbilisi",
+    "map.back_btn": "↑ Back to Calendar",
+    "map.open_gmaps": "Open in Google Maps ↗",
+    "footer.brand_sub": "— Law Office • Georgia —",
+    "footer.desc": "Executive Board Member of the Georgian Bar Association (GBA), former Civil Law Committee Chair, and Accredited Mediator. Legal practice since 2003 nationwide (Central Office: Tbilisi).",
+    "footer.nav_title": "Navigation",
+    "footer.serv_title": "Services",
+    "footer.accred_title": "Accreditation & Ethics",
+    "footer.b1": "Georgian Bar Association (GBA)",
+    "footer.b2": "Mediators Association of Georgia (MAG)",
+    "footer.b3": "Child Rights Protection Center",
+    "footer.b4": "Strict Confidentiality Guaranteed",
+    "footer.copy": "© 2003 – 2026 Ketevan Utiashvili Law Office. Litigation representation across all Georgia.",
+    "footer.office_line": "Central Office: 26 Chavchavadze Ave., Tbilisi",
+    "mobnav.home": "Home",
+    "mobnav.practice": "Practice",
+    "mobnav.chat": "Chat",
+    "mobnav.booking": "Booking",
+    "mobnav.call": "Call",
     "adv.btn_txt": "Legal Advisor",
     "adv.btn_sub": "Online Assistant",
     "adv.modal_title": "Legal Advisor",
-    "adv.welcome_msg": "Welcome. I am the virtual legal advisor for Ketevan Utiashvili Law Office. Our central office is located at 26 Ilia Chavchavadze Ave, Tbilisi. How may I assist you today?"
-  },
+    "adv.online_tag": "Ketevan Utiashvili AI Bureau",
+    "adv.clear_btn": "Clear",
+    "adv.welcome_msg": "Welcome. I am the virtual assistant of Ketevan Utiashvili Law Office. Our central office is located at 26 Ilia Chavchavadze Ave, Tbilisi. How may I assist you today?",
+    "adv.input_ph": "Ask your legal question..."
+},
   ru: {
     "topbar.location": "г. Тбилиси, просп. Ильи Чавчавадзе 26",
     "topbar.hours": "Пн – Пт: 10:00 – 18:00",
@@ -239,7 +435,6 @@ const i18nDictionary = {
     "nav.about": "Адвокат",
     "nav.case_check": "Оценка",
     "nav.calendar": "Календарь",
-    "nav.contact": "Контакты",
     "nav.book_cta": "Запись на прием",
     "hero.badge": "20+ лет непрерывной практики • По всей Грузии",
     "hero.title": "Академическая точность, стратегическая защита и высшая этика",
@@ -252,6 +447,77 @@ const i18nDictionary = {
     "hero.metric4": "Конфиденциальность",
     "hero.card_name": "Кетеван Утиашвили",
     "hero.card_role": "Адвокат • Совет GBA",
+    "vision.eyebrow": "ОСНОВОПОЛАГАЮЩИЕ ПРИНЦИПЫ",
+    "vision.title": "Видение, миссия и основные ценности",
+    "vision.subtitle": "Академические стандарты, определяющие репутацию и успех нашего бюро с 2003 года.",
+    "vision.card1_cat": "НАШЕ ВИДЕНИЕ",
+    "vision.card1_title": "Наше видение",
+    "vision.card1_body": "Быть адвокатским бюро высшего академического авторитета и международных стандартов в Грузии, создавая прецедентную, инновационную и защищенную правовую среду для каждого клиента.",
+    "vision.card1_badge": "Глобальные и европейские стандарты",
+    "vision.card2_cat": "НАША МИССИЯ",
+    "vision.card2_title": "Наша миссия",
+    "vision.card2_body": "Непреклонная, стратегическая и ответственная защита законных прав и активов клиента во всех судебных инстанциях, государственных органах и медиациях.",
+    "vision.card2_badge": "Комплексная и стратегическая защита",
+    "vision.card3_cat": "КЛЮЧЕВЫЕ ЦЕННОСТИ",
+    "vision.card3_title": "Фундаментальные ценности",
+    "vision.v1_t": "Добросовестность",
+    "vision.v1_d": "Строжайшее соблюдение профессиональной этики.",
+    "vision.v2_t": "Академическая точность",
+    "vision.v2_d": "Глубокий правовой анализ каждого дела.",
+    "vision.v3_t": "Фокус на клиенте",
+    "vision.v3_d": "Индивидуальная процессуальная стратегия.",
+    "vision.v4_t": "Конфиденциальность",
+    "vision.v4_d": "100% гарантия адвокатской тайны.",
+    "exp.eyebrow": "ПРАКТИКА И ЭКСПЕРТИЗА",
+    "exp.title": "Правовая экспертиза",
+    "exp.subtitle": "Исключительное и результативное судебное представительство для частных лиц и бизнеса.",
+    "exp.d1_title": "Недвижимость и строительство",
+    "exp.d1_desc": "Аудит девелоперских договоров, просрочка сдачи, регистрация права собственности в реестре и инвестиционные риски.",
+    "exp.d1_link": "Полное правовое сопровождение →",
+    "exp.d2_title": "Корпоративное право",
+    "exp.d2_desc": "Регистрация компаний, соглашения партнеров, устав, корпоративные споры, защита инвестиций и аудит активов.",
+    "exp.d2_link": "Корпоративное управление →",
+    "exp.d3_title": "Гражданские споры",
+    "exp.d3_desc": "Обязательственные споры, взыскание долгов, возмещение ущерба и судебное представительство во всех инстанциях.",
+    "exp.d3_link": "Судебная защита →",
+    "exp.d4_title": "Медиация и урегулирование",
+    "exp.d4_desc": "Аккредитованный медиатор Ассоциации медиаторов Грузии. Конфиденциальные переговоры с силой судебного акта.",
+    "exp.d4_link": "Альтернативное урегулирование →",
+    "exp.d5_title": "Административное право",
+    "exp.d5_desc": "Споры с государственными и муниципальными органами, службой надзора, публичным реестром, налоговой службой по всей стране.",
+    "exp.d5_link": "Административная защита →",
+    "exp.d6_title": "Семейное и наследственное",
+    "exp.d6_desc": "Раздел совместного имущества, принятие наследства, оспаривание завещаний, брачные соглашения и защита прав детей.",
+    "exp.d6_link": "Семейная консультация →",
+    "exp.more_btn": "Показать все направления (6)",
+    "about.badge_gba": "Ассоциация адвокатов Грузии (GBA) • 20+ лет",
+    "about.tag_court": "Адвокатская практика",
+    "about.tag_med": "Консультация и медиация",
+    "about.tag_portrait": "Академический портрет",
+    "about.eyebrow": "ВЕДУЩИЙ АДВОКАТ",
+    "about.name": "Кетеван Утиашвили",
+    "about.titles": "Основатель бюро • Член Исполнительного совета GBA • Аккредитованный медиатор",
+    "about.lead": "Более 20 лет успешной адвокатской практики по всей Грузии. Бюро основано 18 июля 2003 года; центральный офис расположен в Тбилиси (просп. Ильи Чавчавадзе 26), а судебная защита охватывает столицу и все регионы Грузии.",
+    "about.rec1_years": "2025 – по н.в.",
+    "about.rec1_title": "Член Исполнительного совета",
+    "about.rec1_sub": "Ассоциация адвокатов Грузии (GBA)",
+    "about.rec2_years": "2022 – 2025",
+    "about.rec2_title": "Председатель Гражданского комитета",
+    "about.rec2_sub": "Ассоциация адвокатов Грузии (Руководство практикой гражданского права)",
+    "about.rec3_years": "2015 – 2021",
+    "about.rec3_title": "Член Комиссии по этике адвокатов",
+    "about.rec3_sub": "Ассоциация адвокатов Грузии (Контроль этических стандартов)",
+    "about.rec4_years": "2022 – по н.в.",
+    "about.rec4_title": "Аккредитованный медиатор",
+    "about.rec4_sub": "Ассоциация медиаторов Грузии (MAG)",
+    "about.rec5_years": "2003 – по н.в.",
+    "about.rec5_title": "Основатель и управляющий адвокат",
+    "about.rec5_sub": "Адвокатское бюро Кетеван Утиашвили",
+    "about.rec6_years": "2021 – по н.в.",
+    "about.rec6_title": "Директор",
+    "about.rec6_sub": "Центр защиты прав детей",
+    "about.quote": "«Моя цель — не просто победа в зале суда, но защита интересов доверителя с высшей академической точностью, строжайшей этикой и стратегической дальновидностью.»",
+    "about.cite": "— Кетеван Утиашвили",
     "case.step1": "Категория спора",
     "case.step2": "Стадия дела",
     "case.step3": "Сроки и документы",
@@ -297,43 +563,79 @@ const i18nDictionary = {
     "case.lbl_counsel": "Ведущий адвокат:",
     "case.advice_title": "Предварительные рекомендации адвоката:",
     "case.advice_body": "Обстоятельства требуют юридического аудита договоров и составления официального адвокатского предупреждения. Рекомендуем очный визит в центральный офис в Тбилиси (просп. Чавчавадзе 26).",
-    "case.assign_title": "Передать карту дела на рассмотрение Кетеван Утиашвили:",
-    "case.btn_send": "Отправить дело адвокату",
     "case.btn_edit": "Изменить данные",
-    "case.btn_direct_book": "Забронировать визит в календаре",
+    "cal.eyebrow": "ЗАПИСЬ НА ПРИЕМ И ОФИС",
+    "cal.title": "Запись на консультацию и офис",
+    "cal.subtitle": "Выберите удобный день и время для очного визита в офис в Тбилиси (просп. Чавчавадзе 26) или онлайн-видеоконсультации.",
     "cal.select_time": "Доступные часы:",
     "cal.sum_lawyer": "Адвокат:",
     "cal.sum_slot": "Выбранное время:",
     "cal.format_office": "Визит в офис",
-    "cal.format_office_sub": "",
     "cal.format_online": "Онлайн-консультация",
-    "cal.format_online_sub": "",
     "cal.field_name": "Имя и фамилия *",
     "cal.field_phone": "Телефон *",
     "cal.field_email": "Эл. почта",
+    "cal.service_lbl": "Правовое направление",
     "cal.field_topic": "Тема консультации",
+    "cal.bot_remind_title": "Напоминание и регистрация через AI",
+    "cal.bot_remind_sub": "Бот зарегистрирует визит и отправит своевременное напоминание",
     "cal.btn_confirm": "Подтвердить запись",
     "cal.succ_title": "Визит успешно забронирован!",
     "cal.succ_desc": "Ваша запись внесена в официальный график адвоката.",
+    "cal.bot_action_title": "Поддержка AI ассистента и напоминания",
+    "cal.bot_action_desc": "Визит подтвержден. Вы можете обсудить дело с ботом или включить напоминание.",
+    "cal.bot_btn_chat": "Связаться с ботом и обсудить дело",
+    "cal.bot_btn_tg": "Напоминание в Telegram (@saadvokatobot)",
     "cal.btn_new": "Новая запись",
+    "cal.w1": "Пн",
+    "cal.w2": "Вт",
+    "cal.w3": "Ср",
+    "cal.w4": "Чт",
+    "cal.w5": "Пт",
+    "cal.w6": "Сб",
+    "cal.w7": "Вс",
     "cont.c1_cap": "Центральный офис",
     "cont.c1_val": "г. Тбилиси, просп. Ильи Чавчавадзе 26",
-    "cont.c1_sub": "Ваке, Тбилиси, Грузия",
-    "cont.c2_cap": "Прямая линия & WhatsApp",
-    "cont.c2_sub": "Часы работы: 10:00 - 18:00 (пн - пт)",
+    "cont.c1_sub": "Ваке, Тбилиси • Часы работы: 10:00 – 18:00",
+    "cont.c2_cap": "Прямая линия & Соцсети",
+    "cont.c2_sub": "Телефонный и онлайн прием (понедельник – пятница)",
     "cont.c3_cap": "Официальная эл. почта",
-    "cont.form_title": "Отправить обращение в бюро",
-    "cont.form_sub": "Адвокат изучит ваш вопрос и свяжется в течение 24 часов.",
-    "cont.f_name": "Имя, фамилия *",
-    "cont.f_phone": "Телефон *",
-    "cont.f_service": "Правовое направление",
-    "cont.f_msg": "Краткое содержание вопроса",
-    "cont.f_btn": "Отправить сообщение",
+    "map.title": "Локация центрального офиса в Тбилиси",
+    "map.addr": "просп. Ильи Чавчавадзе 26, Тбилиси",
+    "map.back_btn": "↑ Вернуться к календарю",
+    "map.open_gmaps": "Открыть в Google Maps ↗",
+    "footer.brand_sub": "— Адвокатское бюро • Грузия —",
+    "footer.desc": "Член Исполнительного совета Палаты адвокатов Грузии (GBA), экс-председатель Гражданского комитета и аккредитованный медиатор. Практика с 2003 года по всей Грузии (Центральный офис: Тбилиси).",
+    "footer.nav_title": "Навигация",
+    "footer.serv_title": "Услуги",
+    "footer.accred_title": "Аккредитация и этика",
+    "footer.b1": "Палата адвокатов Грузии (GBA)",
+    "footer.b2": "Ассоциация медиаторов Грузии (MAG)",
+    "footer.b3": "Центр защиты прав детей",
+    "footer.b4": "Гарантия конфиденциальности",
+    "footer.copy": "© 2003 – 2026 Адвокатское бюро Кетеван Утиашвили. Судебная защита по всей Грузии.",
+    "footer.office_line": "Центральный офис: г. Тбилиси, просп. Чавчавадзе 26",
+    "mobnav.home": "Главная",
+    "mobnav.practice": "Практика",
+    "mobnav.chat": "Чат",
+    "mobnav.booking": "Запись",
+    "mobnav.call": "Позвонить",
     "adv.btn_txt": "Юр. советник",
     "adv.btn_sub": "Онлайн-помощник",
     "adv.modal_title": "Юридический советник",
-    "adv.welcome_msg": "Здравствуйте. Я виртуальный консультант адвокатского бюро Кетеван Утиашвили. Центральный офис находится в Тбилиси, просп. Ильи Чавчавадзе 26. Чем могу вам помочь?"
-  }
+    "adv.online_tag": "AI Бюро Кетеван Утиашвили",
+    "adv.clear_btn": "Очистить",
+    "adv.welcome_msg": "Здравствуйте. Я виртуальный консультант адвокатского бюро Кетеван Утиашвили. Центральный офис находится в Тбилиси, просп. Ильи Чавчавадзе 26. Чем могу вам помочь?",
+    "adv.input_ph": "Задайте ваш юридический вопрос..."
+}
+};
+
+let currentLang = 'ka';
+
+const monthNamesByLang = {
+  ka: ["იანვარი", "თებერვალი", "მარტი", "აპრილი", "მაისი", "ივნისი", "ივლისი", "აგვისტო", "სექტემბერი", "ოქტომბერი", "ნოემბერი", "დეკემბერი"],
+  en: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
+  ru: ["Январь", "Февраль", "Март", "Апрель", "Май", "Июнь", "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"]
 };
 
 function initTranslations() {
@@ -342,6 +644,20 @@ function initTranslations() {
   const menu = document.getElementById('langDropdownMenu');
   const currentLabel = document.getElementById('currentLangLabel');
   const optionBtns = document.querySelectorAll('.lang-option-btn');
+
+  // Load saved language if available
+  try {
+    const saved = localStorage.getItem('ku_site_lang');
+    if (saved && (saved === 'ka' || saved === 'en' || saved === 'ru')) {
+      currentLang = saved;
+      const labels = { ka: 'GE', en: 'EN', ru: 'RU' };
+      if (currentLabel) currentLabel.textContent = labels[saved] || 'GE';
+      optionBtns.forEach(b => {
+        b.classList.toggle('active', b.getAttribute('data-lang') === saved);
+      });
+      applyLanguage(saved);
+    }
+  } catch (e) {}
 
   if (currentBtn && menu && dropdownWrap) {
     currentBtn.addEventListener('click', (e) => {
@@ -401,14 +717,32 @@ function initTranslations() {
 }
 
 function applyLanguage(lang) {
+  currentLang = lang;
   const dict = i18nDictionary[lang] || i18nDictionary.ka;
   document.querySelectorAll('[data-i18n]').forEach(el => {
     const key = el.getAttribute('data-i18n');
     if (dict[key]) {
-      el.textContent = dict[key];
+      if (dict[key].includes('<')) {
+        el.innerHTML = dict[key];
+      } else {
+        el.textContent = dict[key];
+      }
     }
   });
+
+  // Update input placeholder for advisor
+  const advInput = document.getElementById('advisorInputField');
+  if (advInput && dict["adv.input_ph"]) {
+    advInput.placeholder = dict["adv.input_ph"];
+  }
+
+  // Update calendar month and days if initialized
+  if (typeof renderCalendarDays === 'function') {
+    renderCalendarDays();
+  }
+
   document.documentElement.lang = lang;
+  try { localStorage.setItem('ku_site_lang', lang); } catch (e) {}
 }
 
 /* ==========================================================================
@@ -419,10 +753,12 @@ let calMonth = 10; // November (0-indexed: 10 = Nov)
 let selDay = 4;
 let selTime = "11:00";
 
-const geoMonths = [
-  "იანვარი", "თებერვალი", "მარტი", "აპრილი", "მაისი", "ივნისი",
-  "ივლისი", "აგვისტო", "სექტემბერი", "ოქტომბერი", "ნოემბერი", "დეკემბერი"
-];
+const geoMonths = monthNamesByLang.ka;
+
+function getCurrentMonthName(monthIdx) {
+  const list = (typeof currentLang !== 'undefined' && monthNamesByLang[currentLang]) ? monthNamesByLang[currentLang] : geoMonths;
+  return list[monthIdx];
+}
 
 function initCalendar() {
   const prevBtn = document.getElementById('prevMonthBtn');
@@ -505,7 +841,7 @@ function initCalendar() {
         : 'პირისპირ შეხვედრა თბილისის ოფისში (ჭავჭავაძის გამზ. #26)';
 
       const refCode = `KU-TBS-${calYear}-${Math.floor(1000 + Math.random() * 9000)}`;
-      const monthStr = geoMonths[calMonth];
+      const monthStr = getCurrentMonthName(calMonth);
 
       const botRemind = document.getElementById('botReminderCheck')?.checked;
       const botReminderNotice = botRemind
@@ -567,7 +903,8 @@ function renderCalendarDays() {
   const grid = document.getElementById('calendarDaysGrid');
   if (!grid || !monthTitle) return;
 
-  monthTitle.textContent = `${geoMonths[calMonth]} ${calYear}`;
+  const monthStr = getCurrentMonthName(calMonth);
+  monthTitle.textContent = `${monthStr} ${calYear}`;
   grid.innerHTML = '';
 
   const firstDay = new Date(calYear, calMonth, 1).getDay();
@@ -590,7 +927,7 @@ function renderCalendarDays() {
 
     if (isWeekend) {
       cell.classList.add('disabled');
-      cell.title = "შაბათ-კვირა — გადაუდებელი საქმეები";
+      cell.title = (currentLang === 'en') ? "Weekend — Urgent cases only" : (currentLang === 'ru') ? "Выходные — срочные дела" : "შაბათ-კვირა — გადაუდებელი საქმეები";
     } else {
       if (d === selDay) {
         cell.classList.add('active');
@@ -613,7 +950,7 @@ function renderCalendarDays() {
 function updateBookingSlotDisplay() {
   const dateBadge = document.getElementById('selectedDateDisplay');
   const summarySlot = document.getElementById('summarySlotTime');
-  const monthStr = geoMonths[calMonth];
+  const monthStr = getCurrentMonthName(calMonth);
 
   if (dateBadge) {
     dateBadge.textContent = `${selDay} ${monthStr}`;
@@ -801,6 +1138,7 @@ function initLegalAdvisor() {
   function openAdvisorChat() {
     modal.classList.remove('hidden', 'closing');
     toggleBtn.classList.add('is-open');
+    document.body.classList.add('advisor-modal-open');
     if (inputField && window.innerWidth > 768) {
       setTimeout(() => inputField.focus(), 80);
     }
@@ -810,6 +1148,7 @@ function initLegalAdvisor() {
     if (modal.classList.contains('hidden')) return;
     if (inputField) inputField.blur();
     document.body.classList.remove('chat-input-focused');
+    document.body.classList.remove('advisor-modal-open');
     modal.style.height = '';
     modal.style.bottom = '';
     modal.classList.add('closing');
