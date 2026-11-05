@@ -1109,11 +1109,16 @@ button, input, select, textarea {
    LEGAL EXPERTISE (SYMMETRICAL ARCHITECTURE - DE ALWIS SLIDE 4)
    ========================================================================== */
 /* Practice Domains View Switcher */
+#expertise .section-heading {
+  margin-bottom: 1.25rem;
+}
+
 .expertise-view-switch-bar {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-bottom: 2rem;
+  margin-top: 0;
+  margin-bottom: 3.5rem;
 }
 
 .view-grid-toggle-btn {
