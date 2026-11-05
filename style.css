@@ -1160,8 +1160,8 @@ button, input, select, textarea {
   height: 16px;
 }
 
-/* 3D Circular Orbital Carousel */
-.circular-carousel-container {
+/* 3D Circular Orbital Carousel Wrapper */
+.expertise-carousel-wrapper {
   position: relative;
   width: 100%;
   max-width: 980px;
@@ -1174,15 +1174,9 @@ button, input, select, textarea {
   padding: 1.5rem 0 1.5rem;
 }
 
-.circular-carousel-container:focus-visible {
+.expertise-carousel-wrapper:focus-visible {
   outline: 2px solid rgba(184, 147, 88, 0.5);
   border-radius: var(--radius-lg);
-}
-
-.circular-carousel-container.view-hidden,
-.expertise-symmetrical-grid.view-hidden,
-.mobile-more-expertise-wrap.view-hidden {
-  display: none !important;
 }
 
 /* Ambient Orbit Ring */
@@ -1191,16 +1185,16 @@ button, input, select, textarea {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -60%);
-  width: 560px;
-  height: 220px;
+  width: 580px;
+  height: 230px;
   border-radius: 50%;
-  border: 1.5px dashed rgba(184, 147, 88, 0.28);
+  border: 1.5px dashed rgba(184, 147, 88, 0.3);
   pointer-events: none;
   opacity: 0.65;
   box-shadow: 0 0 40px rgba(184, 147, 88, 0.08);
 }
 
-/* Center Counter Indicator (Spec: 01 of 06) */
+/* Center Counter Indicator (01 of 06) */
 .carousel-center-indicator {
   position: absolute;
   top: 50%;
@@ -1243,159 +1237,68 @@ button, input, select, textarea {
   text-transform: uppercase;
 }
 
-/* Orbital Track & Orbiting Cards */
-.circular-carousel-track {
+/* The 6 ORIGINAL Cards with ZERO color or typography modifications */
+.expertise-cards-stage.mode-carousel {
   position: relative;
   width: 100%;
-  height: 380px;
+  height: 420px;
   max-width: 880px;
   margin: 0 auto;
   overflow: visible;
+  display: block;
 }
 
-.circular-carousel-card {
+.expertise-cards-stage.mode-carousel .expertise-card-editorial {
   position: absolute;
   left: 50%;
   top: 50%;
-  width: 275px;
-  min-height: 175px;
+  width: 295px;
+  min-height: 220px;
   box-sizing: border-box;
   transform-origin: center center;
   cursor: pointer;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  padding: 1.25rem 1.35rem;
-  border-radius: 18px;
-  border: 1px solid rgba(184, 147, 88, 0.25);
-  background: linear-gradient(145deg, rgba(15, 23, 42, 0.96) 0%, rgba(26, 38, 57, 0.94) 100%);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  box-shadow: 0 10px 28px -4px rgba(15, 23, 42, 0.35);
+  padding: 1.8rem 1.6rem;
+  border-radius: var(--radius-lg);
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-light);
+  box-shadow: var(--shadow-subtle);
   transition: transform 0.65s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.65s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.35s ease, border-color 0.35s ease;
   user-select: none;
   outline: none;
 }
 
-.circular-carousel-card:hover {
+.expertise-cards-stage.mode-carousel .expertise-card-editorial:hover {
+  transform: translateY(-6px);
   border-color: rgba(184, 147, 88, 0.5);
-  box-shadow: 0 14px 36px -4px rgba(15, 23, 42, 0.45);
+  box-shadow: 0 16px 36px rgba(114, 25, 39, 0.14);
 }
 
-.circular-carousel-card.active {
+.expertise-cards-stage.mode-carousel .expertise-card-editorial.active {
   border-color: var(--color-brass-primary) !important;
-  box-shadow: 0 20px 50px -10px rgba(114, 25, 39, 0.45), 0 0 28px rgba(184, 147, 88, 0.3) !important;
+  box-shadow: 0 18px 45px rgba(114, 25, 39, 0.16), 0 0 20px rgba(184, 147, 88, 0.2) !important;
   z-index: 10 !important;
 }
 
-.carousel-card-top {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+/* Grid Mode: Full Classical 3x2 Grid View */
+.expertise-cards-stage.mode-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
   width: 100%;
-  margin-bottom: 0.65rem;
-}
-
-.carousel-card-tag {
-  font-family: var(--font-sans);
-  font-size: 0.66rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  padding: 3px 9px;
-  border-radius: 9999px;
-  background: rgba(114, 25, 39, 0.88);
-  color: #F7E5C8;
-  border: 1px solid rgba(184, 147, 88, 0.35);
-}
-
-.circular-carousel-card:not(.active) .carousel-card-tag {
-  background: rgba(255, 255, 255, 0.1);
-  color: rgba(255, 255, 255, 0.7);
-  border-color: rgba(255, 255, 255, 0.15);
-}
-
-.carousel-card-icon {
-  width: 32px;
-  height: 32px;
-  border-radius: 9px;
-  background: rgba(255, 255, 255, 0.06);
-  border: 1px solid rgba(184, 147, 88, 0.25);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--color-brass-primary);
-  transition: transform 0.3s ease;
-}
-
-.circular-carousel-card:hover .carousel-card-icon,
-.circular-carousel-card.active .carousel-card-icon {
-  transform: scale(1.08);
-  border-color: var(--color-brass-primary);
-  background: rgba(114, 25, 39, 0.2);
-}
-
-.carousel-card-icon svg {
-  width: 17px;
-  height: 17px;
-}
-
-.carousel-card-content {
-  width: 100%;
-}
-
-.carousel-card-title {
-  font-family: var(--font-serif);
-  font-weight: 700;
-  font-size: 1.05rem;
-  line-height: 1.25;
-  color: #FDFBF7;
-  margin-bottom: 0.45rem;
-  transition: color 0.3s ease;
-}
-
-.circular-carousel-card:not(.active) .carousel-card-title {
-  color: rgba(253, 251, 247, 0.85);
-  font-size: 0.98rem;
-}
-
-.carousel-card-desc {
-  font-size: 0.76rem;
-  line-height: 1.48;
-  color: rgba(253, 251, 247, 0.85);
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  height: auto;
+  position: static;
   margin: 0;
-  transition: color 0.3s ease;
 }
 
-.circular-carousel-card:not(.active) .carousel-card-desc {
-  color: rgba(253, 251, 247, 0.45);
-}
-
-.carousel-card-footer {
-  margin-top: 0.75rem;
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-}
-
-.carousel-card-cta {
-  font-size: 0.74rem;
-  font-weight: 600;
-  color: var(--color-brass-primary);
-  transition: all 0.3s ease;
-  display: inline-flex;
-  align-items: center;
-}
-
-.circular-carousel-card.active .carousel-card-cta {
-  color: #E0C088;
-  transform: translateX(3px);
+.expertise-cards-stage.mode-grid .expertise-card-editorial {
+  position: static !important;
+  width: 100% !important;
+  min-height: auto !important;
+  transform: none !important;
+  opacity: 1 !important;
+  z-index: auto !important;
+  pointer-events: auto !important;
+  padding: 2.2rem 2rem;
 }
 
 /* Controls: Prev, Dots, Next */
@@ -1478,15 +1381,25 @@ button, input, select, textarea {
   text-align: center;
 }
 
-/* Mobile & Tablet Responsive for Circular Carousel */
+/* Responsive for Circular Carousel */
 @media (max-width: 900px) {
-  .circular-carousel-track {
-    height: 330px;
+  .expertise-cards-stage.mode-carousel {
+    height: 360px;
   }
-  .circular-carousel-card {
-    width: 235px;
-    min-height: 160px;
-    padding: 1.05rem 1.15rem;
+  .expertise-cards-stage.mode-carousel .expertise-card-editorial {
+    width: 250px;
+    min-height: 190px;
+    padding: 1.3rem 1.2rem;
+  }
+  .expertise-cards-stage.mode-carousel .domain-title {
+    font-size: 1.05rem;
+  }
+  .expertise-cards-stage.mode-carousel .domain-desc {
+    font-size: 0.74rem;
+    -webkit-line-clamp: 2;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
   }
   .carousel-orbit-ring {
     width: 440px;
@@ -1498,34 +1411,33 @@ button, input, select, textarea {
 }
 
 @media (max-width: 640px) {
-  .circular-carousel-track {
-    height: 290px;
+  .expertise-cards-stage.mode-carousel {
+    height: 310px;
   }
-  .circular-carousel-card {
-    width: 195px;
-    min-height: 140px;
-    padding: 0.85rem 0.95rem;
+  .expertise-cards-stage.mode-carousel .expertise-card-editorial {
+    width: 215px;
+    min-height: 165px;
+    padding: 1rem 0.95rem;
     border-radius: 14px;
   }
-  .carousel-card-title {
-    font-size: 0.88rem !important;
-    margin-bottom: 0.3rem;
+  .expertise-cards-stage.mode-carousel .domain-title {
+    font-size: 0.92rem;
+    margin-bottom: 0.35rem;
   }
-  .carousel-card-desc {
+  .expertise-cards-stage.mode-carousel .domain-desc {
     font-size: 0.68rem;
+    line-height: 1.4;
     -webkit-line-clamp: 2;
   }
-  .carousel-card-tag {
-    font-size: 0.58rem;
-    padding: 2px 7px;
+  .expertise-cards-stage.mode-carousel .card-contour-icon {
+    width: 36px;
+    height: 36px;
+    margin-bottom: 0.65rem;
+    border-radius: 10px;
   }
-  .carousel-card-icon {
-    width: 26px;
-    height: 26px;
-  }
-  .carousel-card-icon svg {
-    width: 14px;
-    height: 14px;
+  .expertise-cards-stage.mode-carousel .card-contour-icon svg {
+    width: 18px;
+    height: 18px;
   }
   .carousel-orbit-ring {
     width: 290px;

@@ -1939,19 +1939,22 @@ function initScrollBurnCards() {
    10. PRACTICE DOMAINS 3D CIRCULAR ORBITAL CAROUSEL
    ========================================================================== */
 function initExpertiseCircularCarousel() {
-  const container = document.getElementById('expertiseCarouselContainer');
-  const track = document.getElementById('circularCarouselTrack');
-  const cards = Array.from(document.querySelectorAll('.circular-carousel-card'));
-  const prevBtn = document.getElementById('carouselPrevBtn');
-  const nextBtn = document.getElementById('carouselNextBtn');
-  const dots = Array.from(document.querySelectorAll('.carousel-dot'));
-  const activeIndexEl = document.getElementById('carouselActiveIndex');
-  const viewModeCarouselBtn = document.getElementById('viewModeCarouselBtn');
-  const viewModeGridBtn = document.getElementById('viewModeGridBtn');
-  const gridEl = document.querySelector('.expertise-symmetrical-grid');
-  const moreWrap = document.querySelector('.mobile-more-expertise-wrap');
+  const container = document.getElementById("expertiseCarouselContainer");
+  const stage = document.getElementById("expertiseCardsStage");
+  const cards = Array.from(stage ? stage.querySelectorAll(".expertise-card-editorial") : []);
+  const prevBtn = document.getElementById("carouselPrevBtn");
+  const nextBtn = document.getElementById("carouselNextBtn");
+  const dots = Array.from(document.querySelectorAll(".carousel-dot"));
+  const activeIndexEl = document.getElementById("carouselActiveIndex");
+  const viewModeCarouselBtn = document.getElementById("viewModeCarouselBtn");
+  const viewModeGridBtn = document.getElementById("viewModeGridBtn");
+  const moreWrap = document.querySelector(".mobile-more-expertise-wrap");
+  const orbitRing = document.getElementById("carouselOrbitRing");
+  const centerIndicator = document.getElementById("carouselCenterIndicator");
+  const controlsBar = document.getElementById("carouselControlsBar");
+  const navHint = document.getElementById("carouselNavHint");
 
-  if (!container || !track || cards.length === 0) return;
+  if (!container || !stage || cards.length === 0) return;
 
   const VISIBLE_COUNT = 5;
   const total = cards.length;
@@ -1960,15 +1963,16 @@ function initExpertiseCircularCarousel() {
   let isFocused = false;
   let autoPlayTimer = null;
   const autoPlayInterval = 4000;
+  let currentMode = "carousel";
 
   function getRadii() {
-    const w = track.clientWidth || 800;
+    const w = stage.clientWidth || 800;
     if (w < 480) {
       return { rx: Math.min(125, w * 0.32), ry: 50 };
     } else if (w < 768) {
       return { rx: Math.min(180, w * 0.33), ry: 75 };
     } else {
-      return { rx: Math.min(265, w * 0.34), ry: 95 };
+      return { rx: Math.min(270, w * 0.34), ry: 95 };
     }
   }
 
@@ -1996,16 +2000,17 @@ function initExpertiseCircularCarousel() {
   }
 
   function updateCarousel() {
+    if (currentMode !== "carousel") return;
     const { rx, ry } = getRadii();
 
     cards.forEach((card, i) => {
       const pos = getItemPosition(i, activeIndex, total, rx, ry);
       if (!pos) {
-        card.style.opacity = '0';
-        card.style.pointerEvents = 'none';
-        card.style.zIndex = '0';
-        card.classList.remove('active');
-        card.setAttribute('aria-selected', 'false');
+        card.style.opacity = "0";
+        card.style.pointerEvents = "none";
+        card.style.zIndex = "0";
+        card.classList.remove("active");
+        card.setAttribute("aria-selected", "false");
         return;
       }
 
@@ -2013,28 +2018,28 @@ function initExpertiseCircularCarousel() {
       card.style.transform = `translate3d(calc(-50% + ${pos.x.toFixed(1)}px), calc(-50% + ${pos.y.toFixed(1)}px), 0) scale(${pos.scale.toFixed(3)})`;
       card.style.opacity = pos.opacity.toFixed(2);
       card.style.zIndex = pos.zIndex;
-      card.style.pointerEvents = 'auto';
+      card.style.pointerEvents = "auto";
 
       if (isActive) {
-        card.classList.add('active');
-        card.setAttribute('aria-selected', 'true');
+        card.classList.add("active");
+        card.setAttribute("aria-selected", "true");
       } else {
-        card.classList.remove('active');
-        card.setAttribute('aria-selected', 'false');
+        card.classList.remove("active");
+        card.setAttribute("aria-selected", "false");
       }
     });
 
     if (activeIndexEl) {
-      activeIndexEl.textContent = String(activeIndex + 1).padStart(2, '0');
+      activeIndexEl.textContent = String(activeIndex + 1).padStart(2, "0");
     }
 
     dots.forEach((dot, i) => {
       if (i === activeIndex) {
-        dot.classList.add('active');
-        dot.setAttribute('aria-selected', 'true');
+        dot.classList.add("active");
+        dot.setAttribute("aria-selected", "true");
       } else {
-        dot.classList.remove('active');
-        dot.setAttribute('aria-selected', 'false');
+        dot.classList.remove("active");
+        dot.setAttribute("aria-selected", "false");
       }
     });
   }
@@ -2054,7 +2059,7 @@ function initExpertiseCircularCarousel() {
 
   function startTimer() {
     stopTimer();
-    if (isHovered || isFocused) return;
+    if (currentMode !== "carousel" || isHovered || isFocused) return;
     autoPlayTimer = setInterval(next, autoPlayInterval);
   }
 
@@ -2067,7 +2072,7 @@ function initExpertiseCircularCarousel() {
 
   // Navigation events
   if (prevBtn) {
-    prevBtn.addEventListener('click', (e) => {
+    prevBtn.addEventListener("click", (e) => {
       e.preventDefault();
       prev();
       startTimer();
@@ -2075,7 +2080,7 @@ function initExpertiseCircularCarousel() {
   }
 
   if (nextBtn) {
-    nextBtn.addEventListener('click', (e) => {
+    nextBtn.addEventListener("click", (e) => {
       e.preventDefault();
       next();
       startTimer();
@@ -2083,7 +2088,7 @@ function initExpertiseCircularCarousel() {
   }
 
   dots.forEach((dot, i) => {
-    dot.addEventListener('click', (e) => {
+    dot.addEventListener("click", (e) => {
       e.preventDefault();
       goTo(i);
       startTimer();
@@ -2092,52 +2097,56 @@ function initExpertiseCircularCarousel() {
 
   // Card click routing
   cards.forEach((card, i) => {
-    card.addEventListener('click', (e) => {
-      e.preventDefault();
-      if (i !== activeIndex) {
-        goTo(i);
-        startTimer();
-      } else {
-        // Active card clicked: trigger AI Legal Advisor
-        const query = card.getAttribute('data-advisor-query');
-        const toggleBtn = document.getElementById('advisorToggleBtn');
-        if (toggleBtn) toggleBtn.classList.remove('minimized');
-        if (typeof openAdvisorChat === 'function') openAdvisorChat();
-        if (query && typeof handleQuickAdvisorQuery === 'function') {
-          handleQuickAdvisorQuery(query);
+    card.addEventListener("click", (e) => {
+      if (currentMode === "carousel") {
+        if (i !== activeIndex) {
+          e.preventDefault();
+          e.stopPropagation();
+          goTo(i);
+          startTimer();
+        } else {
+          // Active card clicked: let it trigger the legal advisor as normal
+          const query = card.getAttribute("data-advisor-query");
+          const toggleBtn = document.getElementById("advisorToggleBtn");
+          if (toggleBtn) toggleBtn.classList.remove("minimized");
+          if (typeof openAdvisorChat === "function") openAdvisorChat();
+          if (query && typeof handleQuickAdvisorQuery === "function") {
+            handleQuickAdvisorQuery(query);
+          }
         }
       }
     });
   });
 
   // Hover & Focus Auto-Play Controls
-  container.addEventListener('mouseenter', () => {
+  container.addEventListener("mouseenter", () => {
     isHovered = true;
     stopTimer();
   });
 
-  container.addEventListener('mouseleave', () => {
+  container.addEventListener("mouseleave", () => {
     isHovered = false;
     startTimer();
   });
 
-  container.addEventListener('focusin', () => {
+  container.addEventListener("focusin", () => {
     isFocused = true;
     stopTimer();
   });
 
-  container.addEventListener('focusout', () => {
+  container.addEventListener("focusout", () => {
     isFocused = false;
     startTimer();
   });
 
   // Keyboard navigation
-  container.addEventListener('keydown', (e) => {
-    if (e.key === 'ArrowLeft') {
+  container.addEventListener("keydown", (e) => {
+    if (currentMode !== "carousel") return;
+    if (e.key === "ArrowLeft") {
       e.preventDefault();
       prev();
       startTimer();
-    } else if (e.key === 'ArrowRight') {
+    } else if (e.key === "ArrowRight") {
       e.preventDefault();
       next();
       startTimer();
@@ -2148,7 +2157,8 @@ function initExpertiseCircularCarousel() {
   let touchStartX = 0;
   let touchStartY = 0;
 
-  track.addEventListener('touchstart', (e) => {
+  stage.addEventListener("touchstart", (e) => {
+    if (currentMode !== "carousel") return;
     if (e.touches && e.touches.length > 0) {
       touchStartX = e.touches[0].clientX;
       touchStartY = e.touches[0].clientY;
@@ -2157,7 +2167,8 @@ function initExpertiseCircularCarousel() {
     }
   }, { passive: true });
 
-  track.addEventListener('touchend', (e) => {
+  stage.addEventListener("touchend", (e) => {
+    if (currentMode !== "carousel") return;
     if (e.changedTouches && e.changedTouches.length > 0) {
       const deltaX = e.changedTouches[0].clientX - touchStartX;
       const deltaY = e.changedTouches[0].clientY - touchStartY;
@@ -2175,41 +2186,66 @@ function initExpertiseCircularCarousel() {
 
   // View Mode Switcher
   if (viewModeCarouselBtn && viewModeGridBtn) {
-    viewModeCarouselBtn.addEventListener('click', () => {
-      viewModeCarouselBtn.classList.add('active');
-      viewModeCarouselBtn.setAttribute('aria-selected', 'true');
-      viewModeGridBtn.classList.remove('active');
-      viewModeGridBtn.setAttribute('aria-selected', 'false');
+    viewModeCarouselBtn.addEventListener("click", () => {
+      currentMode = "carousel";
+      viewModeCarouselBtn.classList.add("active");
+      viewModeCarouselBtn.setAttribute("aria-selected", "true");
+      viewModeGridBtn.classList.remove("active");
+      viewModeGridBtn.setAttribute("aria-selected", "false");
 
-      container.classList.remove('view-hidden');
-      if (gridEl) gridEl.classList.add('view-hidden');
-      if (moreWrap) moreWrap.classList.add('view-hidden');
+      stage.classList.remove("mode-grid");
+      stage.classList.add("mode-carousel");
+
+      if (orbitRing) orbitRing.style.display = "";
+      if (centerIndicator) centerIndicator.style.display = "";
+      if (controlsBar) controlsBar.style.display = "";
+      if (navHint) navHint.style.display = "";
+      if (moreWrap) moreWrap.style.display = "none";
+
       updateCarousel();
       startTimer();
     });
 
-    viewModeGridBtn.addEventListener('click', () => {
-      viewModeGridBtn.classList.add('active');
-      viewModeGridBtn.setAttribute('aria-selected', 'true');
-      viewModeCarouselBtn.classList.remove('active');
-      viewModeCarouselBtn.setAttribute('aria-selected', 'false');
+    viewModeGridBtn.addEventListener("click", () => {
+      currentMode = "grid";
+      viewModeGridBtn.classList.add("active");
+      viewModeGridBtn.setAttribute("aria-selected", "true");
+      viewModeCarouselBtn.classList.remove("active");
+      viewModeCarouselBtn.setAttribute("aria-selected", "false");
 
-      container.classList.add('view-hidden');
-      if (gridEl) gridEl.classList.remove('view-hidden');
-      if (moreWrap) moreWrap.classList.remove('view-hidden');
+      stage.classList.remove("mode-carousel");
+      stage.classList.add("mode-grid");
+
+      if (orbitRing) orbitRing.style.display = "none";
+      if (centerIndicator) centerIndicator.style.display = "none";
+      if (controlsBar) controlsBar.style.display = "none";
+      if (navHint) navHint.style.display = "none";
+      if (moreWrap) moreWrap.style.display = "";
+
+      cards.forEach(card => {
+        card.style.transform = "";
+        card.style.opacity = "";
+        card.style.zIndex = "";
+        card.style.pointerEvents = "";
+        card.classList.remove("active");
+      });
+
       stopTimer();
     });
 
-    // Default: grid and mobile-more-wrap are hidden in favor of carousel
-    if (gridEl) gridEl.classList.add('view-hidden');
-    if (moreWrap) moreWrap.classList.add('view-hidden');
+    // Default: Carousel mode active, hide mobile more button in carousel mode
+    if (moreWrap) moreWrap.style.display = "none";
   }
 
   // Window resize handler
   let resizeTimer = null;
-  window.addEventListener('resize', () => {
+  window.addEventListener("resize", () => {
     clearTimeout(resizeTimer);
-    resizeTimer = setTimeout(updateCarousel, 120);
+    resizeTimer = setTimeout(() => {
+      if (currentMode === "carousel") {
+        updateCarousel();
+      }
+    }, 120);
   }, { passive: true });
 
   // Initial render
