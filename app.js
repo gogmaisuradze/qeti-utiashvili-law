@@ -1300,9 +1300,18 @@ function initLegalAdvisor() {
     });
   }
 
-  function handleStartChat() {
+  function handleStartChat(e) {
+    if (e) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
     const startWrap = document.getElementById('chatStartWrap');
-    if (startWrap) startWrap.remove();
+    if (startWrap) {
+      startWrap.style.display = 'none';
+      setTimeout(() => {
+        if (startWrap && startWrap.parentNode) startWrap.remove();
+      }, 300);
+    }
 
     const curLang = currentLang || 'ka';
     const dict = i18nDictionary[curLang] || i18nDictionary.ka;
@@ -1310,7 +1319,7 @@ function initLegalAdvisor() {
     appendChatBubble(userPrompt, 'user');
     generateAdvisorResponse(userPrompt, 'start');
     if (inputField && window.innerWidth > 768) {
-      inputField.focus();
+      setTimeout(() => inputField.focus(), 100);
     }
   }
 
@@ -1336,7 +1345,11 @@ function initLegalAdvisor() {
     `;
     const newStartBtn = document.getElementById('chatStartBtn');
     if (newStartBtn) {
-      newStartBtn.addEventListener('click', handleStartChat);
+      newStartBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        handleStartChat(e);
+      });
     }
     if (inputField) {
       inputField.value = '';
@@ -1361,12 +1374,23 @@ function initLegalAdvisor() {
 
   // Close when clicking outside of modal and toggle button
   document.addEventListener('click', (e) => {
-    if (!modal.classList.contains('hidden') && 
-        !modal.contains(e.target) && 
-        !toggleBtn.contains(e.target) &&
-        (!mobCenterChatBtn || !mobCenterChatBtn.contains(e.target))) {
-      closeAdvisorChat();
+    if (modal.classList.contains('hidden') || modal.classList.contains('closing')) return;
+
+    // Do NOT close if clicked inside the modal, the floating widget, or the toggle button
+    if (e.target.closest('#advisorModal') || 
+        e.target.closest('#advisorWidget') || 
+        modal.contains(e.target) || 
+        toggleBtn.contains(e.target) || 
+        (mobCenterChatBtn && (mobCenterChatBtn === e.target || mobCenterChatBtn.contains(e.target)))) {
+      return;
     }
+
+    // Do NOT close if the clicked target was detached from the DOM during event handling
+    if (!document.body.contains(e.target)) {
+      return;
+    }
+
+    closeAdvisorChat();
   });
 
   // Practice Area Cards -> Direct Route to On-Site AI Legal Advisor!
@@ -1385,7 +1409,11 @@ function initLegalAdvisor() {
 
   const initialStartBtn = document.getElementById('chatStartBtn');
   if (initialStartBtn) {
-    initialStartBtn.addEventListener('click', handleStartChat);
+    initialStartBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      handleStartChat(e);
+    });
   }
 
   document.querySelectorAll('.quick-tag-btn').forEach(tagBtn => {
