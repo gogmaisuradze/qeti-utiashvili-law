@@ -7,6 +7,7 @@
 document.addEventListener('DOMContentLoaded', () => {
   initTranslations();
   initCalendar();
+  initBookingModal();
   initCaseWizard();
   initLegalAdvisor();
   initMobileNav();
@@ -14,6 +15,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initSmoothScrollSpy();
   initThemisContourParallax();
   initScrollBurnCards();
+  initChronologicalTimelineSpine();
   initExpertiseCircularCarousel();
 });
 
@@ -173,6 +175,9 @@ const i18nDictionary = {
     "cal.eyebrow": "APPOINTMENT & LAW OFFICE CONTACT",
     "cal.title": "კონსულტაციის დაჯავშნა & ცენტრალური ოფისი",
     "cal.subtitle": "შეარჩიეთ თქვენთვის მოსახერხებელი დღე და საათი თბილისის ოფისში (ჭავჭავაძის გამზ. 26) პირისპირ ვიზიტისთვის ან ონლაინ ვიდეოკონსულტაციისთვის.",
+    "cal.launch_title": "ონლაინ კალენდარი & ვიზიტის დაჯავშნა",
+    "cal.launch_desc": "შეარჩიეთ თქვენთვის ხელსაყრელი დღე და საათი ქეთევან უტიაშვილის ოფიციალურ სამუშაო განრიგში.",
+    "cal.btn_open_modal": "კალენდრის გახსნა & დაჯავშნა",
     "cal.select_time": "ხელმისაწვდომი საათები:",
     "cal.sum_lawyer": "ადვოკატი:",
     "cal.sum_slot": "არჩეული დრო:",
@@ -387,6 +392,9 @@ const i18nDictionary = {
     "cal.eyebrow": "APPOINTMENT & LAW OFFICE CONTACT",
     "cal.title": "Book Consultation & Central Office",
     "cal.subtitle": "Select your preferred date and time for an in-person meeting at our Tbilisi office (26 Chavchavadze Ave.) or online video consultation.",
+    "cal.launch_title": "Online Calendar & Appointment Booking",
+    "cal.launch_desc": "Choose a convenient date and time in attorney Ketevan Utiashvili's official schedule.",
+    "cal.btn_open_modal": "Open Calendar & Book Visit",
     "cal.select_time": "Available Time Slots:",
     "cal.sum_lawyer": "Attorney:",
     "cal.sum_slot": "Selected Slot:",
@@ -601,6 +609,9 @@ const i18nDictionary = {
     "cal.eyebrow": "ЗАПИСЬ НА ПРИЕМ И ОФИС",
     "cal.title": "Запись на консультацию и офис",
     "cal.subtitle": "Выберите удобный день и время для очного визита в офис в Тбилиси (просп. Чавчавадзе 26) или онлайн-видеоконсультации.",
+    "cal.launch_title": "Онлайн-календарь и бронирование визита",
+    "cal.launch_desc": "Выберите удобный день и время в официальном расписании адвоката Кетеван Утиашвили.",
+    "cal.btn_open_modal": "Открыть календарь и записаться",
     "cal.select_time": "Доступные часы:",
     "cal.sum_lawyer": "Адвокат:",
     "cal.sum_slot": "Выбранное время:",
@@ -935,6 +946,60 @@ function initCalendar() {
       appForm.classList.remove('hidden');
       successBox.classList.add('hidden');
     });
+  }
+}
+
+/* ==========================================================================
+   BOOKING POPUP MODAL (FORTOCHKA ON TRANSPARENT WHITE BACKDROP)
+   ========================================================================== */
+function initBookingModal() {
+  const modal = document.getElementById('bookingModal');
+  const closeBtn = document.getElementById('bookingModalCloseBtn');
+  const backdrop = document.getElementById('bookingModalBackdrop');
+  if (!modal) return;
+
+  function openBookingModal(e) {
+    if (e) {
+      if (typeof e.preventDefault === 'function') e.preventDefault();
+      if (typeof e.stopPropagation === 'function') e.stopPropagation();
+    }
+    modal.classList.add('is-open');
+    modal.setAttribute('aria-hidden', 'false');
+    document.body.classList.add('booking-modal-open');
+  }
+
+  function closeBookingModal(e) {
+    if (e) {
+      if (typeof e.preventDefault === 'function') e.preventDefault();
+      if (typeof e.stopPropagation === 'function') e.stopPropagation();
+    }
+    modal.classList.remove('is-open');
+    modal.setAttribute('aria-hidden', 'true');
+    document.body.classList.remove('booking-modal-open');
+  }
+
+  window.openBookingModal = openBookingModal;
+  window.closeBookingModal = closeBookingModal;
+
+  if (closeBtn) closeBtn.addEventListener('click', closeBookingModal);
+  if (backdrop) backdrop.addEventListener('click', closeBookingModal);
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && modal.classList.contains('is-open')) {
+      closeBookingModal(e);
+    }
+  });
+
+  // Attach to all booking CTAs and buttons across the site
+  document.querySelectorAll('a[href="#calendar"], .open-booking-modal-trigger, #forwardCaseToCalendarBtn, a[data-nav-target="calendar"]').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      openBookingModal(e);
+    });
+  });
+
+  // If user opened page directly with #calendar or #booking hash:
+  if (window.location.hash === '#calendar' || window.location.hash === '#booking') {
+    setTimeout(openBookingModal, 250);
   }
 }
 
@@ -1883,6 +1948,96 @@ function initScrollBurnCards() {
 }
 
 /* ==========================================================================
+   CHRONOLOGICAL SCROLL SPINE & DYNAMIC YEAR LIFT CONTROLLER
+   Tracks scroll progression from bottom (2003) to top (2025) as a continuous
+   luminous vertical line, lifting and emphasizing years synchronously with scroll.
+   ========================================================================== */
+function initChronologicalTimelineSpine() {
+  const list = document.getElementById('recordTimelineList');
+  if (!list) return;
+
+  const spineFill = document.getElementById('timelineSpineFill');
+  const spinePointer = document.getElementById('timelineSpinePointer');
+  const items = Array.from(list.querySelectorAll('.record-item'));
+  if (items.length === 0) return;
+
+  const motion = window.matchMedia('(prefers-reduced-motion: reduce)');
+  let ticking = false;
+
+  function updateSpine() {
+    ticking = false;
+    const vh = window.innerHeight;
+    const listRect = list.getBoundingClientRect();
+
+    // The chronology progresses as the user scrolls through the timeline.
+    // Fill starts when list enters from bottom (vh * 0.92) and completes when scrolled into full view (vh * 0.28)
+    const enterThreshold = vh * 0.92;
+    const exitThreshold = vh * 0.28;
+    const totalSpan = listRect.height + (enterThreshold - exitThreshold);
+    const scrolledSpan = enterThreshold - listRect.top;
+    const rawProgress = Math.min(1, Math.max(0, scrolledSpan / totalSpan));
+
+    // Fill line grows upwards from bottom to top (bottom: 0%, height: 0% -> 100%)
+    const fillPercent = rawProgress * 100;
+    if (spineFill) {
+      spineFill.style.height = `${fillPercent.toFixed(1)}%`;
+    }
+    if (spinePointer) {
+      spinePointer.style.bottom = `${fillPercent.toFixed(1)}%`;
+      spinePointer.style.opacity = rawProgress > 0.03 ? '1' : '0';
+    }
+
+    // Synchronize each individual year lift with scroll position
+    items.forEach((item, idx) => {
+      const itemRect = item.getBoundingClientRect();
+      const yearEl = item.querySelector('.record-years');
+
+      // Center of this timeline card relative to viewport
+      const itemCenter = itemRect.top + itemRect.height / 2;
+      // Focus reading zone: prime focus is around vh * 0.50
+      const distFromFocus = Math.abs(itemCenter - vh * 0.50);
+      const focusRange = vh * 0.30;
+
+      // Smooth bell-curve lift factor (0 to 1)
+      const focusFactor = Math.max(0, 1 - (distFromFocus / focusRange));
+      const liftPixels = motion.matches ? 0 : (Math.pow(focusFactor, 1.5) * 6.5); // smoothly lifts up to 6.5px!
+
+      // Check if the bottom-to-top spine fill has reached this item:
+      // In bottom-to-top coordinates, item's center distance from the bottom of list:
+      const itemBottomPos = listRect.bottom - itemCenter;
+      const fillHeightPx = (rawProgress) * listRect.height;
+      const hasReached = fillHeightPx >= (itemBottomPos - 12);
+
+      if (yearEl) {
+        yearEl.style.setProperty('--year-lift', `${liftPixels.toFixed(2)}px`);
+        if (liftPixels > 0.8) {
+          yearEl.classList.add('is-lifted');
+        } else {
+          yearEl.classList.remove('is-lifted');
+        }
+      }
+
+      if (hasReached || liftPixels > 1.2) {
+        item.classList.add('timeline-passed');
+      } else {
+        item.classList.remove('timeline-passed');
+      }
+    });
+  }
+
+  function schedule() {
+    if (!ticking) {
+      ticking = true;
+      requestAnimationFrame(updateSpine);
+    }
+  }
+
+  window.addEventListener('scroll', schedule, { passive: true });
+  window.addEventListener('resize', schedule, { passive: true });
+  updateSpine();
+}
+
+/* ==========================================================================
    10. PRACTICE DOMAINS 3D CIRCULAR ORBITAL CAROUSEL
    ========================================================================== */
 function initExpertiseCircularCarousel() {
@@ -1925,7 +2080,7 @@ function initExpertiseCircularCarousel() {
     }
   }
 
-  function getItemPosition(index, activeIdx, totalCount, rx, ry) {
+  function getItemPosition(index, activeIdx, totalCount, rx, ry, isMobile) {
     const offset = index - activeIdx;
     const half = Math.floor(VISIBLE_COUNT / 2);
     let adjustedOffset = offset;
@@ -1935,14 +2090,22 @@ function initExpertiseCircularCarousel() {
 
     if (Math.abs(adjustedOffset) > half * 2) return null;
 
+    const distance = Math.abs(adjustedOffset);
+    if (isMobile && distance > 1) return null;
+
     const angle = (adjustedOffset / VISIBLE_COUNT) * Math.PI;
     const x = Math.sin(angle) * rx;
     const y = -Math.cos(angle) * ry;
 
-    const distance = Math.abs(adjustedOffset);
-    const maxDistance = half + 1;
-    const scale = Math.max(0, 1 - (distance / maxDistance) * 0.22);
-    const opacity = Math.max(0.25, 1 - (distance / maxDistance) * 0.65);
+    let scale, opacity;
+    if (isMobile) {
+      scale = (distance === 0) ? 1 : 0.76;
+      opacity = (distance === 0) ? 1 : 0.16;
+    } else {
+      const maxDistance = half + 1;
+      scale = Math.max(0, 1 - (distance / maxDistance) * 0.22);
+      opacity = Math.max(0.25, 1 - (distance / maxDistance) * 0.65);
+    }
     const zIndex = VISIBLE_COUNT - distance;
 
     return { x, y, scale, opacity, zIndex, adjustedOffset };
@@ -1951,9 +2114,10 @@ function initExpertiseCircularCarousel() {
   function updateCarousel() {
     if (currentMode !== "carousel") return;
     const { rx, ry } = getRadii();
+    const isMobile = (window.innerWidth < 768);
 
     cards.forEach((card, i) => {
-      const pos = getItemPosition(i, activeIndex, total, rx, ry);
+      const pos = getItemPosition(i, activeIndex, total, rx, ry, isMobile);
       if (!pos) {
         card.style.opacity = "0";
         card.style.pointerEvents = "none";

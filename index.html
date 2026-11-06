@@ -16,7 +16,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&family=Noto+Serif+Georgian:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   
-  <link rel="stylesheet" href="style.css?v=3.6.0">
+  <link rel="stylesheet" href="style.css?v=3.6.4">
   <script src="soft-preview.js" defer></script>
 </head>
 <body class="editorial-body">
@@ -538,8 +538,14 @@
             20 წელზე მეტია წარმატებით ახორციელებს საადვოკატო საქმიანობას მთელი საქართველოს მასშტაბით. ბიურო დაფუძნდა 2003 წლის 18 ივლისს; ცენტრალური ოფისი და საცხოვრებელი ადგილი მდებარეობს თბილისში (ილია ჭავჭავაძის გამზ. #26), ხოლო საადვოკატო დაცვა და სასამართლო წარმომადგენლობა მოიცავს როგორც დედაქალაქს, ისე საქართველოს ყველა რეგიონს.
           </p>
 
-          <!-- Clean Horizontal Timeline Cards -->
-          <div class="record-timeline-list">
+          <!-- Clean Horizontal Timeline Cards with Chronological Scroll Spine -->
+          <div class="record-timeline-list" id="recordTimelineList">
+            <div class="timeline-chronology-spine" aria-hidden="true">
+              <div class="timeline-spine-track"></div>
+              <div class="timeline-spine-fill" id="timelineSpineFill"></div>
+              <div class="timeline-spine-pointer" id="timelineSpinePointer"></div>
+            </div>
+
             <div class="record-item">
               <span class="record-years" data-i18n="about.rec1_years">2025 – დღემდე</span>
               <div class="record-info">
@@ -932,170 +938,21 @@
         </div>
       </div>
 
-      <!-- Master Unified Booking Grid -->
-      <div class="booking-split-container">
-        <!-- Left: Interactive Calendar -->
-        <div class="calendar-widget-modern">
-          <div class="cal-top-bar">
-            <button class="cal-arrow-btn" id="prevMonthBtn" aria-label="Previous Month">‹</button>
-            <h4 class="cal-month-heading" id="calendarMonthTitle">ნოემბერი 2026</h4>
-            <button class="cal-arrow-btn" id="nextMonthBtn" aria-label="Next Month">›</button>
+      <!-- Prominent Editorial Launch Card for the Booking Window -->
+      <div class="booking-launch-card-editorial">
+        <div class="launch-card-content">
+          <div class="launch-icon-badge">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/><circle cx="12" cy="14" r="2"/></svg>
           </div>
-
-          <div class="cal-weekdays-row">
-            <span data-i18n="cal.w1">ორშ</span>
-            <span data-i18n="cal.w2">სამ</span>
-            <span data-i18n="cal.w3">ოთხ</span>
-            <span data-i18n="cal.w4">ხუთ</span>
-            <span data-i18n="cal.w5">პარ</span>
-            <span class="weekend" data-i18n="cal.w6">შაბ</span>
-            <span class="weekend" data-i18n="cal.w7">კვი</span>
-          </div>
-
-          <div class="cal-grid-cells" id="calendarDaysGrid">
-            <!-- Dynamically populated -->
-          </div>
-
-          <div class="cal-time-selection">
-            <div class="time-heading-line">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-              <span data-i18n="cal.select_time">ხელმისაწვდომი საათები:</span>
-              <span class="selected-pill-badge" id="selectedDateDisplay">04 ნოემბერი</span>
-            </div>
-            <div class="slots-flex-row" id="timeSlotsGroup">
-              <button type="button" class="time-pill active" data-time="11:00">11:00</button>
-              <button type="button" class="time-pill" data-time="12:30">12:30</button>
-              <button type="button" class="time-pill" data-time="14:30">14:30</button>
-              <button type="button" class="time-pill" data-time="16:00">16:00</button>
-              <button type="button" class="time-pill" data-time="17:30">17:30</button>
-            </div>
+          <div>
+            <h3 class="launch-main-title" data-i18n="cal.launch_title">ონლაინ კალენდარი & ვიზიტის დაჯავშნა</h3>
+            <p class="launch-sub-text" data-i18n="cal.launch_desc">შეარჩიეთ თქვენთვის ხელსაყრელი დღე და საათი ქეთევან უტიაშვილის ოფიციალურ სამუშაო განრიგში.</p>
           </div>
         </div>
-
-        <!-- Right: The SINGLE Official Registration & Booking Form -->
-        <div class="booking-form-modern">
-          <div class="booking-summary-box">
-            <div class="summary-cell">
-              <span class="cell-label" data-i18n="cal.sum_lawyer">ადვოკატი:</span>
-              <strong>ქეთევან უტიაშვილი</strong>
-            </div>
-            <div class="summary-cell">
-              <span class="cell-label" data-i18n="cal.sum_slot">არჩეული დრო:</span>
-              <strong class="gold-accent-text" id="summarySlotTime">04 ნოემბერი, 2026 • 11:00</strong>
-            </div>
-          </div>
-
-          <form id="appointmentForm" class="appointment-form-inner">
-            <div class="format-toggle-grid">
-              <label class="format-choice-card" id="formatChoiceOffice">
-                <input type="radio" name="meetingFormat" value="office" checked>
-                <div class="format-card-box">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
-                  <div>
-                    <strong data-i18n="cal.format_office">ვიზიტი ოფისში</strong>
-                  </div>
-                </div>
-              </label>
-
-              <label class="format-choice-card" id="formatChoiceOnline">
-                <input type="radio" name="meetingFormat" value="online">
-                <div class="format-card-box">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
-                  <div>
-                    <strong data-i18n="cal.format_online">ონლაინ კონსულტაცია</strong>
-                  </div>
-                </div>
-              </label>
-            </div>
-
-            <div class="form-grid-pair">
-              <div class="field-wrap">
-                <label class="field-label" data-i18n="cal.field_name">სახელი და გვარი *</label>
-                <input type="text" class="modern-input" required id="bookingName" placeholder="მაგ: გიორგი ბერიძე">
-              </div>
-              <div class="field-wrap">
-                <label class="field-label" data-i18n="cal.field_phone">ტელეფონის ნომერი *</label>
-                <input type="tel" class="modern-input" required id="bookingPhone" placeholder="+995 599 00 00 00">
-              </div>
-            </div>
-
-            <div class="form-grid-pair">
-              <div class="field-wrap">
-                <label class="field-label" data-i18n="cal.field_email">ელექტრონული ფოსტა</label>
-                <input type="email" class="modern-input" id="bookingEmail" placeholder="your@email.com">
-              </div>
-              <div class="field-wrap">
-                <label class="field-label" data-i18n="cal.service_lbl">სამართლებრივი მიმართულება</label>
-                <select class="modern-select" id="bookingService">
-                  <option value="re">უძრავი ქონება, მშენებლობა & ინვესტიციები</option>
-                  <option value="civil">სამოქალაქო & სახელშეკრულებო დავა</option>
-                  <option value="corp">ბიზნესი და კორპორაციული სამართალი</option>
-                  <option value="med">მედიაცია & ალტერნატიული მორიგება</option>
-                  <option value="adm">ადმინისტრაციული / მერია / საგადასახადო</option>
-                  <option value="fam">საოჯახო & მემკვიდრეობითი</option>
-                </select>
-              </div>
-            </div>
-
-            <div class="field-wrap">
-              <label class="field-label" data-i18n="cal.field_topic">დავის მოკლე აღწერა / შეკითხვა</label>
-              <textarea class="modern-textarea" rows="2" id="bookingTopic" placeholder="მოკლედ აღწერეთ თქვენი საქმე ან მოთხოვნა..."></textarea>
-            </div>
-
-            <div class="bot-reminder-option-wrap">
-              <label class="bot-reminder-label" for="botReminderCheck">
-                <input type="checkbox" id="botReminderCheck" checked>
-                <span class="bot-reminder-custom-check">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
-                </span>
-                <span class="bot-reminder-text">
-                  <strong data-i18n="cal.bot_remind_title">AI ასისტენტით შეხსენება & რეგისტრაცია</strong>
-                  <small data-i18n="cal.bot_remind_sub">თუ გსურთ, ბოტი დაარეგისტრირებს ვიზიტს და გამოგიგზავნით შეხსენებას</small>
-                </span>
-              </label>
-            </div>
-
-            <button type="submit" class="btn-pill-dark btn-block" id="bookSubmitBtn">
-              <span data-i18n="cal.btn_confirm">ვიზიტის დადასტურება</span>
-            </button>
-          </form>
-
-          <div class="booking-confirmed-card hidden" id="bookingSuccessBox">
-            <div class="success-icon">✓</div>
-            <h4 data-i18n="cal.succ_title">ვიზიტი წარმატებით დაიჯავშნა!</h4>
-            <p data-i18n="cal.succ_desc">თქვენი კონსულტაცია შეტანილია ადვოკატის ოფიციალურ განრიგში.</p>
-            <div class="confirmed-receipt" id="confirmedReceiptData">
-              <!-- Dynamically populated -->
-            </div>
-
-            <!-- Bot Actions / Reminders Box -->
-            <div class="booking-bot-action-box" id="bookingBotActionBox">
-              <div class="bot-action-head">
-                <div class="bot-badge-icon">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-                </div>
-                <div class="bot-action-copy">
-                  <h5 data-i18n="cal.bot_action_title">AI ასისტენტის მხარდაჭერა & შეხსენება</h5>
-                  <p data-i18n="cal.bot_action_desc">ვიზიტი მიღებულია. შეგიძლიათ გაესაუბროთ ბოტს საქმის მოსამზადებლად ან მიიღოთ შეხსენება.</p>
-                </div>
-              </div>
-              <div class="bot-action-buttons">
-                <button type="button" class="btn-pill-brass" id="startBotChatForBookingBtn">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-                  <span data-i18n="cal.bot_btn_chat">ბოტთან დაკავშირება & საქმის განხილვა</span>
-                </button>
-                <a href="https://t.me/saadvokatobot" target="_blank" rel="noopener noreferrer" class="btn-pill-outline btn-telegram-reminder" id="telegramReminderBtn">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
-                  <span data-i18n="cal.bot_btn_tg">Telegram შეხსენება (@saadvokatobot)</span>
-                </a>
-              </div>
-            </div>
-
-            <button type="button" class="btn-pill-outline btn-sm" id="resetBookingBtn">
-              <span data-i18n="cal.btn_new">ახალი ჯავშნის გაკეთება</span>
-            </button>
-          </div>
-        </div>
+        <button type="button" class="btn-pill-brass btn-lg open-booking-modal-trigger" id="openBookingModalCtaBtn">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+          <span data-i18n="cal.btn_open_modal">კალენდრის გახსნა & დაჯავშნა</span>
+        </button>
       </div>
     </div>
   </section>
@@ -1236,6 +1093,194 @@
     </a>
   </nav>
 
+  <!-- BOOKING POPUP MODAL (FORTOCHKA ON TRANSPARENT WHITE BACKDROP) -->
+  <div class="booking-modal-overlay" id="bookingModal" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="bookingModalTitle">
+    <div class="booking-modal-backdrop" id="bookingModalBackdrop"></div>
+    <div class="booking-modal-window" id="bookingModalWindow">
+      <div class="booking-modal-header">
+        <div class="booking-modal-title-group">
+          <span class="eyebrow-pill" data-i18n="cal.eyebrow">APPOINTMENT SCHEDULER</span>
+          <h3 class="booking-modal-title" id="bookingModalTitle" data-i18n="cal.title">კონსულტაციის დაჯავშნა • ქეთევან უტიაშვილი</h3>
+          <p class="booking-modal-sub" data-i18n="cal.subtitle">შეარჩიეთ თქვენთვის მოსახერხებელი დღე და საათი თბილისის ოფისში (ჭავჭავაძის გამზ. 26) პირისპირ ვიზიტისთვის ან ონლაინ ვიდეოკონსულტაციისთვის.</p>
+        </div>
+        <button type="button" class="booking-modal-close-btn" id="bookingModalCloseBtn" aria-label="Close Booking Window" title="დახურვა">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+
+      <div class="booking-modal-body">
+        <!-- Master Unified Booking Grid -->
+        <div class="booking-split-container">
+          <!-- Left: Interactive Calendar -->
+          <div class="calendar-widget-modern">
+            <div class="cal-top-bar">
+              <button class="cal-arrow-btn" id="prevMonthBtn" aria-label="Previous Month">‹</button>
+              <h4 class="cal-month-heading" id="calendarMonthTitle">ნოემბერი 2026</h4>
+              <button class="cal-arrow-btn" id="nextMonthBtn" aria-label="Next Month">›</button>
+            </div>
+
+            <div class="cal-weekdays-row">
+              <span data-i18n="cal.w1">ორშ</span>
+              <span data-i18n="cal.w2">სამ</span>
+              <span data-i18n="cal.w3">ოთხ</span>
+              <span data-i18n="cal.w4">ხუთ</span>
+              <span data-i18n="cal.w5">პარ</span>
+              <span class="weekend" data-i18n="cal.w6">შაბ</span>
+              <span class="weekend" data-i18n="cal.w7">კვი</span>
+            </div>
+
+            <div class="cal-grid-cells" id="calendarDaysGrid">
+              <!-- Dynamically populated -->
+            </div>
+
+            <div class="cal-time-selection">
+              <div class="time-heading-line">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                <span data-i18n="cal.select_time">ხელმისაწვდომი საათები:</span>
+                <span class="selected-pill-badge" id="selectedDateDisplay">04 ნოემბერი</span>
+              </div>
+              <div class="slots-flex-row" id="timeSlotsGroup">
+                <button type="button" class="time-pill active" data-time="11:00">11:00</button>
+                <button type="button" class="time-pill" data-time="12:30">12:30</button>
+                <button type="button" class="time-pill" data-time="14:30">14:30</button>
+                <button type="button" class="time-pill" data-time="16:00">16:00</button>
+                <button type="button" class="time-pill" data-time="17:30">17:30</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right: The SINGLE Official Registration & Booking Form -->
+          <div class="booking-form-modern">
+            <div class="booking-summary-box">
+              <div class="summary-cell">
+                <span class="cell-label" data-i18n="cal.sum_lawyer">ადვოკატი:</span>
+                <strong>ქეთევან უტიაშვილი</strong>
+              </div>
+              <div class="summary-cell">
+                <span class="cell-label" data-i18n="cal.sum_slot">არჩეული დრო:</span>
+                <strong class="gold-accent-text" id="summarySlotTime">04 ნოემბერი, 2026 • 11:00</strong>
+              </div>
+            </div>
+
+            <form id="appointmentForm" class="appointment-form-inner">
+              <div class="format-toggle-grid">
+                <label class="format-choice-card" id="formatChoiceOffice">
+                  <input type="radio" name="meetingFormat" value="office" checked>
+                  <div class="format-card-box">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+                    <div>
+                      <strong data-i18n="cal.format_office">ვიზიტი ოფისში</strong>
+                    </div>
+                  </div>
+                </label>
+
+                <label class="format-choice-card" id="formatChoiceOnline">
+                  <input type="radio" name="meetingFormat" value="online">
+                  <div class="format-card-box">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+                    <div>
+                      <strong data-i18n="cal.format_online">ონლაინ კონსულტაცია</strong>
+                    </div>
+                  </div>
+                </label>
+              </div>
+
+              <div class="form-grid-pair">
+                <div class="field-wrap">
+                  <label class="field-label" data-i18n="cal.field_name">სახელი და გვარი *</label>
+                  <input type="text" class="modern-input" required id="bookingName" placeholder="მაგ: გიორგი ბერიძე">
+                </div>
+                <div class="field-wrap">
+                  <label class="field-label" data-i18n="cal.field_phone">ტელეფონის ნომერი *</label>
+                  <input type="tel" class="modern-input" required id="bookingPhone" placeholder="+995 599 00 00 00">
+                </div>
+              </div>
+
+              <div class="form-grid-pair">
+                <div class="field-wrap">
+                  <label class="field-label" data-i18n="cal.field_email">ელექტრონული ფოსტა</label>
+                  <input type="email" class="modern-input" id="bookingEmail" placeholder="your@email.com">
+                </div>
+                <div class="field-wrap">
+                  <label class="field-label" data-i18n="cal.service_lbl">სამართლებრივი მიმართულება</label>
+                  <select class="modern-select" id="bookingService">
+                    <option value="re">უძრავი ქონება, მშენებლობა & ინვესტიციები</option>
+                    <option value="civil">სამოქალაქო & სახელშეკრულებო დავა</option>
+                    <option value="corp">ბიზნესი და კორპორაციული სამართალი</option>
+                    <option value="med">მედიაცია & ალტერნატიული მორიგება</option>
+                    <option value="adm">ადმინისტრაციული / მერია / საგადასახადო</option>
+                    <option value="fam">საოჯახო & მემკვიდრეობითი</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="field-wrap">
+                <label class="field-label" data-i18n="cal.field_topic">დავის მოკლე აღწერა / შეკითხვა</label>
+                <textarea class="modern-textarea" rows="2" id="bookingTopic" placeholder="მოკლედ აღწერეთ თქვენი საქმე ან მოთხოვნა..."></textarea>
+              </div>
+
+              <div class="bot-reminder-option-wrap">
+                <label class="bot-reminder-label" for="botReminderCheck">
+                  <input type="checkbox" id="botReminderCheck" checked>
+                  <span class="bot-reminder-custom-check">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+                  </span>
+                  <span class="bot-reminder-text">
+                    <strong data-i18n="cal.bot_remind_title">AI ასისტენტით შეხსენება & რეგისტრაცია</strong>
+                    <small data-i18n="cal.bot_remind_sub">თუ გსურთ, ბოტი დაარეგისტრირებს ვიზიტს და გამოგიგზავნით შეხსენებას</small>
+                  </span>
+                </label>
+              </div>
+
+              <button type="submit" class="btn-pill-dark btn-block" id="bookSubmitBtn">
+                <span data-i18n="cal.btn_confirm">ვიზიტის დადასტურება</span>
+              </button>
+            </form>
+
+            <div class="booking-confirmed-card hidden" id="bookingSuccessBox">
+              <div class="success-icon">✓</div>
+              <h4 data-i18n="cal.succ_title">ვიზიტი წარმატებით დაიჯავშნა!</h4>
+              <p data-i18n="cal.succ_desc">თქვენი კონსულტაცია შეტანილია ადვოკატის ოფიციალურ განრიგში.</p>
+              <div class="confirmed-receipt" id="confirmedReceiptData">
+                <!-- Dynamically populated -->
+              </div>
+
+              <!-- Bot Actions / Reminders Box -->
+              <div class="booking-bot-action-box" id="bookingBotActionBox">
+                <div class="bot-action-head">
+                  <div class="bot-badge-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                  </div>
+                  <div class="bot-action-copy">
+                    <h5 data-i18n="cal.bot_action_title">AI ასისტენტის მხარდაჭერა & შეხსენება</h5>
+                    <p data-i18n="cal.bot_action_desc">ვიზიტი მიღებულია. შეგიძლიათ გაესაუბროთ ბოტს საქმის მოსამზადებლად ან მიიღოთ შეხსენება.</p>
+                  </div>
+                </div>
+                <div class="bot-action-buttons">
+                  <button type="button" class="btn-pill-brass" id="startBotChatForBookingBtn">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                    <span data-i18n="cal.bot_btn_chat">ბოტთან დაკავშირება & საქმის განხილვა</span>
+                  </button>
+                  <a href="https://t.me/saadvokatobot" target="_blank" rel="noopener noreferrer" class="btn-pill-outline btn-telegram-reminder" id="telegramReminderBtn">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+                    <span data-i18n="cal.bot_btn_tg">Telegram შეხსენება (@saadvokatobot)</span>
+                  </a>
+                </div>
+              </div>
+
+              <button type="button" class="btn-pill-outline btn-sm" id="resetBookingBtn">
+                <span data-i18n="cal.btn_new">ახალი ჯავშნის გაკეთება</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- FLOATING INTERACTIVE LEGAL ADVISOR -->
   <div class="advisor-floating-container" id="advisorWidget">
     <div class="advisor-pill-wrap" id="advisorPillWrap">
@@ -1298,6 +1343,6 @@
     </div>
   </div>
 
-  <script src="app.js?v=3.6.2"></script>
+  <script src="app.js?v=3.6.4"></script>
 </body>
 </html>

@@ -1467,10 +1467,19 @@ button, input, select, textarea {
     height: 250px;
   }
   .expertise-cards-stage.mode-carousel .expertise-card-editorial {
-    width: 235px;
+    width: 240px;
     min-height: 165px;
     padding: 1.1rem 0.95rem;
     border-radius: 16px;
+  }
+  .expertise-cards-stage.mode-carousel .expertise-card-editorial:not(.active) {
+    pointer-events: none;
+    user-select: none;
+  }
+  .expertise-cards-stage.mode-carousel .expertise-card-editorial:not(.active) .domain-desc,
+  .expertise-cards-stage.mode-carousel .expertise-card-editorial:not(.active) .domain-link-tag {
+    opacity: 0;
+    visibility: hidden;
   }
   .expertise-cards-stage.mode-carousel .domain-title {
     font-size: 0.95rem;
@@ -1750,24 +1759,104 @@ button, input, select, textarea {
   margin-bottom: 1.8rem;
 }
 
+/* Chronological Scroll Line (Bottom to Top Timeline Spine) */
 .record-timeline-list {
+  position: relative;
+  padding-left: 32px;
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: 0.95rem;
   margin-bottom: 2rem;
 }
 
+.timeline-chronology-spine {
+  position: absolute;
+  left: 9px;
+  top: 14px;
+  bottom: 14px;
+  width: 3px;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.timeline-spine-track {
+  position: absolute;
+  inset: 0;
+  width: 3px;
+  background: rgba(184, 147, 88, 0.22);
+  border-radius: 999px;
+}
+
+.timeline-spine-fill {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 3px;
+  height: 0%;
+  background: linear-gradient(0deg, #B89358 0%, #721927 100%);
+  border-radius: 999px;
+  box-shadow: 0 0 10px rgba(184, 147, 88, 0.55), 0 0 4px rgba(114, 25, 39, 0.45);
+  transition: height 0.08s ease-out;
+  will-change: height;
+}
+
+.timeline-spine-pointer {
+  position: absolute;
+  left: 50%;
+  bottom: 0%;
+  width: 11px;
+  height: 11px;
+  transform: translate(-50%, 50%);
+  background: #721927;
+  border: 2px solid #B89358;
+  border-radius: 50%;
+  box-shadow: 0 0 12px rgba(184, 147, 88, 0.85), 0 0 6px #721927;
+  opacity: 0;
+  transition: bottom 0.08s ease-out, opacity 0.2s ease;
+  will-change: bottom, opacity;
+  z-index: 3;
+}
+
 .record-item {
+  position: relative;
   display: grid;
   grid-template-columns: 130px 1fr;
   align-items: baseline;
   gap: 1.2rem;
-  padding: 0.85rem 1rem;
+  padding: 0.85rem 1.1rem;
   background-color: var(--bg-card);
   border-radius: var(--radius-sm);
   border: 1px solid var(--border-light);
   box-shadow: var(--shadow-subtle);
-  transition: var(--transition);
+  transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.28s ease, border-color 0.28s ease;
+}
+
+/* Individual Milestone Node attached to Chronological Line */
+.record-item::before {
+  content: '';
+  position: absolute;
+  left: -27px;
+  top: 50%;
+  width: 9px;
+  height: 9px;
+  transform: translateY(-50%);
+  border-radius: 50%;
+  background: #FAF6F0;
+  border: 2px solid rgba(184, 147, 88, 0.5);
+  transition: all 0.28s ease;
+  z-index: 3;
+}
+
+.record-item.timeline-passed::before {
+  background: #721927;
+  border-color: #B89358;
+  box-shadow: 0 0 10px rgba(184, 147, 88, 0.7);
+  transform: translateY(-50%) scale(1.25);
+}
+
+.record-item.timeline-passed {
+  border-color: rgba(184, 147, 88, 0.35);
+  box-shadow: 0 8px 22px rgba(114, 25, 39, 0.06);
 }
 
 .record-item:hover {
@@ -1775,11 +1864,26 @@ button, input, select, textarea {
   transform: translateX(4px);
 }
 
+/* Year Lifting Effect synchronized with scroll */
 .record-years {
   font-family: var(--font-display);
-  font-size: 0.86rem;
+  font-size: 0.88rem;
   font-weight: 700;
   color: var(--color-brass-primary);
+  display: inline-flex;
+  align-items: center;
+  transform: translateY(calc(var(--year-lift, 0px) * -1));
+  transition: transform 0.15s cubic-bezier(0.16, 1, 0.3, 1), color 0.22s ease, text-shadow 0.22s ease;
+  will-change: transform;
+}
+
+.record-years.is-lifted {
+  color: #721927;
+  text-shadow: 0 4px 10px rgba(114, 25, 39, 0.18), 0 0 8px rgba(184, 147, 88, 0.25);
+}
+
+.record-item.timeline-passed .record-years {
+  color: #721927;
 }
 
 .record-info strong {
@@ -2412,6 +2516,180 @@ button, input, select, textarea {
   border-radius: var(--radius-sm);
   font-size: 0.88rem;
   font-weight: 500;
+}
+
+/* ==========================================================================
+   BOOKING MODAL WINDOW & FROSTED TRANSPARENT WHITE BACKDROP
+   ========================================================================== */
+.booking-modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 99999;
+  background: rgba(253, 251, 247, 0.88); /* transparent white/cream page */
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.32s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.32s ease;
+}
+
+.booking-modal-overlay.is-open {
+  opacity: 1;
+  visibility: visible;
+}
+
+.booking-modal-backdrop {
+  position: absolute;
+  inset: 0;
+  cursor: pointer;
+}
+
+.booking-modal-window {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  max-width: 1100px;
+  max-height: 90vh;
+  background: #FFFFFF;
+  border: 1px solid rgba(184, 147, 88, 0.35);
+  border-radius: 24px;
+  box-shadow: 0 25px 65px rgba(15, 23, 42, 0.18), 0 0 0 1px rgba(255, 255, 255, 0.9);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  transform: scale(0.92) translateY(20px);
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.booking-modal-overlay.is-open .booking-modal-window {
+  transform: scale(1) translateY(0);
+}
+
+.booking-modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 1.5rem 2rem 1.2rem;
+  border-bottom: 1px solid rgba(184, 147, 88, 0.18);
+  background: #FAF6F0;
+  flex-shrink: 0;
+}
+
+.booking-modal-title {
+  font-family: var(--font-serif);
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: var(--color-slate-black);
+  margin: 0.35rem 0 0.2rem;
+}
+
+.booking-modal-sub {
+  font-size: 0.82rem;
+  color: var(--color-text-muted);
+  margin: 0;
+}
+
+.booking-modal-close-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  border: 1px solid rgba(184, 147, 88, 0.3);
+  background: #FFFFFF;
+  color: #0F172A;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+  margin-left: 1rem;
+}
+
+.booking-modal-close-btn:hover {
+  background: #721927;
+  color: #FFFFFF;
+  border-color: #721927;
+  transform: rotate(90deg);
+}
+
+.booking-modal-body {
+  padding: 1.5rem 2rem 2rem;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.booking-modal-body .booking-split-container {
+  background-color: transparent;
+  border: none;
+  box-shadow: none;
+  padding: 0;
+}
+
+body.booking-modal-open {
+  overflow: hidden;
+}
+
+/* In-page Booking Launch Card (Section #calendar / #contact) */
+.booking-launch-card-editorial {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+  padding: 2.2rem 2.5rem;
+  background: linear-gradient(135deg, #FFFFFF 0%, #FAF6F0 100%);
+  border: 1px solid rgba(184, 147, 88, 0.35);
+  border-radius: 20px;
+  box-shadow: var(--shadow-card);
+  margin-top: 1.8rem;
+  transition: all 0.3s ease;
+}
+
+.booking-launch-card-editorial:hover {
+  border-color: #721927;
+  box-shadow: 0 16px 36px rgba(114, 25, 39, 0.12);
+  transform: translateY(-2px);
+}
+
+.launch-card-content {
+  display: flex;
+  align-items: center;
+  gap: 1.4rem;
+}
+
+.launch-icon-badge {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 58px;
+  height: 58px;
+  border-radius: 16px;
+  background: rgba(114, 25, 39, 0.06);
+  border: 1px solid rgba(184, 147, 88, 0.3);
+  color: #721927;
+  flex-shrink: 0;
+}
+
+.launch-icon-badge svg {
+  width: 30px;
+  height: 30px;
+}
+
+.launch-main-title {
+  font-family: var(--font-serif);
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--color-slate-black);
+  margin-bottom: 0.3rem;
+}
+
+.launch-sub-text {
+  font-size: 0.86rem;
+  color: var(--color-text-muted);
+  margin: 0;
 }
 
 /* ==========================================================================
@@ -4674,11 +4952,26 @@ section[id],
     margin-bottom: 0.65rem;
   }
   .record-timeline-list {
-    gap: 0.4rem;
+    padding-left: 22px;
+    gap: 0.45rem;
+  }
+  .timeline-chronology-spine {
+    left: 6px;
+    top: 10px;
+    bottom: 10px;
+  }
+  .record-item::before {
+    left: -19px;
+    width: 7px;
+    height: 7px;
   }
   .record-item {
-    padding: 0.6rem 0.7rem;
+    padding: 0.6rem 0.75rem;
     gap: 0.6rem;
+    grid-template-columns: 105px 1fr;
+  }
+  .record-years {
+    font-size: 0.78rem;
   }
   .gallery-primary-frame {
     max-height: 260px;
@@ -5079,58 +5372,10 @@ section[id],
     font-size: 0.74rem;
   }
 
-  /* Navigation & Services on ONE row side by side! */
-  .footer-nav-pair-wrap {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 0.85rem;
-    width: 100%;
-    padding: 0.75rem 0.85rem;
-    background: rgba(255, 255, 255, 0.03);
-    border: 1px solid rgba(255, 255, 255, 0.07);
-    border-radius: 12px;
-    box-sizing: border-box;
-  }
-  .footer-col-nav h5 {
-    font-size: 0.88rem;
-    margin-bottom: 0.5rem;
-    color: #FFFFFF;
-    font-weight: 600;
-  }
-  .footer-col-nav a {
-    font-size: 0.78rem;
-    margin-bottom: 0.35rem;
-    display: block;
-    color: #94A3B8;
-    text-decoration: none;
-  }
-  .footer-col-nav a:hover {
-    color: var(--color-brass-soft);
-  }
-
+  /* On mobile: remove navigation & accreditation cards entirely as requested */
+  .footer-nav-pair-wrap,
   .footer-col-legal {
-    padding: 0.65rem 0.85rem;
-    background: rgba(255, 255, 255, 0.02);
-    border: 1px solid rgba(255, 255, 255, 0.05);
-    border-radius: 10px;
-  }
-  .footer-col-legal h5 {
-    font-size: 0.82rem;
-    margin-bottom: 0.4rem;
-    color: #FFFFFF;
-  }
-  .footer-legal-badges {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.35rem;
-  }
-  .legal-badge-pill {
-    font-size: 0.68rem;
-    padding: 0.22rem 0.5rem;
-    border-radius: 6px;
-    background: rgba(255, 255, 255, 0.05);
-    color: #CBD5E1;
-    border: 1px solid rgba(255, 255, 255, 0.08);
+    display: none !important;
   }
 
   .footer-bottom-line {
@@ -5183,6 +5428,35 @@ section[id],
     white-space: nowrap;
     justify-content: center;
     letter-spacing: -0.01em;
+  }
+  .record-item {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.25rem;
+    padding: 0.65rem 0.85rem;
+  }
+  .record-years {
+    font-size: 0.8rem;
+    font-weight: 700;
+  }
+  .record-info strong {
+    font-size: 0.88rem;
+  }
+  .record-info p {
+    font-size: 0.76rem;
+  }
+  .quote-editorial-box {
+    padding: 1rem 1.15rem;
+    margin-top: 1rem;
+  }
+  .quote-editorial-box p {
+    font-size: 0.92rem;
+    line-height: 1.55;
+  }
+  .quote-editorial-box cite {
+    font-size: 0.78rem;
+    margin-top: 0.5rem;
   }
 }
 
@@ -5252,6 +5526,35 @@ section[id],
   }
   .themis-watermark-art {
     max-height: 540px;
+  }
+
+  /* Booking Modal Window on Mobile */
+  .booking-modal-overlay {
+    padding: 0;
+    align-items: flex-end;
+  }
+  .booking-modal-window {
+    max-height: 94vh;
+    border-radius: 22px 22px 0 0;
+  }
+  .booking-modal-header {
+    padding: 1.1rem 1.2rem 0.9rem;
+  }
+  .booking-modal-title {
+    font-size: 1.1rem;
+  }
+  .booking-modal-body {
+    padding: 1rem;
+  }
+  .booking-launch-card-editorial {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 1.5rem 1.2rem;
+    gap: 1.2rem;
+  }
+  .booking-launch-card-editorial .btn-pill-brass {
+    width: 100%;
+    justify-content: center;
   }
 }
 
