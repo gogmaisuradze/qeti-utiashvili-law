@@ -16,7 +16,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&family=Noto+Serif+Georgian:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   
-  <link rel="stylesheet" href="style.css?v=3.6.9">
+  <link rel="stylesheet" href="style.css?v=3.7.0">
   <script src="soft-preview.js" defer></script>
 </head>
 <body class="editorial-body">
@@ -42,17 +42,14 @@
       </div>
 
       <div class="top-strip-right">
-        <div class="top-social-pills">
-          <a href="https://www.facebook.com/utiashvili.kate" target="_blank" rel="noopener noreferrer" class="social-contour-btn" aria-label="Facebook" title="Facebook">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
-          </a>
-          <a href="https://www.instagram.com/kateutiashvili" target="_blank" rel="noopener noreferrer" class="social-contour-btn" aria-label="Instagram" title="Instagram">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
-          </a>
-          <a href="https://t.me/saadvokatobot" target="_blank" rel="noopener noreferrer" class="social-contour-btn" aria-label="Telegram" title="Telegram (@saadvokatobot)">
-            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.665 3.717l-17.73 6.837c-1.21.486-1.203 1.161-.222 1.462l4.552 1.42 10.532-6.645c.498-.303.953-.14.579.192l-8.533 7.701h-.002l-.313 4.674c.459 0 .661-.21.917-.461l2.203-2.142 4.582 3.385c.845.466 1.454.226 1.665-.785l3.008-14.17c.308-1.237-.472-1.798-1.438-1.468z"/></svg>
-          </a>
+        <div class="top-social-text-links">
+          <a href="https://www.facebook.com/utiashvili.kate" target="_blank" rel="noopener noreferrer" class="social-text-link">FB</a>
+          <span class="social-slash">/</span>
+          <a href="https://www.instagram.com/kateutiashvili" target="_blank" rel="noopener noreferrer" class="social-text-link">IG</a>
+          <span class="social-slash">/</span>
+          <a href="https://t.me/saadvokatobot" target="_blank" rel="noopener noreferrer" class="social-text-link">TG</a>
         </div>
+        <span class="top-strip-pipe">|</span>
         <a href="tel:+995599351525" class="top-phone-link">
           <svg class="strip-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
           <span>+995 599 35 15 25</span>
@@ -180,23 +177,20 @@
         </div>
 
         <div class="hero-stats-row">
-          <div class="stat-cell">
-            <span class="stat-number">2003</span>
+          <div class="stat-card">
+            <span class="stat-number stat-navy">2003</span>
             <span class="stat-label" data-i18n="hero.metric1">უწყვეტი ბიურო</span>
           </div>
-          <div class="stat-sep"></div>
-          <div class="stat-cell">
-            <span class="stat-number">GBA</span>
+          <div class="stat-card">
+            <span class="stat-number stat-burgundy">GBA</span>
             <span class="stat-label" data-i18n="hero.metric2">აღმასრულებელი საბჭო</span>
           </div>
-          <div class="stat-sep"></div>
-          <div class="stat-cell">
-            <span class="stat-number">1,800+</span>
+          <div class="stat-card">
+            <span class="stat-number stat-navy">1,800+</span>
             <span class="stat-label" data-i18n="hero.metric3">მოგებული & მორიგებული</span>
           </div>
-          <div class="stat-sep"></div>
-          <div class="stat-cell">
-            <span class="stat-number">100%</span>
+          <div class="stat-card">
+            <span class="stat-number stat-gold">100%</span>
             <span class="stat-label" data-i18n="hero.metric4">კონფიდენციალურობა</span>
           </div>
         </div>
@@ -205,16 +199,31 @@
       <div class="hero-right">
         <div class="editorial-portrait-card">
           <div class="portrait-shadow-backing"></div>
-          <div class="portrait-image-wrapper">
-            <img src="keti-speaking.jpg" alt="ქეთევან უტიაშვილი - ადვოკატი თბილისში" class="portrait-hero-img">
-          </div>
-          <div class="portrait-floating-caption">
-            <div class="caption-crest-icon">
-              <img src="law-firm-logo-64.png" alt="ქეთევან უტიაშვილის საადვოკატო ბიუროს ლოგო" class="caption-logo-img">
+          <div class="portrait-card-shell">
+            <div class="portrait-image-wrapper">
+              <img src="keti-speaking.jpg" alt="ქეთევან უტიაშვილი - ადვოკატი თბილისში" class="portrait-hero-img">
+              <div class="portrait-floating-card">
+                <div class="caption-texts">
+                  <h3 class="caption-name" data-i18n="hero.card_name">ქეთევან უტიაშვილი</h3>
+                  <span class="caption-role-burgundy" data-i18n="hero.card_role">ადვოკატი • GBA აღმასრულებელი საბჭო</span>
+                </div>
+                <div class="caption-verified-circle" title="GBA Certified Advocate">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                    <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+                  </svg>
+                </div>
+              </div>
             </div>
-            <div class="caption-texts">
-              <strong data-i18n="hero.card_name">ქეთევან უტიაშვილი</strong>
-              <span data-i18n="hero.card_role">ადვოკატი • GBA აღმასრულებელი საბჭო</span>
+            <div class="portrait-footer-strip">
+              <div class="footer-strip-left">
+                <svg class="strip-scales-gold" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                  <path d="M12 3v18M3 7l4 8h-8l4-8zm14 0l4 8h-8l4-8zM6 7h12"/>
+                </svg>
+                <span data-i18n="hero.card_practice">სამოქალაქო & ბიზნეს დავები</span>
+              </div>
+              <div class="footer-strip-right" data-i18n="hero.card_location">
+                თბილისი, საქართველო
+              </div>
             </div>
           </div>
         </div>
@@ -246,13 +255,13 @@
             ვიყოთ უმაღლესი აკადემიური სანდოობისა და საერთაშორისო სტანდარტების მატარებელი საადვოკატო ბიურო საქართველოში, რომელიც ქმნის პრეცედენტულ, ინოვაციურ და დაცულ სამართლებრივ გარემოს თითოეული კლიენტისთვის.
           </p>
           <div class="card-contour-badge">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"></circle><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20M2 12h20"/></svg>
+            <svg class="contour-icon-gold" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"></circle><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20M2 12h20"/></svg>
             <span data-i18n="vision.card1_badge">გლობალური & ევროპული სტანდარტი</span>
           </div>
         </div>
 
-        <!-- Card 2: Our Mission -->
-        <div class="editorial-card mission-card">
+        <!-- Card 2: Our Mission (with subtle wine border) -->
+        <div class="editorial-card mission-card highlight-wine-border">
           <div class="card-meta-top">
             <span class="card-category" data-i18n="vision.card2_cat">OUR MISSION</span>
             <span class="card-number">02</span>
@@ -262,7 +271,7 @@
             კლიენტის კანონიერი უფლებებისა და აქტივების შეუპოვარი, სტრატეგიული და პასუხისმგებლიანი დაცვა ყველა ინსტანციის სასამართლოში, სახელმწიფო უწყებებთან ურთიერთობასა და სამედიაციო მოლაპარაკებებში.
           </p>
           <div class="card-contour-badge">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            <svg class="contour-icon-wine" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
             <span data-i18n="vision.card2_badge">კომპლექსური & სტრატეგიული დაცვა</span>
           </div>
         </div>
@@ -292,6 +301,10 @@
               <span data-i18n="vision.v4_d">საადვოკატო საიდუმლოების 100%-იანი გარანტია.</span>
             </li>
           </ul>
+          <div class="card-contour-badge">
+            <svg class="contour-icon-gold" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></svg>
+            <span data-i18n="vision.card3_badge">ეთიკური უზენაესობა</span>
+          </div>
         </div>
       </div>
     </div>
@@ -957,107 +970,73 @@
     </div>
   </section>
 
-  <!-- FULL WIDTH MAP: RIGHT ABOVE FOOTER (100% FULL-BLEED) -->
-  <section class="full-width-map-bleed" id="full-width-map">
-    <div class="map-floating-bar container">
-      <div class="map-bar-left">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-        <strong data-i18n="map.title">თბილისის ცენტრალური ოფისის ლოკაცია</strong>
-        <span class="map-pill-addr" data-i18n="map.addr">ილია ჭავჭავაძის გამზ. #26, თბილისი</span>
-      </div>
-      <div class="map-bar-actions">
-        <a href="https://maps.google.com/?q=26+Ilia+Chavchavadze+Ave,+Tbilisi" target="_blank" rel="noopener noreferrer" class="btn-map-out btn-map-gmaps-blue" data-i18n="map.open_gmaps">
-          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-          Google Maps-ში გახსნა ↗
-        </a>
-      </div>
-    </div>
+  <!-- ENCLOSED CENTRAL OFFICE MAP CARD -->
+  <section class="section-office-map-container" id="full-width-map">
+    <div class="container">
+      <div class="office-map-card">
+        <div class="office-map-header">
+          <div class="map-header-left">
+            <span class="map-card-eyebrow" data-i18n="map.eyebrow">CENTRAL OFFICE MAP</span>
+            <h3 class="map-card-title" data-i18n="map.title">თბილისის ცენტრალური ოფისის ლოკაცია</h3>
+            <p class="map-card-sub" data-i18n="map.addr_full">ილია ჭავჭავაძის გამზ. #26, ვაკე, თბილისი 0179</p>
+          </div>
+          <div class="map-header-right">
+            <a href="https://maps.google.com/?q=26+Ilia+Chavchavadze+Ave,+Tbilisi" target="_blank" rel="noopener noreferrer" class="btn-dark-gmaps" data-i18n="map.open_gmaps">
+              <span>Google Maps-ში გახსნა</span>
+              <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+            </a>
+          </div>
+        </div>
 
-    <div class="map-frame-100">
-      <iframe 
-        src="https://maps.google.com/maps?q=26+Ilia+Chavchavadze+Ave,+Tbilisi,+Georgia&t=&z=16&ie=UTF8&iwloc=&output=embed" 
-        width="100%" 
-        height="500" 
-        style="border:0;" 
-        allowfullscreen="" 
-        loading="lazy" 
-        referrerpolicy="no-referrer-when-downgrade"
-        title="ქეთევან უტიაშვილის საადვოკატო ბიურო - თბილისი, ჭავჭავაძის გამზ. 26">
-      </iframe>
+        <div class="office-map-viewport">
+          <div class="office-map-floating-pin-badge">
+            <div class="floating-pin-top">
+              <svg class="pin-icon-wine" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+              <strong data-i18n="map.addr">ილია ჭავჭავაძის გამზ. #26</strong>
+            </div>
+            <p class="floating-pin-desc" data-i18n="map.parking">
+              ვაკე, თბილისი. პარკირება ხელმისაწვდომია ოფისის მიმდებარე ტერიტორიაზე.
+            </p>
+          </div>
+          <iframe 
+            src="https://maps.google.com/maps?q=26+Ilia+Chavchavadze+Ave,+Tbilisi,+Georgia&t=&z=16&ie=UTF8&iwloc=&output=embed" 
+            width="100%" 
+            height="100%" 
+            style="border:0;" 
+            allowfullscreen="" 
+            loading="lazy" 
+            referrerpolicy="no-referrer-when-downgrade"
+            title="ქეთევან უტიაშვილის საადვოკატო ბიურო - თბილისი, ჭავჭავაძის გამზ. 26">
+          </iframe>
+        </div>
+      </div>
     </div>
   </section>
 
-  <!-- BALANCED MODERN EDITORIAL FOOTER -->
-  <footer class="site-footer">
-    <div class="container footer-container">
-      <div class="footer-top-grid">
-        <!-- Brand column -->
-        <div class="footer-col-brand">
-          <div class="footer-brand-header">
-            <div class="footer-logo-circle">
-              <img src="law-firm-logo-128.png" alt="ქეთევან უტიაშვილის საადვოკატო ბიურო" class="footer-logo-img">
-            </div>
-            <div>
-              <div class="footer-brand-title" data-i18n="hero.card_name">ქეთევან უტიაშვილი</div>
-              <div class="footer-brand-sub" data-i18n="footer.brand_sub">— საადვოკატო ბიურო • საქართველო —</div>
-            </div>
+  <!-- MINIMAL LUXURY NAVY FOOTER -->
+  <footer class="site-footer-compact" id="contact">
+    <div class="container footer-compact-inner">
+      <div class="footer-left-block">
+        <div class="footer-brand-lockup">
+          <div class="footer-logo-circle">
+            <img src="law-firm-logo-64.png" alt="ქეთევან უტიაშვილის საადვოკატო ბიუროს ლოგო" class="footer-circle-img">
           </div>
-          <p class="footer-brand-desc" data-i18n="footer.desc">
-            საქართველოს ადვოკატთა ასოციაციის (GBA) აღმასრულებელი საბჭოს წევრი. საადვოკატო წარმომადგენლობა მთელი საქართველოს მასშტაბით (ცენტრალური ოფისი: თბილისი).
-          </p>
-          <div class="footer-social-row">
-            <a href="https://www.facebook.com/utiashvili.kate" target="_blank" rel="noopener noreferrer" class="footer-social-pill" aria-label="Facebook">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
-              <span>Facebook</span>
-            </a>
-            <a href="https://www.instagram.com/kateutiashvili" target="_blank" rel="noopener noreferrer" class="footer-social-pill" aria-label="Instagram">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
-              <span>Instagram</span>
-            </a>
-            <a href="https://t.me/saadvokatobot" target="_blank" rel="noopener noreferrer" class="footer-social-pill" aria-label="Telegram">
-              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.665 3.717l-17.73 6.837c-1.21.486-1.203 1.161-.222 1.462l4.552 1.42 10.532-6.645c.498-.303.953-.14.579.192l-8.533 7.701h-.002l-.313 4.674c.459 0 .661-.21.917-.461l2.203-2.142 4.582 3.385c.845.466 1.454.226 1.665-.785l3.008-14.17c.308-1.237-.472-1.798-1.438-1.468z"/></svg>
-              <span>Telegram</span>
-            </a>
-          </div>
+          <h4 class="footer-brand-title" data-i18n="footer.brand_title">ქეთევან უტიაშვილი | საადვოკატო ბიურო</h4>
         </div>
-
-        <!-- Links Row: Navigation & Services Side by Side on Mobile! -->
-        <div class="footer-nav-pair-wrap">
-          <div class="footer-col-nav">
-            <h5 data-i18n="footer.nav_title">ნავიგაცია</h5>
-            <a href="#hero">მთავარი</a>
-            <a href="#vision-mission">ღირებულებები</a>
-            <a href="#expertise">ექსპერტიზა</a>
-            <a href="#about">ადვოკატი</a>
-          </div>
-
-          <div class="footer-col-nav">
-            <h5 data-i18n="footer.serv_title">სერვისები</h5>
-            <a href="#case-check">შეფასება</a>
-            <a href="#calendar">კალენდარი</a>
-            <a href="#contact">კონტაქტი</a>
-            <a href="#full-width-map">მისამართი</a>
-          </div>
-        </div>
-
-        <!-- Legal Accreditations column -->
-        <div class="footer-col-legal">
-          <h5 data-i18n="footer.accred_title">აკრედიტაცია & ეთიკა</h5>
-          <div class="footer-legal-badges">
-            <span class="legal-badge-pill" data-i18n="footer.b1">საქართველოს ადვოკატთა ასოციაცია (GBA)</span>
-            <span class="legal-badge-pill" data-i18n="footer.b2">საქართველოს მედიატორთა ასოციაცია (MAG)</span>
-            <span class="legal-badge-pill" data-i18n="footer.b3">ბავშვთა უფლებათა დაცვის ცენტრი</span>
-            <span class="legal-badge-pill" data-i18n="footer.b4">კონფიდენციალურობის გარანტია</span>
-          </div>
-        </div>
+        <p class="footer-copyright-text" data-i18n="footer.copy">
+          © 2003 – 2026 ქეთევან უტიაშვილის საადვოკატო ბიურო. ყველა უფლება დაცულია.
+        </p>
       </div>
 
-      <div class="footer-bottom-line">
-        <span data-i18n="footer.copy">© 2003 – 2026 ქეთევან უტიაშვილის საადვოკატო ბიურო. საადვოკატო წარმომადგენლობა მთელი საქართველოს მასშტაბით.</span>
-        <div class="footer-bottom-meta">
-          <span data-i18n="footer.office_line">ცენტრალური ოფისი: ქ. თბილისი, ჭავჭავაძის გამზ. #26</span>
-          <span>•</span>
-          <span>კონფიდენციალურობის პოლიტიკა</span>
+      <div class="footer-right-block">
+        <div class="footer-links-row">
+          <a href="#about" class="footer-nav-link" data-i18n="footer.privacy">კონფიდენციალურობის პოლიტიკა</a>
+          <a href="#about" class="footer-nav-link" data-i18n="footer.terms">მომსახურების პირობები</a>
+          <a href="#about" class="footer-nav-link" data-i18n="footer.gba_cert">GBA სერტიფიკაცია</a>
+        </div>
+        <div class="footer-links-row">
+          <a href="https://mediators.ge" target="_blank" rel="noopener noreferrer" class="footer-nav-link gold-link" data-i18n="footer.mediators">Mediators Association</a>
+          <a href="https://gba.ge" target="_blank" rel="noopener noreferrer" class="footer-nav-link" data-i18n="footer.registry">ადვოკატთა რეესტრი</a>
         </div>
       </div>
     </div>
