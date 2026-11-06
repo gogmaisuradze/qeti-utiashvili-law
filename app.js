@@ -215,7 +215,6 @@ const i18nDictionary = {
     "cont.c3_cap": "ოფიციალური ელ-ფოსტა",
     "map.title": "თბილისის ცენტრალური ოფისის ლოკაცია",
     "map.addr": "ილია ჭავჭავაძის გამზ. #26, თბილისი",
-    "map.back_btn": "↑ კალენდარში დაბრუნება",
     "map.open_gmaps": "Google Maps-ში გახსნა ↗",
     "footer.brand_sub": "— საადვოკატო ბიურო • საქართველო —",
     "footer.desc": "საქართველოს ადვოკატთა ასოციაციის (GBA) აღმასრულებელი საბჭოს წევრი. საადვოკატო წარმომადგენლობა მთელი საქართველოს მასშტაბით (ცენტრალური ოფისი: თბილისი).",
@@ -434,7 +433,6 @@ const i18nDictionary = {
     "cont.c3_cap": "Official Email",
     "map.title": "Central Tbilisi Office Location",
     "map.addr": "26 Ilia Chavchavadze Ave., Tbilisi",
-    "map.back_btn": "↑ Back to Calendar",
     "map.open_gmaps": "Open in Google Maps ↗",
     "footer.brand_sub": "— Law Office • Georgia —",
     "footer.desc": "Executive Board Member of the Georgian Bar Association (GBA), former Civil Law Committee Chair, and Accredited Mediator. Legal practice since 2003 nationwide (Central Office: Tbilisi).",
@@ -653,7 +651,6 @@ const i18nDictionary = {
     "cont.c3_cap": "Официальная эл. почта",
     "map.title": "Локация центрального офиса в Тбилиси",
     "map.addr": "просп. Ильи Чавчавадзе 26, Тбилиси",
-    "map.back_btn": "↑ Вернуться к календарю",
     "map.open_gmaps": "Открыть в Google Maps ↗",
     "footer.brand_sub": "— Адвокатское бюро • Грузия —",
     "footer.desc": "Член Исполнительного совета Палаты адвокатов Грузии (GBA), экс-председатель Гражданского комитета и аккредитованный медиатор. Практика с 2003 года по всей Грузии (Центральный офис: Тбилиси).",
@@ -1455,17 +1452,30 @@ function initLegalAdvisor() {
     closeAdvisorChat();
   });
 
+  function handleQuickAdvisorQuery(queryTitle) {
+    if (!queryTitle) return;
+    restorePill();
+    openAdvisorChat();
+    if (inputField) {
+      inputField.value = queryTitle;
+      setTimeout(() => {
+        inputField.focus();
+        try {
+          inputField.setSelectionRange(inputField.value.length, inputField.value.length);
+        } catch (e) {}
+      }, 100);
+    }
+  }
+  window.handleQuickAdvisorQuery = handleQuickAdvisorQuery;
+
   // Practice Area Cards -> Direct Route to On-Site AI Legal Advisor!
-  // Practice Area Cards -> Open Advisor Chat
+  // Whichever card the user clicks, write its title in the chat input
   document.querySelectorAll('.expertise-card-editorial[data-advisor-query]').forEach(card => {
     card.addEventListener('click', (e) => {
       e.preventDefault();
       e.stopPropagation();
-      toggleBtn.classList.remove('minimized');
-      openAdvisorChat();
-      if (inputField) {
-        setTimeout(() => inputField.focus(), 120);
-      }
+      const domainTitle = card.querySelector('.domain-title')?.textContent?.trim() || card.getAttribute('data-advisor-query') || '';
+      handleQuickAdvisorQuery(domainTitle);
     });
   });
 
@@ -2269,13 +2279,14 @@ function initExpertiseCircularCarousel() {
           goTo(i);
           startTimer();
         } else {
-          // Active card clicked: trigger AI Legal Advisor
-          const query = card.getAttribute("data-advisor-query");
+          // Active card clicked: trigger AI Legal Advisor with card title written in
+          const domainTitle = card.querySelector('.domain-title')?.textContent?.trim() || card.getAttribute("data-advisor-query") || "";
           const toggleBtn = document.getElementById("advisorToggleBtn");
           if (toggleBtn) toggleBtn.classList.remove("minimized");
-          if (typeof openAdvisorChat === "function") openAdvisorChat();
-          if (query && typeof handleQuickAdvisorQuery === "function") {
-            handleQuickAdvisorQuery(query);
+          if (typeof handleQuickAdvisorQuery === "function") {
+            handleQuickAdvisorQuery(domainTitle);
+          } else if (typeof openAdvisorChat === "function") {
+            openAdvisorChat();
           }
         }
       }
