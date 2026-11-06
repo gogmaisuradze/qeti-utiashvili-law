@@ -4580,27 +4580,22 @@ section[id],
    ========================================================================== */
 @media (max-width: 1024px) {
   .hero-container {
-    grid-template-columns: 1fr;
-    gap: 2.5rem;
-  }
-  .hero-right {
-    order: -1;
-    display: flex;
-    justify-content: center;
+    grid-template-columns: 1.1fr 0.9fr;
+    gap: 2rem;
   }
   .editorial-portrait-card {
-    max-width: 360px;
+    max-width: 400px;
     width: 100%;
   }
   .triplet-cards-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.2rem;
   }
   .expertise-symmetrical-grid {
     grid-template-columns: repeat(2, 1fr);
   }
-  .advocate-editorial-layout,
-  .advocate-profile-layout {
-    grid-template-columns: 1fr;
+  .advocate-editorial-layout {
+    grid-template-columns: 0.95fr 1.05fr;
     gap: 2.5rem;
   }
   .booking-split-container,
@@ -4610,19 +4605,6 @@ section[id],
   }
   .contact-info-cards-row {
     grid-template-columns: 1fr;
-  }
-  .sheet-unified-cta-box {
-    flex-direction: column;
-    text-align: center;
-    padding: 1.4rem 1.25rem;
-    gap: 1.2rem;
-  }
-  .sheet-unified-cta-box .cta-box-text h5 {
-    justify-content: center;
-  }
-  #forwardCaseToCalendarBtn {
-    width: auto;
-    max-width: 100%;
   }
   .footer-top-grid {
     grid-template-columns: 1fr 1fr;
@@ -5055,98 +5037,31 @@ section[id],
   .domain-link-tag {
     font-size: 0.8rem;
   }
-  .expertise-symmetrical-grid:not(.show-all) .mobile-collapsible {
-    display: none !important;
-  }
-  .expertise-symmetrical-grid.show-all .mobile-collapsible {
-    display: flex !important;
-    animation: cardFadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-  }
-  .mobile-more-expertise-wrap {
-    display: flex !important;
-    justify-content: center;
-    margin-top: 0.75rem;
-    width: 100%;
-  }
-  .btn-more-mobile {
-    width: 100%;
-    min-height: 42px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.5rem;
-    background: var(--bg-white);
-    border: 1.5px solid var(--color-brass-primary);
-    border-radius: var(--radius-pill);
-    color: var(--color-brass-primary);
-    font-size: 0.86rem;
-    font-weight: 600;
-    cursor: pointer;
-    padding: 0.6rem 1.1rem;
-    transition: all 0.25s ease;
-    box-shadow: var(--shadow-subtle);
-  }
-  .btn-more-mobile:active {
-    background-color: rgba(114, 25, 39, 0.08);
-    transform: scale(0.98);
-  }
-  .more-chevron {
-    width: 16px;
-    height: 16px;
-    transition: transform 0.3s ease;
-  }
-  .expertise-symmetrical-grid.show-all + .mobile-more-expertise-wrap .more-chevron {
-    transform: rotate(180deg);
-  }
-
-  @keyframes cardFadeIn {
-    from { opacity: 0; transform: translateY(12px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-
-  /* Values Section on Mobile */
-  .values-grid {
-    grid-template-columns: 1fr;
-    gap: 0.6rem;
-  }
-  .value-card {
-    padding: 0.95rem 0.85rem;
-    border-radius: 12px;
-  }
-  .value-card-icon {
-    width: 36px;
-    height: 36px;
-    margin-bottom: 0.5rem;
-  }
-  .value-title {
-    font-size: 1.02rem;
-    margin-bottom: 0.25rem;
-  }
-  .value-desc {
-    font-size: 0.82rem;
-    line-height: 1.45;
-  }
-
-  /* Experience Stats on Mobile */
-  .experience-stats-grid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 0.5rem;
-  }
-  .exp-stat-box {
-    padding: 0.7rem 0.6rem;
-    border-radius: 10px;
-  }
-  .exp-stat-box strong {
-    font-size: 1.3rem;
-  }
-  .exp-stat-box span {
-    font-size: 0.68rem;
-  }
-
   /* About Advocate */
   .advocate-editorial-layout {
     grid-template-columns: 1fr;
-    gap: 1.1rem;
+    gap: 1.5rem;
+  }
+  .advocate-visual-gallery {
+    gap: 0.85rem;
+  }
+  .gallery-primary-frame {
+    aspect-ratio: 4 / 4.5;
+    max-height: none;
+    border-radius: 16px;
+  }
+  .gallery-sub-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.5rem;
+  }
+  .gallery-sub-frame {
+    aspect-ratio: 1 / 1;
+    border-radius: 10px;
+  }
+  .sub-caption-tag {
+    font-size: 0.65rem;
+    padding: 0.2rem 0.4rem;
   }
   .advocate-name-serif {
     font-size: 1.6rem;
@@ -5182,16 +5097,6 @@ section[id],
   }
   .record-years {
     font-size: 0.78rem;
-  }
-  .gallery-primary-frame {
-    max-height: 260px;
-  }
-  .gallery-sub-row {
-    gap: 0.35rem;
-  }
-  .sub-caption-tag {
-    font-size: 0.6rem;
-    padding: 0.18rem 0.3rem;
   }
 
   /* Case Assessment Wizard */
