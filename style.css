@@ -3879,7 +3879,7 @@ body.booking-modal-open {
   position: fixed;
   bottom: 28px;
   right: 28px;
-  z-index: 1050;
+  z-index: 100005;
 }
 
 .advisor-toggle-pill {

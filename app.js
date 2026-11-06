@@ -954,24 +954,31 @@ function initCalendar() {
         name, phone, email, serviceText, formatDesc, topic, refCode, dateTimeStr
       };
 
-      // 1. Close Booking Modal if open
-      if (typeof window.closeBookingModal === 'function') {
-        window.closeBookingModal();
-      } else {
-        const bm = document.getElementById('bookingModal');
-        if (bm) {
-          bm.classList.remove('active');
-          bm.setAttribute('aria-hidden', 'true');
-          document.body.classList.remove('booking-modal-open');
-        }
-      }
+      // 1. DO NOT close booking window - keep it open and display confirmation receipt
+      const receiptHTML = `
+        <div style="margin-bottom:0.4rem;"><strong>ჯავშნის კოდი:</strong> <span style="font-family:monospace; color:#721927; font-weight:700;">${refCode}</span></div>
+        <div style="margin-bottom:0.4rem;"><strong>კლიენტი:</strong> ${escapeHtml(name)}</div>
+        <div style="margin-bottom:0.4rem;"><strong>ტელეფონი:</strong> ${escapeHtml(phone)}</div>
+        ${email && email !== 'არ არის მითითებული' && email !== '—' ? `<div style="margin-bottom:0.4rem;"><strong>ელ-ფოსტა:</strong> ${escapeHtml(email)}</div>` : ''}
+        ${serviceText ? `<div style="margin-bottom:0.4rem;"><strong>მიმართულება:</strong> ${escapeHtml(serviceText)}</div>` : ''}
+        <div style="margin-bottom:0.4rem;"><strong>თარიღი & დრო:</strong> ${dateTimeStr}</div>
+        <div style="margin-bottom:0.4rem;"><strong>ფორმატი & მისამართი:</strong> ${formatDesc}</div>
+        <div style="margin-bottom:0.4rem;"><strong>დავის საკითხი:</strong> ${escapeHtml(topic)}</div>
+        <div><strong>ადვოკატი:</strong> ქეთევან უტიაშვილი (GBA აღმასრულებელი საბჭოს წევრი)</div>
+      `;
 
-      // 2. Open Bot / Advisor Chat Window with the filled booking details
+      const receiptEl = document.getElementById('confirmedReceiptData');
+      if (receiptEl) receiptEl.innerHTML = receiptHTML;
+      appForm.classList.add('hidden');
+      if (successBox) successBox.classList.remove('hidden');
+
+      // 2. Transfer filled booking details to AI Advisor Chat without closing the booking window
       if (typeof window.kuOpenAdvisorWithBooking === 'function') {
-        window.kuOpenAdvisorWithBooking(currentBookingData);
+        const shouldOpenWindow = window.innerWidth > 768;
+        window.kuOpenAdvisorWithBooking(currentBookingData, { openChat: shouldOpenWindow });
       }
 
-      // Reset form
+      // Reset form fields
       appForm.reset();
 
       const tgLink = document.getElementById('telegramReminderBtn');
@@ -1352,43 +1359,52 @@ function initLegalAdvisor() {
 
   window.kuCloseAdvisorChat = closeAdvisorChat;
 
-  window.kuOpenAdvisorWithBooking = function(b) {
-    restorePill();
-    openAdvisorChat();
-    const safeName = escapeHtml(b.name || 'კლიენტი');
-    const safePhone = escapeHtml(b.phone || '—');
-    const safeEmail = escapeHtml(b.email || '—');
+  window.kuOpenAdvisorWithBooking = function(b, options = {}) {
+    if (!b) return;
     const safeRef = escapeHtml(b.refCode || '');
-    const safeDate = escapeHtml(b.dateTimeStr || '');
-    const safeFormat = escapeHtml(b.formatDesc || '');
-    const safeService = escapeHtml(b.serviceText || '');
-    const safeTopic = escapeHtml(b.topic || '');
 
-    const bookingCardHTML = `
-      <div class="chat-booking-receipt-card">
-        <div class="chat-booking-header">
-          <span class="chat-booking-tag">✓ ჯავშანი მიღებულია</span>
-          <span class="chat-booking-code">${safeRef}</span>
-        </div>
-        <div class="chat-booking-rows">
-          <div class="chat-booking-row"><strong>ჯავშნის კოდი:</strong> <span style="font-family:monospace; color:#721927; font-weight:700;">${safeRef}</span></div>
-          <div class="chat-booking-row"><strong>კლიენტი:</strong> <span>${safeName}</span></div>
-          <div class="chat-booking-row"><strong>ტელეფონი:</strong> <span>${safePhone}</span></div>
-          ${safeEmail && safeEmail !== 'არ არის მითითებული' && safeEmail !== '—' ? `<div class="chat-booking-row"><strong>ელ-ფოსტა:</strong> <span>${safeEmail}</span></div>` : ''}
-          ${safeService ? `<div class="chat-booking-row"><strong>მიმართულება:</strong> <span>${safeService}</span></div>` : ''}
-          <div class="chat-booking-row"><strong>თარიღი & დრო:</strong> <span>${safeDate}</span></div>
-          <div class="chat-booking-row"><strong>ფორმატი & მისამართი:</strong> <span>${safeFormat}</span></div>
-          <div class="chat-booking-row"><strong>დავის საკითხი:</strong> <span>${safeTopic}</span></div>
-          <div class="chat-booking-row"><strong>ადვოკატი:</strong> <span>ქეთევან უტიაშვილი (GBA აღმასრულებელი საბჭოს წევრი)</span></div>
-        </div>
-        <div class="chat-booking-footer-note">
-          მონაცემები გადაეცა ადვოკატის სამუშაო განრიგს. თუ გაქვთ შეკითხვა ან გსურთ საქმის დეტალების დაზუსტება, შეგიძლიათ მომწეროთ პირდაპირ აქ.
-        </div>
-      </div>
-    `;
+    // Prevent duplicate booking receipt in chat if already appended
+    if (chatBody && safeRef && !chatBody.querySelector(`[data-booking-ref="${safeRef}"]`)) {
+      const safeName = escapeHtml(b.name || 'კლიენტი');
+      const safePhone = escapeHtml(b.phone || '—');
+      const safeEmail = escapeHtml(b.email || '—');
+      const safeDate = escapeHtml(b.dateTimeStr || '');
+      const safeFormat = escapeHtml(b.formatDesc || '');
+      const safeService = escapeHtml(b.serviceText || '');
+      const safeTopic = escapeHtml(b.topic || '');
 
-    appendChatBubble(bookingCardHTML, 'system');
-    chatBody.scrollTop = chatBody.scrollHeight;
+      const bookingCardHTML = `
+        <div class="chat-booking-receipt-card" data-booking-ref="${safeRef}">
+          <div class="chat-booking-header">
+            <span class="chat-booking-tag">✓ ჯავშანი მიღებულია</span>
+            <span class="chat-booking-code">${safeRef}</span>
+          </div>
+          <div class="chat-booking-rows">
+            <div class="chat-booking-row"><strong>ჯავშნის კოდი:</strong> <span style="font-family:monospace; color:#721927; font-weight:700;">${safeRef}</span></div>
+            <div class="chat-booking-row"><strong>კლიენტი:</strong> <span>${safeName}</span></div>
+            <div class="chat-booking-row"><strong>ტელეფონი:</strong> <span>${safePhone}</span></div>
+            ${safeEmail && safeEmail !== 'არ არის მითითებული' && safeEmail !== '—' ? `<div class="chat-booking-row"><strong>ელ-ფოსტა:</strong> <span>${safeEmail}</span></div>` : ''}
+            ${safeService ? `<div class="chat-booking-row"><strong>მიმართულება:</strong> <span>${safeService}</span></div>` : ''}
+            <div class="chat-booking-row"><strong>თარიღი & დრო:</strong> <span>${safeDate}</span></div>
+            <div class="chat-booking-row"><strong>ფორმატი & მისამართი:</strong> <span>${safeFormat}</span></div>
+            <div class="chat-booking-row"><strong>დავის საკითხი:</strong> <span>${safeTopic}</span></div>
+            <div class="chat-booking-row"><strong>ადვოკატი:</strong> <span>ქეთევან უტიაშვილი (GBA აღმასრულებელი საბჭოს წევრი)</span></div>
+          </div>
+          <div class="chat-booking-footer-note">
+            მონაცემები გადაეცა ადვოკატის სამუშაო განრიგს. თუ გაქვთ შეკითხვა ან გსურთ საქმის დეტალების დაზუსტება, შეგიძლიათ მომწეროთ პირდაპირ აქ.
+          </div>
+        </div>
+      `;
+
+      appendChatBubble(bookingCardHTML, 'system');
+      chatBody.scrollTop = chatBody.scrollHeight;
+    }
+
+    if (options.openChat !== false) {
+      restorePill();
+      openAdvisorChat();
+      if (chatBody) chatBody.scrollTop = chatBody.scrollHeight;
+    }
   };
 
   // Top-right close button minimizes pill on first click ("პირველივეზე უნდა იკეცებოდეს")
