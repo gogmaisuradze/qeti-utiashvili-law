@@ -3501,12 +3501,14 @@ body.booking-modal-open {
   width: 100%;
   height: 480px;
   display: block;
+  line-height: 0;
 }
 
 .map-frame-100 iframe {
   width: 100%;
   height: 100%;
   display: block;
+  border: 0;
 }
 
 /* ==========================================================================
@@ -5151,8 +5153,13 @@ section[id],
   }
 
   /* Full-bleed Map */
-  .full-width-map-bleed iframe {
-    height: 260px;
+  .map-frame-100 {
+    height: 280px;
+  }
+  .full-width-map-bleed iframe,
+  .map-frame-100 iframe {
+    height: 100%;
+    display: block;
   }
   .map-floating-bar {
     width: calc(100% - 1rem);
