@@ -16,7 +16,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&family=Noto+Serif+Georgian:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   
-  <link rel="stylesheet" href="style.css?v=3.6.4">
+  <link rel="stylesheet" href="style.css?v=3.6.5">
   <script src="soft-preview.js" defer></script>
 </head>
 <body class="editorial-body">
@@ -965,11 +965,9 @@
         <strong data-i18n="map.title">თბილისის ცენტრალური ოფისის ლოკაცია</strong>
         <span class="map-pill-addr" data-i18n="map.addr">ილია ჭავჭავაძის გამზ. #26, თბილისი</span>
       </div>
-      <div style="display:flex; gap:0.6rem; align-items:center; flex-wrap:wrap;">
-        <a href="#calendar" class="btn-map-out" style="background:#721927; color:#fff; border-color:#721927;" data-i18n="map.back_btn">
-          ↑ კალენდარში დაბრუნება
-        </a>
-        <a href="https://maps.google.com/?q=26+Ilia+Chavchavadze+Ave,+Tbilisi" target="_blank" rel="noopener noreferrer" class="btn-map-out" data-i18n="map.open_gmaps">
+      <div class="map-bar-actions">
+        <a href="https://maps.google.com/?q=26+Ilia+Chavchavadze+Ave,+Tbilisi" target="_blank" rel="noopener noreferrer" class="btn-map-out btn-map-gmaps-blue" data-i18n="map.open_gmaps">
+          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
           Google Maps-ში გახსნა ↗
         </a>
       </div>
@@ -1343,6 +1341,6 @@
     </div>
   </div>
 
-  <script src="app.js?v=3.6.4"></script>
+  <script src="app.js?v=3.6.5"></script>
 </body>
 </html>
