@@ -16,7 +16,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&family=Noto+Serif+Georgian:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   
-  <link rel="stylesheet" href="style.css?v=3.6.6">
+  <link rel="stylesheet" href="style.css?v=3.6.7">
   <script src="soft-preview.js" defer></script>
 </head>
 <body class="editorial-body">
@@ -1137,15 +1137,21 @@
             <div class="cal-time-selection">
               <div class="time-heading-line">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-                <span data-i18n="cal.select_time">ხელმისაწვდომი საათები:</span>
+                <span data-i18n="cal.select_time">სასურველი დრო:</span>
                 <span class="selected-pill-badge" id="selectedDateDisplay">04 ნოემბერი</span>
               </div>
-              <div class="slots-flex-row" id="timeSlotsGroup">
-                <button type="button" class="time-pill active" data-time="11:00">11:00</button>
-                <button type="button" class="time-pill" data-time="12:30">12:30</button>
-                <button type="button" class="time-pill" data-time="14:30">14:30</button>
-                <button type="button" class="time-pill" data-time="16:00">16:00</button>
-                <button type="button" class="time-pill" data-time="17:30">17:30</button>
+              <div class="time-free-input-wrap">
+                <div class="time-input-inner">
+                  <input type="text" id="bookingCustomTime" class="modern-input time-free-input" placeholder="ჩაწერეთ სასურველი დრო (მაგ: 12:00, 15:30...)" value="12:00" data-i18n-placeholder="cal.time_placeholder">
+                  <div class="quick-chips-row" id="timeSlotsGroup">
+                    <button type="button" class="quick-time-chip" data-time="11:00">11:00</button>
+                    <button type="button" class="quick-time-chip active" data-time="12:00">12:00</button>
+                    <button type="button" class="quick-time-chip" data-time="14:30">14:30</button>
+                    <button type="button" class="quick-time-chip" data-time="16:00">16:00</button>
+                    <button type="button" class="quick-time-chip" data-time="17:30">17:30</button>
+                  </div>
+                </div>
+                <small class="time-input-hint" data-i18n="cal.time_hint">ჩაწერეთ თქვენთვის მოსახერხებელი ნებისმიერი საათი</small>
               </div>
             </div>
           </div>
@@ -1341,6 +1347,6 @@
     </div>
   </div>
 
-  <script src="app.js?v=3.6.6"></script>
+  <script src="app.js?v=3.6.7"></script>
 </body>
 </html>

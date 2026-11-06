@@ -178,7 +178,9 @@ const i18nDictionary = {
     "cal.launch_title": "ონლაინ კალენდარი & ვიზიტის დაჯავშნა",
     "cal.launch_desc": "შეარჩიეთ თქვენთვის ხელსაყრელი დღე და საათი ქეთევან უტიაშვილის ოფიციალურ სამუშაო განრიგში.",
     "cal.btn_open_modal": "კალენდრის გახსნა & დაჯავშნა",
-    "cal.select_time": "ხელმისაწვდომი საათები:",
+    "cal.select_time": "სასურველი დრო:",
+    "cal.time_placeholder": "ჩაწერეთ სასურველი დრო (მაგ: 12:00, 15:30...)",
+    "cal.time_hint": "ჩაწერეთ თქვენთვის მოსახერხებელი ნებისმიერი საათი",
     "cal.sum_lawyer": "ადვოკატი:",
     "cal.sum_slot": "არჩეული დრო:",
     "cal.format_office": "ვიზიტი ოფისში",
@@ -395,7 +397,9 @@ const i18nDictionary = {
     "cal.launch_title": "Online Calendar & Appointment Booking",
     "cal.launch_desc": "Choose a convenient date and time in attorney Ketevan Utiashvili's official schedule.",
     "cal.btn_open_modal": "Open Calendar & Book Visit",
-    "cal.select_time": "Available Time Slots:",
+    "cal.select_time": "Preferred Time:",
+    "cal.time_placeholder": "Enter preferred time (e.g. 12:00, 15:30...)",
+    "cal.time_hint": "Specify any convenient time slot",
     "cal.sum_lawyer": "Attorney:",
     "cal.sum_slot": "Selected Slot:",
     "cal.format_office": "Office Visit",
@@ -612,7 +616,9 @@ const i18nDictionary = {
     "cal.launch_title": "Онлайн-календарь и бронирование визита",
     "cal.launch_desc": "Выберите удобный день и время в официальном расписании адвоката Кетеван Утиашвили.",
     "cal.btn_open_modal": "Открыть календарь и записаться",
-    "cal.select_time": "Доступные часы:",
+    "cal.select_time": "Желаемое время:",
+    "cal.time_placeholder": "Укажите желаемое время (напр: 12:00, 15:30...)",
+    "cal.time_hint": "Укажите любое удобное для вас время",
     "cal.sum_lawyer": "Адвокат:",
     "cal.sum_slot": "Выбранное время:",
     "cal.format_office": "Визит в офис",
@@ -802,7 +808,7 @@ function applyLanguage(lang) {
 let calYear = 2026;
 let calMonth = 10; // November (0-indexed: 10 = Nov)
 let selDay = 4;
-let selTime = "11:00";
+let selTime = "12:00";
 
 const geoMonths = monthNamesByLang.ka;
 
@@ -840,13 +846,27 @@ function initCalendar() {
     });
   }
 
+  const customTimeInput = document.getElementById('bookingCustomTime');
+  if (customTimeInput) {
+    customTimeInput.addEventListener('input', () => {
+      selTime = customTimeInput.value.trim() || '—';
+      document.querySelectorAll('.quick-time-chip, .time-pill').forEach(b => {
+        b.classList.toggle('active', b.getAttribute('data-time') === selTime);
+      });
+      updateBookingSlotDisplay();
+    });
+  }
+
   if (slotsGroup) {
     slotsGroup.addEventListener('click', (e) => {
-      const btn = e.target.closest('.time-pill');
+      const btn = e.target.closest('.quick-time-chip, .time-pill');
       if (!btn) return;
-      document.querySelectorAll('.time-pill').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.quick-time-chip, .time-pill').forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
       selTime = btn.getAttribute('data-time') || btn.textContent.trim();
+      if (customTimeInput) {
+        customTimeInput.value = selTime;
+      }
       updateBookingSlotDisplay();
     });
   }
@@ -1055,7 +1075,12 @@ function renderCalendarDays() {
 function updateBookingSlotDisplay() {
   const dateBadge = document.getElementById('selectedDateDisplay');
   const summarySlot = document.getElementById('summarySlotTime');
+  const customTimeInput = document.getElementById('bookingCustomTime');
   const monthStr = getCurrentMonthName(calMonth);
+
+  if (customTimeInput && customTimeInput.value.trim()) {
+    selTime = customTimeInput.value.trim();
+  }
 
   if (dateBadge) {
     dateBadge.textContent = `${selDay} ${monthStr}`;
