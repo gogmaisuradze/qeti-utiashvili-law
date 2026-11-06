@@ -895,10 +895,10 @@ button, input, select, textarea {
   background: #FFFFFF;
   border: 1px solid rgba(15, 23, 42, 0.08);
   border-radius: 12px;
-  padding: 0.85rem 1.1rem;
+  padding: 0.9rem 1.25rem;
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-start;
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
@@ -911,7 +911,7 @@ button, input, select, textarea {
 
 .caption-name {
   font-family: var(--font-serif);
-  font-size: 1.15rem;
+  font-size: 1.18rem;
   font-weight: 700;
   color: #0F172A;
   margin: 0;
@@ -919,59 +919,11 @@ button, input, select, textarea {
 }
 
 .caption-role-burgundy {
-  font-size: 0.74rem;
+  font-size: 0.76rem;
   font-weight: 600;
   color: #721927;
   margin-top: 3px;
   letter-spacing: 0.2px;
-}
-
-.caption-verified-circle {
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  background: #0F172A;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.25);
-}
-
-.caption-verified-circle svg {
-  width: 18px;
-  height: 18px;
-  color: #B89358;
-}
-
-.portrait-footer-strip {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0.85rem 1.2rem;
-  background: #FFFFFF;
-  border-top: 1px solid var(--border-light);
-  font-size: 0.82rem;
-  color: #334155;
-  font-weight: 500;
-}
-
-.footer-strip-left {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.strip-scales-gold {
-  width: 16px;
-  height: 16px;
-  color: #B89358;
-  flex-shrink: 0;
-}
-
-.footer-strip-right {
-  color: #64748B;
-  font-size: 0.8rem;
 }
 
 .caption-crest-icon {
@@ -5067,44 +5019,6 @@ section[id],
   }
   .caption-role-burgundy {
     font-size: 0.68rem;
-  }
-  .caption-verified-circle {
-    width: 32px;
-    height: 32px;
-  }
-  .caption-verified-circle svg {
-    width: 15px;
-    height: 15px;
-  }
-  .portrait-footer-strip {
-    padding: 0.65rem 0.85rem;
-    font-size: 0.75rem;
-  }
-    border: 1px solid rgba(255, 255, 255, 0.16);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-  }
-  .portrait-floating-caption .caption-logo-img {
-    width: 22px;
-    height: 22px;
-  }
-  .portrait-floating-caption .caption-texts {
-    display: flex;
-    flex-direction: column;
-    text-align: left;
-    line-height: 1.25;
-  }
-  .portrait-floating-caption .caption-texts strong {
-    color: #FFFFFF;
-    font-size: 0.92rem;
-    font-weight: 600;
-  }
-  .portrait-floating-caption .caption-texts span {
-    color: var(--color-brass-soft);
-    font-size: 0.72rem;
-    margin-top: 2px;
   }
 
   /* Practice Areas Grid - Mobile Collapsing */
