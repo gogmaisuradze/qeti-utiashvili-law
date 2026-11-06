@@ -913,35 +913,33 @@ function initCalendar() {
 
       const refCode = `KU-TBS-${calYear}-${Math.floor(1000 + Math.random() * 9000)}`;
       const monthStr = getCurrentMonthName(calMonth);
-
-      const botRemind = document.getElementById('botReminderCheck')?.checked;
-      const botReminderNotice = botRemind
-        ? `<div style="margin-top:0.75rem; padding:0.5rem 0.75rem; background:rgba(16,185,129,0.08); border-radius:6px; color:#047857; font-size:0.82rem; display:flex; align-items:center; gap:0.4rem;">
-            <span>✓</span> <strong>AI ასისტენტის შეხსენება & რეგისტრაცია გააქტიურებულია.</strong>
-          </div>`
-        : '';
-
-      const receiptHTML = `
-        <div style="margin-bottom:0.4rem;"><strong>ჯავშნის კოდი:</strong> <span style="font-family:monospace; color:#721927; font-weight:700;">${refCode}</span></div>
-        <div style="margin-bottom:0.4rem;"><strong>კლიენტი:</strong> ${escapeHtml(name)}</div>
-        <div style="margin-bottom:0.4rem;"><strong>ტელეფონი:</strong> ${escapeHtml(phone)}</div>
-        ${email && email !== 'არ არის მითითებული' ? `<div style="margin-bottom:0.4rem;"><strong>ელ-ფოსტა:</strong> ${escapeHtml(email)}</div>` : ''}
-        ${serviceText ? `<div style="margin-bottom:0.4rem;"><strong>მიმართულება:</strong> ${escapeHtml(serviceText)}</div>` : ''}
-        <div style="margin-bottom:0.4rem;"><strong>თარიღი & დრო:</strong> ${selDay} ${monthStr}, ${calYear} • ${selTime}</div>
-        <div style="margin-bottom:0.4rem;"><strong>ფორმატი & მისამართი:</strong> ${formatDesc}</div>
-        <div style="margin-bottom:0.4rem;"><strong>დავის საკითხი:</strong> ${escapeHtml(topic)}</div>
-        <div><strong>ადვოკატი:</strong> ქეთევან უტიაშვილი (GBA აღმასრულებელი საბჭოს წევრი)</div>
-        ${botReminderNotice}
-      `;
-
-      document.getElementById('confirmedReceiptData').innerHTML = receiptHTML;
-      appForm.classList.add('hidden');
-      successBox.classList.remove('hidden');
+      const customTime = document.getElementById('bookingCustomTime')?.value.trim();
+      const finalTime = customTime || selTime || '12:00';
+      const dateTimeStr = `${selDay} ${monthStr}, ${calYear} • ${finalTime}`;
 
       const currentBookingData = {
-        name, phone, email, serviceText, formatDesc, topic, refCode,
-        dateTimeStr: `${selDay} ${monthStr}, ${calYear} • ${selTime}`
+        name, phone, email, serviceText, formatDesc, topic, refCode, dateTimeStr
       };
+
+      // 1. Close Booking Modal if open
+      if (typeof window.closeBookingModal === 'function') {
+        window.closeBookingModal();
+      } else {
+        const bm = document.getElementById('bookingModal');
+        if (bm) {
+          bm.classList.remove('active');
+          bm.setAttribute('aria-hidden', 'true');
+          document.body.classList.remove('booking-modal-open');
+        }
+      }
+
+      // 2. Open Bot / Advisor Chat Window with the filled booking details
+      if (typeof window.kuOpenAdvisorWithBooking === 'function') {
+        window.kuOpenAdvisorWithBooking(currentBookingData);
+      }
+
+      // Reset form
+      appForm.reset();
 
       const tgLink = document.getElementById('telegramReminderBtn');
       if (tgLink) {
@@ -1325,21 +1323,38 @@ function initLegalAdvisor() {
     restorePill();
     openAdvisorChat();
     const safeName = escapeHtml(b.name || 'კლიენტი');
+    const safePhone = escapeHtml(b.phone || '—');
+    const safeEmail = escapeHtml(b.email || '—');
     const safeRef = escapeHtml(b.refCode || '');
     const safeDate = escapeHtml(b.dateTimeStr || '');
     const safeFormat = escapeHtml(b.formatDesc || '');
     const safeService = escapeHtml(b.serviceText || '');
     const safeTopic = escapeHtml(b.topic || '');
 
-    const welcomeMsg = `<strong>ვიზიტის დადასტურება & AI მხარდაჭერა:</strong><br><br>` +
-      `მოგესალმებით, <strong>${safeName}</strong>! თქვენი ჯავშანი <strong>${safeRef}</strong> წარმატებით დარეგისტრირდა ადვოკატ ქეთევან უტიაშვილის ოფიციალურ განრიგში.<br><br>` +
-      `• <strong>თარიღი & დრო:</strong> ${safeDate}<br>` +
-      `• <strong>ფორმატი:</strong> ${safeFormat}<br>` +
-      `• <strong>მიმართულება:</strong> ${safeService}<br>` +
-      `• <strong>დავის საკითხი:</strong> ${safeTopic}<br><br>` +
-      `მე შევინახე თქვენი ვიზიტის მონაცემები და შეგახსენებთ შეხვედრას. შემიძლია წინასწარ გითხრათ, რა დოკუმენტები უნდა მოამზადოთ, ან გიპასუხოთ ნებისმიერ საპროცესო შეკითხვაზე.`;
+    const bookingCardHTML = `
+      <div class="chat-booking-receipt-card">
+        <div class="chat-booking-header">
+          <span class="chat-booking-tag">✓ ჯავშანი მიღებულია</span>
+          <span class="chat-booking-code">${safeRef}</span>
+        </div>
+        <div class="chat-booking-rows">
+          <div class="chat-booking-row"><strong>ჯავშნის კოდი:</strong> <span style="font-family:monospace; color:#721927; font-weight:700;">${safeRef}</span></div>
+          <div class="chat-booking-row"><strong>კლიენტი:</strong> <span>${safeName}</span></div>
+          <div class="chat-booking-row"><strong>ტელეფონი:</strong> <span>${safePhone}</span></div>
+          ${safeEmail && safeEmail !== 'არ არის მითითებული' && safeEmail !== '—' ? `<div class="chat-booking-row"><strong>ელ-ფოსტა:</strong> <span>${safeEmail}</span></div>` : ''}
+          ${safeService ? `<div class="chat-booking-row"><strong>მიმართულება:</strong> <span>${safeService}</span></div>` : ''}
+          <div class="chat-booking-row"><strong>თარიღი & დრო:</strong> <span>${safeDate}</span></div>
+          <div class="chat-booking-row"><strong>ფორმატი & მისამართი:</strong> <span>${safeFormat}</span></div>
+          <div class="chat-booking-row"><strong>დავის საკითხი:</strong> <span>${safeTopic}</span></div>
+          <div class="chat-booking-row"><strong>ადვოკატი:</strong> <span>ქეთევან უტიაშვილი (GBA აღმასრულებელი საბჭოს წევრი)</span></div>
+        </div>
+        <div class="chat-booking-footer-note">
+          მონაცემები გადაეცა ადვოკატის სამუშაო განრიგს. თუ გაქვთ შეკითხვა ან გსურთ საქმის დეტალების დაზუსტება, შეგიძლიათ მომწეროთ პირდაპირ აქ.
+        </div>
+      </div>
+    `;
 
-    appendChatBubble(welcomeMsg, 'system');
+    appendChatBubble(bookingCardHTML, 'system');
     chatBody.scrollTop = chatBody.scrollHeight;
   };
 
