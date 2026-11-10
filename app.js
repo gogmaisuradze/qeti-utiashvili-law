@@ -14,6 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initContactForms();
   initSmoothScrollSpy();
   initThemisContourParallax();
+  initScrollBurnCards();
   initChronologicalTimelineSpine();
   initExpertiseCircularCarousel();
 });
@@ -823,6 +824,11 @@ function applyLanguage(lang) {
   // Update calendar month and days if initialized
   if (typeof renderCalendarDays === 'function') {
     renderCalendarDays();
+  }
+
+  // Refresh scroll burn cards on language switch
+  if (typeof window.refreshScrollBurnCards === 'function') {
+    window.refreshScrollBurnCards();
   }
 
   document.documentElement.lang = lang;
@@ -1845,6 +1851,164 @@ function initThemisContourParallax() {
   window.addEventListener('resize', schedule, { passive: true });
   motion.addEventListener('change', update);
   update();
+}
+
+/* ==========================================================================
+   SCROLL BURN & CHROMATIC GRAIN LUXURY CONTROLLER
+   Applied proportionally to Vision, Mission and Principal Attorney's Quote.
+   Guarantees non-breaking words, preserved card proportions & clean responsive flow.
+   ========================================================================== */
+function initScrollBurnCards() {
+  const cards = document.querySelectorAll('#vision-mission .editorial-card');
+  const quoteCard = document.querySelector('.quote-editorial-box');
+  if ((!cards || cards.length === 0) && !quoteCard) return;
+
+  const motion = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+  function prepareTextElement(target, inverted = false) {
+    if (!target || target.querySelector('.burn-glyph')) return;
+    const rawText = target.textContent.trim();
+    if (!rawText) return;
+
+    target.innerHTML = '';
+    const words = rawText.split(/\s+/);
+    const frag = document.createDocumentFragment();
+
+    let globalCharIndex = 0;
+    const totalChars = rawText.replace(/\s+/g, '').length || 1;
+
+    words.forEach((word, wIdx) => {
+      if (wIdx > 0) {
+        frag.appendChild(document.createTextNode(' '));
+      }
+      const wordSpan = document.createElement('span');
+      wordSpan.className = 'burn-word';
+
+      const chars = Array.from(word);
+      chars.forEach((ch) => {
+        const span = document.createElement('span');
+        span.className = 'burn-glyph';
+        span.textContent = ch;
+
+        const norm = inverted
+          ? 1 - (globalCharIndex / (totalChars - 1 || 1))
+          : (globalCharIndex / (totalChars - 1 || 1));
+
+        const x = Math.min(1, Math.max(0, norm));
+        const y = 0.5;
+        const blob = 0.5 + 0.28 * Math.sin(x * 11.3 + y * 6.1 + 1.7) + 0.22 * Math.sin(x * 5.7 - y * 13.9 + 4.2);
+        const middle = Math.hypot(x - 0.5, (y - 0.5) * 1.15) / 0.62;
+        const t = Math.min(1, Math.max(0, 0.05 + 0.55 * middle + 0.45 * blob));
+        span.style.setProperty('--t', t.toFixed(3));
+
+        wordSpan.appendChild(span);
+        globalCharIndex++;
+      });
+
+      frag.appendChild(wordSpan);
+    });
+
+    target.appendChild(frag);
+  }
+
+  function prepareCard(card) {
+    card.classList.add('scroll-burn-card');
+    card.style.setProperty('--b', '0');
+    card.style.setProperty('--ab', '0.35');
+
+    if (!card.querySelector('.burn-grain-overlay')) {
+      const grain = document.createElement('div');
+      grain.className = 'burn-grain-overlay';
+      grain.setAttribute('aria-hidden', 'true');
+      card.prepend(grain);
+    }
+
+    const textNodes = card.querySelectorAll('.card-serif-title, .card-text-body, .values-list-modern li span');
+    textNodes.forEach(node => prepareTextElement(node, false));
+  }
+
+  function prepareQuoteCard(qCard) {
+    if (!qCard) return;
+    qCard.classList.add('quote-burn-card');
+    qCard.style.setProperty('--b', '0');
+    qCard.style.setProperty('--ab', '0.35');
+
+    if (!qCard.querySelector('.burn-grain-overlay')) {
+      const grain = document.createElement('div');
+      grain.className = 'burn-grain-overlay';
+      grain.setAttribute('aria-hidden', 'true');
+      qCard.prepend(grain);
+    }
+
+    const p = qCard.querySelector('p');
+    if (p) prepareTextElement(p, true);
+  }
+
+  cards.forEach(prepareCard);
+  if (quoteCard) prepareQuoteCard(quoteCard);
+
+  if (motion.matches) return;
+
+  let ticking = false;
+  function updateBurn() {
+    ticking = false;
+    const vh = window.innerHeight;
+
+    cards.forEach(card => {
+      const rect = card.getBoundingClientRect();
+      if (rect.top > vh * 0.25 && rect.top < vh * 1.05) {
+        const entryProgress = Math.min(1, Math.max(0, (rect.top - vh * 0.25) / (vh * 0.65)));
+        const burn = Math.min(0.85, entryProgress * 0.95);
+        const ab = 0.35 + burn * 2.4;
+        card.style.setProperty('--b', burn.toFixed(3));
+        card.style.setProperty('--ab', ab.toFixed(2));
+      } else {
+        card.style.setProperty('--b', '0');
+        card.style.setProperty('--ab', '0.35');
+      }
+    });
+
+    if (quoteCard) {
+      const qRect = quoteCard.getBoundingClientRect();
+      if (qRect.top > vh * 0.28 && qRect.top < vh * 1.05) {
+        const entryProgress = Math.min(1, Math.max(0, (qRect.top - vh * 0.28) / (vh * 0.65)));
+        const burn = Math.min(0.85, entryProgress * 0.95);
+        const ab = 0.35 + burn * 2.2;
+        quoteCard.style.setProperty('--b', burn.toFixed(3));
+        quoteCard.style.setProperty('--ab', ab.toFixed(2));
+      } else {
+        quoteCard.style.setProperty('--b', '0');
+        quoteCard.style.setProperty('--ab', '0.35');
+      }
+    }
+  }
+
+  function schedule() {
+    if (!ticking) {
+      ticking = true;
+      requestAnimationFrame(updateBurn);
+    }
+  }
+
+  window.addEventListener('scroll', schedule, { passive: true });
+  window.addEventListener('resize', schedule, { passive: true });
+  updateBurn();
+
+  window.refreshScrollBurnCards = function() {
+    cards.forEach(card => {
+      const targets = card.querySelectorAll('.card-serif-title, .card-text-body, .values-list-modern li span');
+      targets.forEach(t => {
+        t.textContent = t.textContent;
+      });
+      prepareCard(card);
+    });
+    if (quoteCard) {
+      const qp = quoteCard.querySelector('p');
+      if (qp) qp.textContent = qp.textContent;
+      prepareQuoteCard(quoteCard);
+    }
+    updateBurn();
+  };
 }
 
 /* ==========================================================================
