@@ -4706,39 +4706,45 @@ section[id],
     max-width: 96%;
   }
 
-  /* Top Utility Strip */
+  /* Top Utility Strip on Mobile (Single Clean Centered Line, No Phone Icon) */
   .top-strip-inner {
     flex-direction: row;
     align-items: center;
-    justify-content: space-between;
-    gap: 0.5rem;
+    justify-content: center;
+    gap: 0;
+    padding: 0 10px;
   }
   .top-utility-strip {
-    padding: 0.35rem 0;
+    padding: 0.32rem 0;
   }
   .top-strip-left {
-    justify-content: flex-start;
-    font-size: 0.68rem;
-    gap: 0.35rem;
-    flex-wrap: wrap;
-    flex: 1;
-  }
-  .top-strip-left .status-gba,
-  .top-strip-left .strip-sep:last-of-type {
-    display: none;
+    justify-content: center;
+    align-items: center;
+    font-size: 0.72rem;
+    gap: 0.4rem;
+    flex-wrap: nowrap;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 100%;
+    text-align: center;
   }
   .top-strip-right {
-    justify-content: flex-end;
-    gap: 0.55rem;
-    flex-shrink: 0;
+    display: none !important;
   }
-  .top-phone-icon-btn {
-    width: 28px;
-    height: 28px;
+  .strip-item-hours,
+  .strip-sep-hours,
+  .strip-item-gba,
+  .strip-sep-gba,
+  .top-strip-left .status-gba {
+    display: none !important;
   }
-  .top-phone-icon-btn .strip-icon {
-    width: 13px;
-    height: 13px;
+  .top-strip-left .strip-item-location {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+    white-space: nowrap;
   }
 
   /* Site Header & Expressive Mobile Drawer */
