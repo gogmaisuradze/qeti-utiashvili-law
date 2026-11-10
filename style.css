@@ -1924,22 +1924,22 @@ button, input, select, textarea {
   border-radius: var(--radius-sm);
   border: 1px solid var(--border-light);
   box-shadow: var(--shadow-subtle);
-  transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.28s ease, border-color 0.28s ease;
+  transition: border-color 0.25s ease, box-shadow 0.25s ease;
 }
 
 /* Individual Milestone Node attached to Chronological Line */
 .record-item::before {
   content: '';
   position: absolute;
-  left: -27px;
+  left: -21.5px;
   top: 50%;
   width: 9px;
   height: 9px;
-  transform: translateY(-50%);
+  transform: translate(-50%, -50%);
   border-radius: 50%;
   background: #FAF6F0;
-  border: 2px solid rgba(184, 147, 88, 0.5);
-  transition: all 0.28s ease;
+  border: 2px solid rgba(184, 147, 88, 0.55);
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
   z-index: 3;
 }
 
@@ -1947,7 +1947,18 @@ button, input, select, textarea {
   background: #721927;
   border-color: #B89358;
   box-shadow: 0 0 10px rgba(184, 147, 88, 0.7);
-  transform: translateY(-50%) scale(1.25);
+  transform: translate(-50%, -50%) scale(1.22);
+}
+
+.record-item:hover::before {
+  transform: translate(-50%, -50%) scale(1.36);
+  border-color: #B89358;
+  background: #721927;
+  box-shadow: 0 0 12px rgba(184, 147, 88, 0.8);
+}
+
+.record-item.timeline-passed:hover::before {
+  transform: translate(-50%, -50%) scale(1.38);
 }
 
 .record-item.timeline-passed {
@@ -1956,8 +1967,8 @@ button, input, select, textarea {
 }
 
 .record-item:hover {
-  border-color: var(--color-brass-border);
-  transform: translateX(4px);
+  border-color: rgba(184, 147, 88, 0.5);
+  box-shadow: 0 8px 24px rgba(114, 25, 39, 0.08);
 }
 
 /* Year Lifting Effect synchronized with scroll */
@@ -5133,9 +5144,16 @@ section[id],
     bottom: 10px;
   }
   .record-item::before {
-    left: -19px;
-    width: 7px;
-    height: 7px;
+    left: -14.5px;
+    width: 8px;
+    height: 8px;
+    transform: translate(-50%, -50%);
+  }
+  .record-item.timeline-passed::before {
+    transform: translate(-50%, -50%) scale(1.2);
+  }
+  .record-item:hover::before {
+    transform: translate(-50%, -50%) scale(1.32);
   }
   .record-item {
     padding: 0.6rem 0.75rem;
