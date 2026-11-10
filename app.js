@@ -14,7 +14,6 @@ document.addEventListener('DOMContentLoaded', () => {
   initContactForms();
   initSmoothScrollSpy();
   initThemisContourParallax();
-  initScrollBurnCards();
   initChronologicalTimelineSpine();
   initExpertiseCircularCarousel();
 });
@@ -824,11 +823,6 @@ function applyLanguage(lang) {
   // Update calendar month and days if initialized
   if (typeof renderCalendarDays === 'function') {
     renderCalendarDays();
-  }
-
-  // Refresh scroll burn glyphs on translated content
-  if (typeof window.refreshScrollBurnCards === 'function') {
-    window.refreshScrollBurnCards();
   }
 
   document.documentElement.lang = lang;
@@ -1851,182 +1845,6 @@ function initThemisContourParallax() {
   window.addEventListener('resize', schedule, { passive: true });
   motion.addEventListener('change', update);
   update();
-}
-
-/* ==========================================================================
-   SCROLL BURN TEXT CONTROLLER (FOUNDATIONAL ETHOS & ADVOCATE QUOTE)
-   Replicates the exact flame-burn, chromatic aberration & grain effect
-   and inverted entrance unburn for the principal attorney's motto quote.
-   ========================================================================== */
-function initScrollBurnCards() {
-  const cards = document.querySelectorAll('#vision-mission .editorial-card');
-  const quoteCard = document.querySelector('.quote-burn-card');
-  if ((!cards || cards.length === 0) && !quoteCard) return;
-
-  const motion = window.matchMedia('(prefers-reduced-motion: reduce)');
-
-  function prepareCard(card) {
-    card.classList.add('scroll-burn-card');
-    card.style.setProperty('--b', '0');
-    card.style.setProperty('--ab', '0.35');
-
-    // Insert SVG film grain texture overlay if missing
-    if (!card.querySelector('.burn-grain-overlay')) {
-      const grain = document.createElement('div');
-      grain.className = 'burn-grain-overlay';
-      grain.setAttribute('aria-hidden', 'true');
-      card.prepend(grain);
-    }
-
-    // Target elements: card title, body paragraph, list item text
-    const textNodes = card.querySelectorAll('.card-serif-title, .card-text-body, .values-list-modern li span');
-    textNodes.forEach(target => {
-      if (target.querySelector('.burn-glyph')) return;
-      const rawText = target.textContent.trim();
-      if (!rawText) return;
-
-      target.innerHTML = '';
-      const chars = Array.from(rawText);
-      const frag = document.createDocumentFragment();
-
-      chars.forEach((ch, idx) => {
-        if (ch === ' ') {
-          frag.appendChild(document.createTextNode(' '));
-          return;
-        }
-        const span = document.createElement('span');
-        span.className = 'burn-glyph';
-        span.textContent = ch;
-
-        // Position coordinates normalized between 0 and 1 (inverted wave)
-        const x = chars.length > 1 ? 1 - (idx / (chars.length - 1)) : 0.5;
-        const y = 0.5;
-        // Two crossed waves + distance from center (exact algorithm from ScrollBurnText)
-        const blob = 0.5 + 0.28 * Math.sin(x * 11.3 + y * 6.1 + 1.7) + 0.22 * Math.sin(x * 5.7 - y * 13.9 + 4.2);
-        const middle = Math.hypot(x - 0.5, (y - 0.5) * 1.15) / 0.62;
-        const t = Math.min(1, Math.max(0, 0.05 + 0.55 * middle + 0.45 * blob));
-        span.style.setProperty('--t', t.toFixed(3));
-        frag.appendChild(span);
-      });
-
-      target.appendChild(frag);
-    });
-  }
-
-  function prepareQuoteCard(qCard) {
-    if (!qCard) return;
-    qCard.style.setProperty('--b', '0');
-    qCard.style.setProperty('--ab', '0.35');
-
-    if (!qCard.querySelector('.burn-grain-overlay')) {
-      const grain = document.createElement('div');
-      grain.className = 'burn-grain-overlay';
-      grain.setAttribute('aria-hidden', 'true');
-      qCard.prepend(grain);
-    }
-
-    const target = qCard.querySelector('p');
-    if (!target || target.querySelector('.burn-glyph')) return;
-    const rawText = target.textContent.trim();
-    if (!rawText) return;
-
-    target.innerHTML = '';
-    const chars = Array.from(rawText);
-    const frag = document.createDocumentFragment();
-
-    chars.forEach((ch, idx) => {
-      if (ch === ' ') {
-        frag.appendChild(document.createTextNode(' '));
-        return;
-      }
-      const span = document.createElement('span');
-      span.className = 'burn-glyph';
-      span.textContent = ch;
-
-      // Inverted progression (right-to-left wave) for quote
-      const x = chars.length > 1 ? 1 - (idx / (chars.length - 1)) : 0.5;
-      const y = 0.5;
-      const blob = 0.5 + 0.28 * Math.sin(x * 11.3 + y * 6.1 + 1.7) + 0.22 * Math.sin(x * 5.7 - y * 13.9 + 4.2);
-      const middle = Math.hypot(x - 0.5, (y - 0.5) * 1.15) / 0.62;
-      const t = Math.min(1, Math.max(0, 0.05 + 0.55 * middle + 0.45 * blob));
-      span.style.setProperty('--t', t.toFixed(3));
-      frag.appendChild(span);
-    });
-
-    target.appendChild(frag);
-  }
-
-  cards.forEach(prepareCard);
-  if (quoteCard) prepareQuoteCard(quoteCard);
-
-  if (motion.matches) return;
-
-  let ticking = false;
-  function updateBurn() {
-    ticking = false;
-    const vh = window.innerHeight;
-
-    // Inverted Entrance Unburn for Ethos Cards (Materializes into focus from bottom)
-    cards.forEach(card => {
-      const rect = card.getBoundingClientRect();
-      if (rect.top > vh * 0.28 && rect.top < vh * 1.05) {
-        // Enters burned from below, unburns/resolves to crystal clear as it reaches reading zone
-        const entryProgress = Math.min(1, Math.max(0, (rect.top - vh * 0.28) / (vh * 0.65)));
-        const burn = Math.min(0.85, entryProgress * 0.95);
-        const ab = 0.35 + burn * 2.4;
-        card.style.setProperty('--b', burn.toFixed(3));
-        card.style.setProperty('--ab', ab.toFixed(2));
-      } else {
-        // Crystal clear in reading position or once scrolled past
-        card.style.setProperty('--b', '0');
-        card.style.setProperty('--ab', '0.35');
-      }
-    });
-
-    // Inverted Entrance Unburn for Quote Card (Materializes into focus from bottom)
-    if (quoteCard) {
-      const qRect = quoteCard.getBoundingClientRect();
-      if (qRect.top > vh * 0.32 && qRect.top < vh * 1.05) {
-        // Enters burned from below, unburns/resolves to crystal clear as it reaches reading zone
-        const entryProgress = Math.min(1, Math.max(0, (qRect.top - vh * 0.32) / (vh * 0.65)));
-        const burn = Math.min(0.85, entryProgress * 0.95);
-        const ab = 0.35 + burn * 2.2;
-        quoteCard.style.setProperty('--b', burn.toFixed(3));
-        quoteCard.style.setProperty('--ab', ab.toFixed(2));
-      } else {
-        // Crystal clear in reading position
-        quoteCard.style.setProperty('--b', '0');
-        quoteCard.style.setProperty('--ab', '0.35');
-      }
-    }
-  }
-
-  function schedule() {
-    if (!ticking) {
-      ticking = true;
-      requestAnimationFrame(updateBurn);
-    }
-  }
-
-  window.addEventListener('scroll', schedule, { passive: true });
-  window.addEventListener('resize', schedule, { passive: true });
-  updateBurn();
-
-  window.refreshScrollBurnCards = function() {
-    cards.forEach(card => {
-      const targets = card.querySelectorAll('.card-serif-title, .card-text-body, .values-list-modern li span');
-      targets.forEach(t => {
-        t.textContent = t.textContent;
-      });
-      prepareCard(card);
-    });
-    if (quoteCard) {
-      const qp = quoteCard.querySelector('p');
-      if (qp) qp.textContent = qp.textContent;
-      prepareQuoteCard(quoteCard);
-    }
-    updateBurn();
-  };
 }
 
 /* ==========================================================================
