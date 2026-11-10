@@ -3628,64 +3628,7 @@ body.booking-modal-open {
   border-radius: 16px;
   overflow: hidden;
   box-shadow: 0 6px 28px rgba(15, 23, 42, 0.05);
-}
-
-.office-map-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 1.5rem 2.2rem;
-  background: #FFFFFF;
-  border-bottom: 1px solid var(--border-light);
-  gap: 1.5rem;
-}
-
-.map-card-eyebrow {
-  display: block;
-  font-size: 0.72rem;
-  font-weight: 700;
-  letter-spacing: 1.2px;
-  color: #721927;
-  text-transform: uppercase;
-  margin-bottom: 4px;
-}
-
-.map-card-title {
-  font-family: var(--font-serif);
-  font-size: 1.45rem;
-  font-weight: 700;
-  color: #0F172A;
-  margin: 0 0 4px 0;
-}
-
-.map-card-sub {
-  font-size: 0.85rem;
-  color: #64748B;
-  margin: 0;
-}
-
-.btn-dark-gmaps {
-  background: #0F172A;
-  color: #FFFFFF !important;
-  padding: 0.65rem 1.25rem;
-  border-radius: 8px;
-  font-size: 0.82rem;
-  font-weight: 600;
-  text-decoration: none;
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  white-space: nowrap;
-  transition: all 0.2s ease;
-  border: 1px solid #0F172A;
-  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.15);
-}
-
-.btn-dark-gmaps:hover {
-  background: #1E293B;
-  border-color: #1E293B;
-  transform: translateY(-1px);
-  box-shadow: 0 4px 14px rgba(15, 23, 42, 0.25);
+  position: relative;
 }
 
 .office-map-viewport {
@@ -3701,39 +3644,39 @@ body.booking-modal-open {
   display: block;
 }
 
-.office-map-floating-pin-badge {
+.map-open-pill-btn {
   position: absolute;
-  top: 20px;
-  left: 24px;
+  top: 14px;
+  left: 14px;
   z-index: 10;
-  background: #FFFFFF;
-  border-radius: 12px;
-  padding: 0.95rem 1.25rem;
-  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.12);
-  border: 1px solid rgba(15, 23, 42, 0.08);
-  max-width: 330px;
-}
-
-.floating-pin-top {
-  display: flex;
+  display: inline-flex;
   align-items: center;
-  gap: 8px;
-  color: #0F172A;
-  font-size: 0.92rem;
+  gap: 7px;
+  padding: 7px 14px;
+  background: #FFFFFF;
+  color: #1a73e8;
+  font-size: 0.84rem;
+  font-weight: 600;
+  line-height: 1.2;
+  text-decoration: none;
+  border-radius: 6px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2), 0 1px 2px rgba(0, 0, 0, 0.08);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  transition: all 0.2s ease;
+  user-select: none;
 }
 
-.pin-icon-wine {
-  width: 18px;
-  height: 18px;
-  color: #721927;
+.map-open-pill-btn:hover {
+  background: #F8FAFC;
+  color: #1557b0;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+  transform: translateY(-1px);
+}
+
+.map-open-pill-btn svg {
   flex-shrink: 0;
-}
-
-.floating-pin-desc {
-  font-size: 0.78rem;
-  color: #64748B;
-  line-height: 1.45;
-  margin: 6px 0 0 0;
+  width: 13px;
+  height: 13px;
 }
 
 /* ==========================================================================
@@ -5387,29 +5330,15 @@ section[id],
   .office-map-card {
     border-radius: 12px;
   }
-  .office-map-header {
-    flex-direction: column;
-    align-items: stretch;
-    padding: 1.1rem 1rem;
-    gap: 0.85rem;
-  }
-  .map-card-title {
-    font-size: 1.2rem;
-  }
-  .btn-dark-gmaps {
-    width: 100%;
-    min-height: 42px;
-    justify-content: center;
-  }
   .office-map-viewport {
     height: 320px;
   }
-  .office-map-floating-pin-badge {
-    position: static;
-    margin: 10px;
-    max-width: none;
-    padding: 0.75rem 1rem;
-    border-radius: 10px;
+  .map-open-pill-btn {
+    top: 10px;
+    left: 10px;
+    padding: 6px 11px;
+    font-size: 0.78rem;
+    gap: 5px;
   }
   .site-footer-compact {
     padding: 2.2rem 0;

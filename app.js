@@ -221,7 +221,7 @@ const i18nDictionary = {
     "map.addr": "ილია ჭავჭავაძის გამზ. #26",
     "map.addr_full": "ილია ჭავჭავაძის გამზ. #26, ვაკე, თბილისი 0179",
     "map.parking": "ვაკე, თბილისი. პარკირება ხელმისაწვდომია ოფისის მიმდებარე ტერიტორიაზე.",
-    "map.open_gmaps": "Google Maps-ში გახსნა ↗",
+    "map.open_gmaps": "Google Maps-ში გახსნა",
     "footer.brand_title": "ქეთევან უტიაშვილი | საადვოკატო ბიურო",
     "footer.brand_sub": "— საადვოკატო ბიურო • საქართველო —",
     "footer.desc": "საქართველოს ადვოკატთა ასოციაციის (GBA) აღმასრულებელი საბჭოს წევრი. საადვოკატო წარმომადგენლობა მთელი საქართველოს მასშტაბით (ცენტრალური ოფისი: თბილისი).",
@@ -451,7 +451,7 @@ const i18nDictionary = {
     "map.addr": "26 Ilia Chavchavadze Ave.",
     "map.addr_full": "26 Ilia Chavchavadze Ave., Vake, Tbilisi 0179",
     "map.parking": "Vake, Tbilisi. Parking is available around the office premises.",
-    "map.open_gmaps": "Open in Google Maps ↗",
+    "map.open_gmaps": "Open in Maps",
     "footer.brand_title": "Ketevan Utiashvili | Law Firm",
     "footer.brand_sub": "— Law Office • Georgia —",
     "footer.desc": "Executive Board Member of the Georgian Bar Association (GBA), former Civil Law Committee Chair, and Accredited Mediator. Legal practice since 2003 nationwide (Central Office: Tbilisi).",
@@ -681,7 +681,7 @@ const i18nDictionary = {
     "map.addr": "просп. Ильи Чавчавадзе 26",
     "map.addr_full": "просп. Ильи Чавчавадзе 26, Ваке, Тбилиси 0179",
     "map.parking": "Ваке, Тбилиси. Парковка доступна на прилегающей территории.",
-    "map.open_gmaps": "Открыть в Google Maps ↗",
+    "map.open_gmaps": "Открыть на карте",
     "footer.brand_title": "Кетеван Утиашвили | Адвокатское бюро",
     "footer.brand_sub": "— Адвокатское бюро • Грузия —",
     "footer.desc": "Член Исполнительного совета Палаты адвокатов Грузии (GBA), экс-председатель Гражданского комитета и аккредитованный медиатор. Практика с 2003 года по всей Грузии (Центральный офис: Тбилиси).",
@@ -1307,6 +1307,7 @@ function initLegalAdvisor() {
     modal.classList.remove('hidden', 'closing');
     toggleBtn.classList.add('is-open');
     document.body.classList.add('advisor-modal-open');
+    sessionStorage.setItem('ku_advisor_auto_opened', 'true');
     if (inputField && window.innerWidth > 768) {
       setTimeout(() => inputField.focus(), 80);
     }
@@ -1326,6 +1327,9 @@ function initLegalAdvisor() {
     modal.classList.add('closing');
     toggleBtn.classList.remove('is-open');
     sessionStorage.setItem('ku_advisor_dismissed', 'true');
+    try {
+      localStorage.setItem('ku_advisor_user_dismissed', 'true');
+    } catch (e) {}
 
     const handleAnimEnd = () => {
       modal.classList.remove('closing');
@@ -1349,6 +1353,9 @@ function initLegalAdvisor() {
     if (pillWrap) pillWrap.classList.add('minimized');
     toggleBtn.classList.add('minimized');
     sessionStorage.setItem('ku_advisor_pill_minimized', 'true');
+    try {
+      localStorage.setItem('ku_advisor_user_dismissed', 'true');
+    } catch (e) {}
   }
 
   function restorePill() {
@@ -1659,6 +1666,32 @@ function initLegalAdvisor() {
       appendChatBubble('კავშირის შეცდომა. ბოტი ჯერ არ არის მიბმული ან სერვერი დროებით მიუწვდომელია.', 'system');
     }
   }
+
+  // Auto-popup legal advisor chat in 7 seconds if not dismissed by user
+  // "Cati tavisit 7 wamSi amoxtes da tu gatiSav arar amoxtes"
+  try {
+    const isDismissed = localStorage.getItem('ku_advisor_user_dismissed') === 'true';
+    const hasAutoOpened = sessionStorage.getItem('ku_advisor_auto_opened') === 'true';
+
+    if (!isDismissed && !hasAutoOpened) {
+      setTimeout(() => {
+        try {
+          if (localStorage.getItem('ku_advisor_user_dismissed') === 'true') return;
+          if (sessionStorage.getItem('ku_advisor_auto_opened') === 'true') return;
+
+          // Don't interrupt if booking modal or another active dialog is open
+          const bookingModal = document.getElementById('bookingModal');
+          if (bookingModal && !bookingModal.classList.contains('hidden')) return;
+
+          if (modal.classList.contains('hidden')) {
+            restorePill();
+            openAdvisorChat();
+            sessionStorage.setItem('ku_advisor_auto_opened', 'true');
+          }
+        } catch (err) {}
+      }, 7000);
+    }
+  } catch (e) {}
 }
 
 /* ==========================================================================
